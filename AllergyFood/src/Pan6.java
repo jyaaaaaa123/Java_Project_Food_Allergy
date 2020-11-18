@@ -7,8 +7,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.SwingConstants;
+
+import db.MemberDTO;
+
 import javax.swing.JTextPane;
 import javax.swing.JButton;
+import javax.swing.JTextArea;
 
 public class Pan6 extends JPanel {
 
@@ -19,28 +23,39 @@ public class Pan6 extends JPanel {
 		setBounds(0, 0, 400, 500);
 		setLayout(null);
 		
-		JLabel lblNewLabel_1 = new JLabel("\uD14C\uC2BD");
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setFont(new Font("궁서", Font.PLAIN, 28));
-		lblNewLabel_1.setBounds(12, 20, 78, 66);
-		add(lblNewLabel_1);
+		//내정보
+//		MemberDTO dto = Test.dao.getMemberDTO(Pan4.getLoginId());
+		JLabel titleLabel = new JLabel("TEST");
+		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		titleLabel.setFont(new Font("궁서", Font.PLAIN, 28));
+		titleLabel.setBounds(12, 10, 78, 66);
+		add(titleLabel);
 		
-		JLabel lblNewLabel_1_1 = new JLabel("\uB0B4 \uC815\uBCF4");
-		lblNewLabel_1_1.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel_1_1.setBounds(89, 63, 65, 23);
-		add(lblNewLabel_1_1);
+		JLabel subTitleLabel = new JLabel("내정보");
+		subTitleLabel.setHorizontalAlignment(SwingConstants.LEFT);
+		subTitleLabel.setBounds(89, 53, 65, 23);
+		add(subTitleLabel);
 		
-		JLabel lblNewLabel = new JLabel("ID");
-		lblNewLabel.setBounds(24, 107, 112, 15);
-		add(lblNewLabel);
+		JLabel idLabel = new JLabel("ID");
+		idLabel.setBounds(24, 107, 112, 15);
+		add(idLabel);
 		
-		JLabel lblNewLabel_2 = new JLabel("\uC774\uB984");
-		lblNewLabel_2.setBounds(153, 107, 57, 15);
-		add(lblNewLabel_2);
+		JTextArea idTextArea = new JTextArea();
+		idTextArea.setBounds(46, 103, 83, 24);
+		add(idTextArea);
 		
-		JLabel lblNewLabel_3 = new JLabel("\uBCF4\uC720\uC911\uC778 \uC54C\uB808\uB974\uAE30");
-		lblNewLabel_3.setBounds(22, 177, 107, 15);
-		add(lblNewLabel_3);
+		JLabel nameLabel = new JLabel("\uC774\uB984");
+		nameLabel.setBounds(153, 107, 57, 15);
+		add(nameLabel);
+		
+		JTextArea nameTextArea = new JTextArea();
+		nameTextArea.setBounds(196, 103, 83, 24);
+		add(nameTextArea);
+		
+		
+		JLabel myAllergyLabel = new JLabel("\uBCF4\uC720\uC911\uC778 \uC54C\uB808\uB974\uAE30");
+		myAllergyLabel.setBounds(22, 177, 107, 15);
+		add(myAllergyLabel);
 		
 		
 		
@@ -58,21 +73,40 @@ public class Pan6 extends JPanel {
 		comboBox.setBounds(41, 316, 169, 26);
 		add(comboBox);
 		
-		JTextPane textPane = new JTextPane();
-		textPane.setBounds(22, 195, 335, 78);
-		add(textPane);
+		JTextPane myAllergyTextPane = new JTextPane();
+		myAllergyTextPane.setBounds(22, 195, 335, 78);
+		add(myAllergyTextPane);
 		
-		JLabel lblNewLabel_4 = new JLabel("\uC54C\uB808\uB974\uAE30 \uCD94\uAC00");
-		lblNewLabel_4.setBounds(22, 291, 107, 15);
-		add(lblNewLabel_4);
+		JLabel addAllergyLabel = new JLabel("\uC54C\uB808\uB974\uAE30 \uCD94\uAC00");
+		addAllergyLabel.setBounds(22, 291, 107, 15);
+		add(addAllergyLabel);
 		
-		JButton btnNewButton = new JButton("\uCD94\uAC00");
-		btnNewButton.setBounds(240, 316, 78, 26);
-		add(btnNewButton);
+		JButton addAllergyButton = new JButton("\uCD94\uAC00");
+		addAllergyButton.setBounds(240, 316, 78, 26);
+		add(addAllergyButton);
 		
-		JButton btnNewButton_1 = new JButton("\uB4A4\uB85C\uAC00\uAE30");
-		btnNewButton_1.setBounds(146, 406, 97, 36);
-		add(btnNewButton_1);
+		//뒤로가기 검색창으로 감
+		JButton backButton = new JButton("\uB4A4\uB85C\uAC00\uAE30");
+		backButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				win.change("pan2");
+			}
+		});
+		backButton.setBounds(210, 406, 97, 36);
+		add(backButton);
 		
+		
+		//회원 탈퇴 부분
+		JButton delMemberButton = new JButton("\uD68C\uC6D0\uD0C8\uD1F4");
+		delMemberButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+//				Test.dao.deleteMember(dto.getId());
+			}
+		});
+		delMemberButton.setBounds(89, 406, 97, 36);
+		add(delMemberButton);
 	}
+	
+	
+	
 }

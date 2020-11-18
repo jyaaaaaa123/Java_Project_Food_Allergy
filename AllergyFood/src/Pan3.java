@@ -21,51 +21,62 @@ public class Pan3 extends JPanel{
 		this.win = win;
 		setLayout(null);
 		
-		JButton btnNewButton = new JButton("µÚ·Î°¡±â");
-		btnNewButton.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 13));
-		btnNewButton.addActionListener(new ActionListener() {
+		JLabel titleLabel = new JLabel("TEST");
+		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		titleLabel.setFont(new Font("±Ã¼­", Font.PLAIN, 28));
+		titleLabel.setBounds(12, 10, 78, 66);
+		add(titleLabel);
+		
+		JLabel subTitleLabel = new JLabel("\uC0C1\uC138\uC815\uBCF4");
+		subTitleLabel.setHorizontalAlignment(SwingConstants.LEFT);
+		subTitleLabel.setBounds(89, 53, 65, 23);
+		add(subTitleLabel);
+		
+		
+		JButton backButton = new JButton("µÚ·Î°¡±â");
+		backButton.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 13));
+		backButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				win.change("pan2");
 			}
 		});
-		btnNewButton.setBounds(146, 438, 107, 54);
-		add(btnNewButton);
+		backButton.setBounds(146, 438, 107, 54);
+		add(backButton);
 		
 		//ÀÌ¹ÌÁö URL·Î ¹Þ¾Æ¼­ Label »ý¼º
 
-		JLabel lblNewLabel = new JLabel(new ImageIcon(new URL("http://fresh.haccp.or.kr/prdimg/2014/20140379022137/20140379022137-1.jpg")));
+		JLabel foodImageLabel = new JLabel(new ImageIcon(new URL("http://fresh.haccp.or.kr/prdimg/2014/20140379022137/20140379022137-1.jpg")));
 		
-		lblNewLabel.setBounds(65, 112, 284, 190);
-		add(lblNewLabel);
+		foodImageLabel.setBounds(65, 112, 284, 190);
+		add(foodImageLabel);
 		
-		JLabel lblNewLabel_1 = new JLabel("\uD14C\uC2BD");
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setFont(new Font("±Ã¼­", Font.PLAIN, 28));
-		lblNewLabel_1.setBounds(0, 0, 78, 66);
-		add(lblNewLabel_1);
 		
-		JLabel lblNewLabel_1_1 = new JLabel("\uC0C1\uC138\uC815\uBCF4");
-		lblNewLabel_1_1.setHorizontalAlignment(SwingConstants.LEFT);
-		lblNewLabel_1_1.setBounds(77, 43, 65, 23);
-		add(lblNewLabel_1_1);
 		
-		JLabel lblNewLabel_2 = new JLabel("\uC5B4\uCA4C\uAD6C \uC800\uCA4C\uAD6C");
-		lblNewLabel_2.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 15));
-		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_2.setBounds(97, 66, 209, 31);
-		add(lblNewLabel_2);
+		JLabel foodNameLabel = new JLabel("\uC5B4\uCA4C\uAD6C \uC800\uCA4C\uAD6C");
+		foodNameLabel.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 15));
+		foodNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		foodNameLabel.setBounds(97, 66, 209, 31);
+		add(foodNameLabel);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setBounds(98, 354, 217, 23);
-		add(textArea);
+		JTextArea foodAllergyTextArea = new JTextArea();
+		foodAllergyTextArea.setBounds(99, 336, 217, 23);
+		add(foodAllergyTextArea);
 		
-		JTextArea textArea_1 = new JTextArea();
-		textArea_1.setBounds(97, 387, 219, 46);
-		add(textArea_1);
+		JTextArea foodIntextArea = new JTextArea();
+		foodIntextArea.setBounds(97, 387, 219, 46);
+		add(foodIntextArea);
 		
 		JRadioButton rdbtnNewRadioButton = new JRadioButton("\uCCB4\uD06C");
 		rdbtnNewRadioButton.setBounds(335, 28, 57, 23);
 		add(rdbtnNewRadioButton);
+		
+		JLabel foodAllergyLabel = new JLabel("\uC54C\uB808\uB974\uAE30 \uC131\uBD84");
+		foodAllergyLabel.setBounds(75, 312, 89, 15);
+		add(foodAllergyLabel);
+		
+		JLabel foodInLabel = new JLabel("\uBCF4\uC720 \uC131\uBD84");
+		foodInLabel.setBounds(77, 369, 77, 15);
+		add(foodInLabel);
 		
 		
 		

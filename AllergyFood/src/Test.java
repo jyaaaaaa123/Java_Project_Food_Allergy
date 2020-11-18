@@ -1,28 +1,11 @@
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JToolBar;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
-import javax.swing.JTable;
-import javax.swing.JTextPane;
-import javax.swing.JLabel;
-import java.awt.Font;
-import java.awt.Window;
+import db.MemberDAO;
 
-import javax.swing.SwingConstants;
-import javax.swing.ImageIcon;
-import javax.swing.UIManager;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class Test extends JFrame {
-
-	private JPanel contentPane;
+	
+	public static MemberDAO dao;
 	
 	public Pan1 pan1 = null;
 	public Pan2 pan2 = null;
@@ -39,6 +22,7 @@ public class Test extends JFrame {
 			public void run() {
 				try {
 					Test frame = new Test();
+					dao = new MemberDAO();
 					frame.setTitle("테스트다");
 					frame.pan1 = new Pan1(frame);
 					frame.pan2 = new Pan2(frame);
@@ -48,6 +32,8 @@ public class Test extends JFrame {
 					frame.pan6 = new Pan6(frame);
 					frame.getContentPane().add(frame.pan1);
 					frame.setVisible(true);
+					
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -61,15 +47,7 @@ public class Test extends JFrame {
 	public Test() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(0, 0, 400, 500);
-//		contentPane = new JPanel();
-//		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-//		contentPane.setLayout(null);
-//		setContentPane(contentPane);
-//		contentPane.add(pan1);
-//		
-		
-		
+		setBounds(0, 0, 400, 500);	
 	}
 	
 	public void change(String panelName) {

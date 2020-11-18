@@ -20,7 +20,7 @@ public class Pan1 extends JPanel {
 		setBounds(0, 0, 400, 500);
 		setLayout(null);
 		
-		JButton start_btn = new JButton("start button");
+		JButton start_btn = new JButton("");
 		start_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -32,23 +32,23 @@ public class Pan1 extends JPanel {
 			}
 		});
 		start_btn.setIcon(new ImageIcon(Test.class.getResource("/icon/aa.png")));
-		start_btn.setBounds(50, 200, 288, 247);
+		start_btn.setBounds(50, 200, 316, 247);
 		start_btn.setBorderPainted(false);
 		start_btn.setContentAreaFilled(false);
 		start_btn.setFocusPainted(false);
 		add(start_btn);
 		
-		JLabel lblNewLabel_2 = new JLabel("\uD504\uB85C\uC81D\uD2B8");
-		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_2.setFont(new Font("±√º≠", Font.PLAIN, 50));
-		lblNewLabel_2.setBounds(50, 50, 300, 124);
-		add(lblNewLabel_2);
+		JLabel titleLabel = new JLabel("\uD504\uB85C\uC81D\uD2B8");
+		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		titleLabel.setFont(new Font("±√º≠", Font.PLAIN, 50));
+		titleLabel.setBounds(50, 50, 300, 124);
+		add(titleLabel);
 		
-		JLabel lblNewLabel_1 = new JLabel("\uD14C\uC2A4\uD2B8");
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setFont(new Font("HY∞ﬂ∏Ì¡∂", Font.PLAIN, 20));
-		lblNewLabel_1.setBounds(110, 150, 166, 34);
-		add(lblNewLabel_1);
+		JLabel subTitleLabel = new JLabel("\uD14C\uC2A4\uD2B8");
+		subTitleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		subTitleLabel.setFont(new Font("HY∞ﬂ∏Ì¡∂", Font.PLAIN, 20));
+		subTitleLabel.setBounds(110, 150, 166, 34);
+		add(subTitleLabel);
 	}
 
 }
