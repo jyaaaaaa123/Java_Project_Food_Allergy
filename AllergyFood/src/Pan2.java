@@ -26,6 +26,7 @@ import java.awt.Dimension;
 class Pan2 extends JPanel {
 	private JTextField searchTextField;
 	private Test win;
+	private Pan6 pan6;
 	private JButton searchButton;
 	private JTable table;
 	private JLabel titleLabel;
@@ -34,8 +35,9 @@ class Pan2 extends JPanel {
 	private static JButton logoutButton;
 	private static JButton loginButton;
 
-	public Pan2(Test win) {
+	public Pan2(Test win, Pan6 pan6) {
 		this.win = win;
+		this.pan6 = pan6;
 		setLayout(null);
 		
 		
@@ -131,6 +133,9 @@ class Pan2 extends JPanel {
 		myInfoButton = new JButton("\uB0B4\uC815\uBCF4");
 		myInfoButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				pan6.idTextArea.setText(Pan4.getLoginId());
+				pan6.nameTextArea.setText(Test.dao.MemberName(Pan4.getLoginId()));
+				pan6.myAllergyTextArea.setText(Test.dao.callMyAllergy(Pan4.getLoginId()));
 				win.change("pan6");
 			}
 		});
@@ -154,6 +159,8 @@ class Pan2 extends JPanel {
 		logoutButton.setVisible(false);
 	
 	}
+	
+	
 	
 	public static void setLoginBtnTrue() {
 		loginButton.setVisible(true);

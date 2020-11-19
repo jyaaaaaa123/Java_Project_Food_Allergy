@@ -25,11 +25,11 @@ public class Test extends JFrame {
 					dao = new MemberDAO();
 					frame.setTitle("테스트다");
 					frame.pan1 = new Pan1(frame);
-					frame.pan2 = new Pan2(frame);
+					frame.pan2 = new Pan2(frame,  frame.pan6);
 					frame.pan3 = new Pan3(frame);
 					frame.pan4 = new Pan4(frame);
 					frame.pan5 = new Pan5(frame);
-					frame.pan6 = new Pan6(frame);
+					frame.pan6 = new Pan6(frame, frame.pan4);
 					frame.getContentPane().add(frame.pan1);
 					frame.setVisible(true);
 					

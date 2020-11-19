@@ -2,6 +2,8 @@ import javax.swing.JPanel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,16 +17,20 @@ import javax.swing.JButton;
 import javax.swing.JTextArea;
 
 public class Pan6 extends JPanel {
-
+	
+	public static JTextArea idTextArea;
+	public static JTextArea nameTextArea;
+	public static JTextArea myAllergyTextArea;
+	
 	/**
 	 * Create the panel.
 	 */
-	public Pan6(Test win) {
+	public Pan6(Test win, Pan4 pan4) {
+		
 		setBounds(0, 0, 400, 500);
 		setLayout(null);
 		
-		//내정보
-//		MemberDTO dto = Test.dao.getMemberDTO(Pan4.getLoginId());
+		
 		JLabel titleLabel = new JLabel("TEST");
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titleLabel.setFont(new Font("궁서", Font.PLAIN, 28));
@@ -40,23 +46,31 @@ public class Pan6 extends JPanel {
 		idLabel.setBounds(24, 107, 112, 15);
 		add(idLabel);
 		
-		JTextArea idTextArea = new JTextArea();
-		idTextArea.setBounds(46, 103, 83, 24);
+		
+		idTextArea = new JTextArea();
+		idTextArea.setBounds(41, 101, 95, 21);
 		add(idTextArea);
+		
 		
 		JLabel nameLabel = new JLabel("\uC774\uB984");
 		nameLabel.setBounds(153, 107, 57, 15);
 		add(nameLabel);
 		
-		JTextArea nameTextArea = new JTextArea();
-		nameTextArea.setBounds(196, 103, 83, 24);
+		nameTextArea = new JTextArea();
+		nameTextArea.setBounds(190, 103, 107, 24);
 		add(nameTextArea);
+		
 		
 		
 		JLabel myAllergyLabel = new JLabel("\uBCF4\uC720\uC911\uC778 \uC54C\uB808\uB974\uAE30");
 		myAllergyLabel.setBounds(22, 177, 107, 15);
 		add(myAllergyLabel);
 		
+		
+		myAllergyTextArea = new JTextArea();
+		myAllergyTextArea.setEditable(false);
+		myAllergyTextArea.setBounds(32, 202, 325, 75);
+		add(myAllergyTextArea);
 		
 		
 		JComboBox<String> comboBox = new JComboBox<String>();
@@ -73,17 +87,19 @@ public class Pan6 extends JPanel {
 		comboBox.setBounds(41, 316, 169, 26);
 		add(comboBox);
 		
-		JTextPane myAllergyTextPane = new JTextPane();
-		myAllergyTextPane.setBounds(22, 195, 335, 78);
-		add(myAllergyTextPane);
 		
 		JLabel addAllergyLabel = new JLabel("\uC54C\uB808\uB974\uAE30 \uCD94\uAC00");
 		addAllergyLabel.setBounds(22, 291, 107, 15);
 		add(addAllergyLabel);
 		
+		//알레르기 추가, 삭제
 		JButton addAllergyButton = new JButton("\uCD94\uAC00");
-		addAllergyButton.setBounds(240, 316, 78, 26);
+		addAllergyButton.setBounds(222, 316, 75, 26);
 		add(addAllergyButton);
+		
+		JButton delAllergyButton = new JButton("\uC0AD\uC81C");
+		delAllergyButton.setBounds(310, 316, 65, 26);
+		add(delAllergyButton);
 		
 		//뒤로가기 검색창으로 감
 		JButton backButton = new JButton("\uB4A4\uB85C\uAC00\uAE30");
@@ -92,7 +108,7 @@ public class Pan6 extends JPanel {
 				win.change("pan2");
 			}
 		});
-		backButton.setBounds(210, 406, 97, 36);
+		backButton.setBounds(41, 406, 97, 36);
 		add(backButton);
 		
 		
@@ -100,13 +116,34 @@ public class Pan6 extends JPanel {
 		JButton delMemberButton = new JButton("\uD68C\uC6D0\uD0C8\uD1F4");
 		delMemberButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				Test.dao.deleteMember(dto.getId());
+				int result = JOptionPane.showConfirmDialog(null, "정말 탈퇴하시겠습니까?", "알림", JOptionPane.YES_NO_CANCEL_OPTION);
+				if(result == JOptionPane.YES_OPTION) {
+					Test.dao.deleteMember(Pan4.getLoginId());
+					JOptionPane.showMessageDialog(null, "탈퇴 완료");
+					Pan2.setLoginBtnTrue();
+					Pan2.setLogoutBtnFalse();
+					Pan2.setMyInfoBtnFalse();
+					win.change("pan2");
+				}
 			}
 		});
-		delMemberButton.setBounds(89, 406, 97, 36);
+		delMemberButton.setBounds(260, 406, 97, 36);
 		add(delMemberButton);
+		
+		//정보수정
+		JButton updateButton = new JButton("\uC815\uBCF4\uC218\uC815");
+		updateButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Test.dao.updateMember(idTextArea.getText(), nameTextArea.getText(), Pan4.getLoginId());
+				JOptionPane.showMessageDialog(null, "정보수정 완료");
+			}
+		});
+		updateButton.setBounds(151, 406, 97, 36);
+		add(updateButton);
+		
+		
+		
+		
+		
 	}
-	
-	
-	
 }

@@ -53,12 +53,12 @@ public class Pan4 extends JPanel {
 				if(b[0]) {
 					JOptionPane.showMessageDialog(null, "로그인 성공");
 					setLoginId(idTextField.getText());
-					System.out.println("이부분" + getLoginId());
 					Pan2.setLoginBtnFalse();
 					Pan2.setMyInfoBtnTrue();
 					Pan2.setLogoutBtnTrue();
-					
 					win.change("pan2");
+					idTextField.setText("");
+					pwTextField.setText("");
 				} else {
 					if(b[1]) {
 						JOptionPane.showMessageDialog(null, "잘못된 비밀번호입니다", "경고", JOptionPane.WARNING_MESSAGE);
@@ -99,4 +99,6 @@ public class Pan4 extends JPanel {
 	public static String getLoginId() {
 		return loginid;
 	}
+	
+
 }

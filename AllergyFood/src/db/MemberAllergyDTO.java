@@ -2,18 +2,17 @@ package db;
 
 public class MemberAllergyDTO {
 	private String member_id;
-	private String member_allergy;
-	private String member_mark;
+	private String allergy_name;
 	
 	public MemberAllergyDTO() {
 		
 	}
 	
-	public MemberAllergyDTO(String member_id, String member_allergy, String member_mark) {
+	public MemberAllergyDTO(String member_id, String allergy_name) {
 		this.member_id = member_id;
-		this.member_allergy = member_allergy;
-		this.member_mark = member_mark;
+		this.allergy_name = allergy_name;
 	}
+
 
 	public String getMember_id() {
 		return member_id;
@@ -23,26 +22,18 @@ public class MemberAllergyDTO {
 		this.member_id = member_id;
 	}
 
-	public String getMember_allergy() {
-		return member_allergy;
+	public String getAllergy_name() {
+		return allergy_name;
 	}
 
-	public void setMember_allergy(String member_allergy) {
-		this.member_allergy = member_allergy;
+	public void setAllergy_name(String allergy_name) {
+		this.allergy_name = allergy_name;
 	}
 
-	public String getMember_mark() {
-		return member_mark;
-	}
-
-	public void setMember_mark(String member_mark) {
-		this.member_mark = member_mark;
-	}
 
 	@Override
 	public String toString() {
-		return "MemberAllergyDTO [member_id=" + member_id + ", member_allergy=" + member_allergy + ", member_mark="
-				+ member_mark + "]";
+		return "MemberAllergyDTO [member_id=" + member_id + ", allergy_name=" + allergy_name + "]";
 	}
 	
 	

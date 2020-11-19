@@ -78,7 +78,7 @@ public class Pan3 extends JPanel{
 		foodInLabel.setBounds(77, 369, 77, 15);
 		add(foodInLabel);
 		
-		
-		
 	}
+	
+	
 }
