@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.SwingConstants;
 
+import db.AllergyDTO;
 import db.MemberDTO;
 
 import javax.swing.JTextPane;
@@ -21,7 +22,7 @@ public class Pan6 extends JPanel {
 	public static JTextArea idTextArea;
 	public static JTextArea nameTextArea;
 	public static JTextArea myAllergyTextArea;
-	
+	private String my_new_allergy = "";
 	/**
 	 * Create the panel.
 	 */
@@ -94,10 +95,54 @@ public class Pan6 extends JPanel {
 		
 		//알레르기 추가, 삭제
 		JButton addAllergyButton = new JButton("\uCD94\uAC00");
+		addAllergyButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(Test.dao.callMyAllergy(idTextArea.getText()).contains((String) comboBox.getSelectedItem())) {
+					JOptionPane.showMessageDialog(null, "이미 등록된 알레르기입니다", "경고", JOptionPane.WARNING_MESSAGE);
+				} else {
+					//알레르기 존재 여부
+					if(!Test.dao.searchAllergy((String) comboBox.getSelectedItem())) {
+						Test.dao.insertAllergy((String) comboBox.getSelectedItem());
+					}
+					JOptionPane.showMessageDialog(null, "등록되었습니다");
+					if(myAllergyTextArea.getText().equals("")) {
+						my_new_allergy += (String) comboBox.getSelectedItem();
+						myAllergyTextArea.setText(my_new_allergy);
+					} else {
+						my_new_allergy = myAllergyTextArea.getText() + ", " + (String) comboBox.getSelectedItem();
+						myAllergyTextArea.setText(my_new_allergy);
+					}
+				}
+			}
+		});
 		addAllergyButton.setBounds(222, 316, 75, 26);
 		add(addAllergyButton);
 		
 		JButton delAllergyButton = new JButton("\uC0AD\uC81C");
+		delAllergyButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(idTextArea.getText());
+				if(!myAllergyTextArea.getText().contains((String) comboBox.getSelectedItem())) {
+					JOptionPane.showMessageDialog(null, "등록되지 않은 알레르기입니다", "경고", JOptionPane.WARNING_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(null, "삭제되었습니다");
+					if(myAllergyTextArea.getText().contains(", " + (String) comboBox.getSelectedItem())) {
+						myAllergyTextArea.setText(myAllergyTextArea.getText().replaceAll((", " + (String) comboBox.getSelectedItem()), ""));
+						my_new_allergy = myAllergyTextArea.getText().replaceAll((", " + (String) comboBox.getSelectedItem()), "");
+					} else if(myAllergyTextArea.getText().contains((String) comboBox.getSelectedItem())) {
+						myAllergyTextArea.setText(myAllergyTextArea.getText().replaceAll(((String) comboBox.getSelectedItem()), ""));
+						my_new_allergy = myAllergyTextArea.getText().replaceAll(((String) comboBox.getSelectedItem()), "");
+						
+					}
+					//기존에 있던게 아닌 경우
+					if(!Test.dao.checkAllergy((String) comboBox.getSelectedItem())) {
+						Test.dao.deleteAllergy((String) comboBox.getSelectedItem());
+					}
+					System.out.println(myAllergyTextArea.getText());
+					Test.dao.deleteMyAllergy((String) comboBox.getSelectedItem());
+				}
+			}
+		});
 		delAllergyButton.setBounds(310, 316, 65, 26);
 		add(delAllergyButton);
 		
@@ -134,8 +179,41 @@ public class Pan6 extends JPanel {
 		JButton updateButton = new JButton("\uC815\uBCF4\uC218\uC815");
 		updateButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Test.dao.updateMember(idTextArea.getText(), nameTextArea.getText(), Pan4.getLoginId());
-				JOptionPane.showMessageDialog(null, "정보수정 완료");
+				//빈칸일때
+				if(idTextArea.getText().length() == 0 || nameTextArea.getText().length() == 0 || myAllergyTextArea.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "값을 입력해주세요", "경고", JOptionPane.WARNING_MESSAGE);
+				} else {
+					//아이디가 바뀌었을때
+					if(!idTextArea.getText().equals(Pan4.getLoginId())) {
+						if(Test.dao.searchMemberId(idTextArea.getText())) {
+							JOptionPane.showMessageDialog(null, "중복되는 아이디가 이미 존재합니다", "경고", JOptionPane.WARNING_MESSAGE);
+						} else {
+							System.out.println(nameTextArea.getText());
+							Test.dao.updateMember(idTextArea.getText(), nameTextArea.getText(), Pan4.getLoginId());
+							String[] stmp = myAllergyTextArea.getText().split(", ");
+							for (int i = 0; i < stmp.length; i++) {
+								//내 정보에 등록되지 않은 알레르기만 등록된다
+								if(!Test.dao.callMyAllergy(idTextArea.getText()).contains(stmp[i])) {
+									Test.dao.insertMemberAllergy2(idTextArea.getText(), stmp[i]);
+								}
+							}
+							Pan4.setLoginId(idTextArea.getText());
+							JOptionPane.showMessageDialog(null, "정보수정 완료");
+						}
+					} else {
+						Test.dao.updateMember(idTextArea.getText(), nameTextArea.getText(), Pan4.getLoginId());
+						String[] stmp = myAllergyTextArea.getText().split(", ");
+						for (int i = 0; i < stmp.length; i++) {
+							//내 정보에 등록되지 않은 알레르기만 등록된다
+							if(!Test.dao.callMyAllergy(idTextArea.getText()).contains(stmp[i])) {
+								Test.dao.insertMemberAllergy2(idTextArea.getText(), stmp[i]);
+							}
+						}
+						Pan4.setLoginId(idTextArea.getText());
+						JOptionPane.showMessageDialog(null, "정보수정 완료");
+					}
+					
+				}
 			}
 		});
 		updateButton.setBounds(151, 406, 97, 36);

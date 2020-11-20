@@ -56,6 +56,7 @@ public class Pan5 extends JPanel {
 		add(idTextField);
 		idTextField.setColumns(10);
 		
+		//아이디 중복 체크
 		JButton checkIdButton = new JButton("\uC911\uBCF5\uAC80\uC0AC");
 		checkIdButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -161,6 +162,7 @@ public class Pan5 extends JPanel {
 				if(!Test.dao.searchAllergy((String) comboBox.getSelectedItem())) {
 					JOptionPane.showMessageDialog(null, "등록되지 않은 알레르기입니다", "경고", JOptionPane.WARNING_MESSAGE);
 				} else {
+					JOptionPane.showMessageDialog(null, "삭제되었습니다");
 					if(allergyTextArea.getText().contains(", " + (String) comboBox.getSelectedItem())) {
 						allergyTextArea.setText(allergyTextArea.getText().replaceAll((", " + (String) comboBox.getSelectedItem()), ""));
 						my_al = allergyTextArea.getText().replaceAll((", " + (String) comboBox.getSelectedItem()), "");
@@ -207,7 +209,7 @@ public class Pan5 extends JPanel {
 		memberAddButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//빈칸 x
-				if(idTextField.getText().length() == 0 || nameTextField.getText().length() == 0 || pwTextField.getText().length() == 0) {
+				if(idTextField.getText().length() == 0 || nameTextField.getText().length() == 0 || pwTextField.getText().length() == 0 || allergyTextArea.getText().equals("")) {
 					JOptionPane.showMessageDialog(null, "값을 입력해주세요", "경고", JOptionPane.WARNING_MESSAGE);
 				} else {
 					//중복검사

@@ -208,7 +208,6 @@ public class MemberDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 	
 	//아이디 중복 검사
@@ -316,6 +315,8 @@ public class MemberDAO {
 			ps.setString(2, name); //수정할 이름
 			ps.setString(3, pre_id); //현재 id 이걸로 검색
 			rs = ps.executeQuery();
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -340,5 +341,45 @@ public class MemberDAO {
 			e.printStackTrace();
 		}
 		return str;
+	}
+	
+	//내정보 알레르기 삭제
+	public void deleteMyAllergy(String allergy_name) {
+		ps = null;
+		rs = null;
+		
+		try {
+			String sql = "delete from memberallergy where ALLERGY_NAME = ?";
+			ps = con.prepareStatement(sql);
+			ps.setString(1, allergy_name);
+			ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	//내정보 멤버알레르기 추가
+	public void insertMemberAllergy2(String id, String allergy_name) {
+		ps = null;
+		rs = null;
+		try {
+			
+			String sql = "insert into memberallergy(member_id, allergy_name)"
+						+ "values(?,?)";
+			
+			ps = con.prepareStatement(sql);
+			ps.setString(1, id);
+			ps.setString(2, allergy_name);
+			
+			int r = ps.executeUpdate(); //실행저장
+			
+			if(r>0) {
+				System.out.println("등록완료");
+			} else {
+				System.out.println("등록실패");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
