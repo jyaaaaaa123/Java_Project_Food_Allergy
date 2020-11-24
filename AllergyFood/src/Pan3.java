@@ -12,7 +12,11 @@ import javax.swing.JTextArea;
 import javax.swing.JRadioButton;
 
 public class Pan3 extends JPanel{
-	
+	public static String allery_list;
+	public static JTextArea foodAllergyTextArea;
+	public static JTextArea foodNameTextArea;
+	public static JTextArea foodManufTextArea;
+	public static JLabel foodImageLabel;
 	private Test win;
 	/**
 	 * Create the panel.
@@ -44,21 +48,12 @@ public class Pan3 extends JPanel{
 		add(backButton);
 		
 		//이미지 URL로 받아서 Label 생성
-
-		JLabel foodImageLabel = new JLabel(new ImageIcon(new URL("http://fresh.haccp.or.kr/prdimg/2014/20140379022137/20140379022137-1.jpg")));
 		
-		foodImageLabel.setBounds(65, 112, 284, 190);
+		foodImageLabel = new JLabel(new ImageIcon(new URL("http://fresh.haccp.or.kr/prdimg/2017/201704760012/201704760012-1.jpg")));
+		foodImageLabel.setBounds(68, 136, 274, 166);
 		add(foodImageLabel);
 		
-		
-		
-		JLabel foodNameLabel = new JLabel("\uC5B4\uCA4C\uAD6C \uC800\uCA4C\uAD6C");
-		foodNameLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
-		foodNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		foodNameLabel.setBounds(97, 66, 209, 31);
-		add(foodNameLabel);
-		
-		JTextArea foodAllergyTextArea = new JTextArea();
+		foodAllergyTextArea = new JTextArea();
 		foodAllergyTextArea.setBounds(99, 336, 217, 23);
 		add(foodAllergyTextArea);
 		
@@ -78,7 +73,13 @@ public class Pan3 extends JPanel{
 		foodInLabel.setBounds(77, 369, 77, 15);
 		add(foodInLabel);
 		
+		foodNameTextArea = new JTextArea();
+		foodNameTextArea.setBounds(122, 78, 161, 24);
+		add(foodNameTextArea);
+		
+		foodManufTextArea = new JTextArea();
+		foodManufTextArea.setBounds(146, 112, 117, 14);
+		add(foodManufTextArea);
+		
 	}
-	
-	
 }
