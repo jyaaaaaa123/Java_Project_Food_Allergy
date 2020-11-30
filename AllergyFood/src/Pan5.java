@@ -1,4 +1,5 @@
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -20,7 +21,7 @@ import javax.swing.JScrollPane;
 public class Pan5 extends JPanel {
 	private JTextField idTextField;
 	private JTextField nameTextField;
-	private JTextField pwTextField;
+	private JPasswordField pwTextField;
 	private String my_al = "";
 	
 	int check_check = 0;
@@ -92,7 +93,7 @@ public class Pan5 extends JPanel {
 		pwLabel.setBounds(48, 219, 57, 15);
 		add(pwLabel);
 		
-		pwTextField = new JTextField();
+		pwTextField = new JPasswordField();
 		pwTextField.setBounds(117, 216, 163, 21);
 		add(pwTextField);
 		pwTextField.setColumns(10);

@@ -23,7 +23,7 @@ public class Test extends JFrame {
 				try {
 					Test frame = new Test();
 					dao = new MemberDAO();
-					frame.setTitle("테스트다");
+					frame.setTitle("음식알레르기");
 					frame.pan1 = new Pan1(frame);
 					frame.pan2 = new Pan2(frame,  frame.pan6);
 					frame.pan3 = new Pan3(frame);
@@ -47,7 +47,7 @@ public class Test extends JFrame {
 	public Test() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(0, 0, 400, 500);	
+		setBounds(0, 0, 451, 537);	
 	}
 	
 	public void change(String panelName) {

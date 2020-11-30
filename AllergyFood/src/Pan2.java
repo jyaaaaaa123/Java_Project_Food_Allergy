@@ -7,36 +7,29 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-import javax.swing.JTextPane;
 import java.awt.Font;
-import javax.swing.JTree;
-import javax.swing.JComboBox;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.border.CompoundBorder;
-import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 import api.ConnApi;
 import api.ParsApi;
 
 import javax.swing.ListSelectionModel;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
-import javax.swing.Box;
 import javax.swing.ImageIcon;
 
-import java.awt.Dimension;
+import java.awt.Color;
 import javax.swing.JTextArea;
 
 class Pan2 extends JPanel {
@@ -54,6 +47,7 @@ class Pan2 extends JPanel {
 	private ImageIcon icon;
 	public ParsApi papi;
 	private JTextArea pageTextArea;
+	public DefaultTableModel model;
 
 	public Pan2(Test win, Pan6 pan6) {
 		this.win = win;
@@ -61,7 +55,7 @@ class Pan2 extends JPanel {
 		setLayout(null);
 		
 		
-		titleLabel = new JLabel("\uD14C\uC2BD");
+		titleLabel = new JLabel("\uC74C\uC2DD");
 		titleLabel.setFont(new Font("궁서", Font.PLAIN, 28));
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titleLabel.setBounds(12, 10, 78, 66);
@@ -90,31 +84,6 @@ class Pan2 extends JPanel {
 		searchTextField.setColumns(10);
 		
 		
-		searchButton = new JButton("검색");
-		searchButton.setBounds(293, 99, 65, 30);
-		add(searchButton);
-		
-		searchButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String str = searchTextField.getText();
-				try {
-					String apiUrl = ConnApi.ConnApi_func(str, pageNum);
-					papi = new ParsApi(apiUrl);
-					ArrayList<String> name = papi.ParsApi_Namelist();
-					ArrayList<String> manuf = papi.ParsApi_Manufacturelist();
-					for (int i = 0; i < name.size(); i++) {
-						table.setValueAt(name.get(i), i, 1);
-						table.setValueAt(manuf.get(i), i, 2);
-					}
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				
-				
-			}
-		});
-		
 		
 		
 		//검색결과 테이블
@@ -133,7 +102,26 @@ class Pan2 extends JPanel {
 					String[] allery_list = papi.ParsApi_allergyList(foodname);
 					Pan3.foodNameTextArea.setText(allery_list[0]);
 					Pan3.foodManufTextArea.setText(allery_list[1]);
-					Pan3.foodAllergyTextArea.setText(allery_list[2]);
+					Pan3.foodAllergyTextPane.setText(allery_list[2]);
+					
+					
+					//알레르기 정보 확인
+					if(Pan4.b[0]) {
+						//체크 박스에 체크
+						if(Test.dao.searchFoodCheck(Pan4.getLoginId(), foodname)) {
+							Pan3.checkbox.setState(true);
+						}
+						ArrayList<String> str_al = Test.dao.callMyAllergy_arr(Pan4.getLoginId());
+						for (int i = 0; i < str_al.size(); i++) {
+							if(allery_list[2].contains(str_al.get(i))) {
+								StyledDocument doc = Pan3.foodAllergyTextPane.getStyledDocument();
+								SimpleAttributeSet styleSet = new SimpleAttributeSet();
+								StyleConstants.setForeground(styleSet, Color.RED);
+								doc.setCharacterAttributes(allery_list[2].indexOf(str_al.get(i)), str_al.get(i).length(), styleSet, true);
+							}
+						}
+					} 
+					
 					try {
 						icon = new ImageIcon(new URL(allery_list[3]));
 						Pan3.foodImageLabel.setIcon(icon);
@@ -145,55 +133,51 @@ class Pan2 extends JPanel {
 				} 
 			}
 		});
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{"1", null, null, null},
-				{"2", null, null, null},
-				{"3", null, null, null},
-				{"4", null, null, null},
-				{"5", null, null, null},
-				{"6", null, null, null},
-				{"7", null, null, null},
-				{"8", null, null, null},
-				{"9", null, null, null},
-				{"10", null, null, null},
-			},
-			new String[] {
-				"No", "\uC81C\uD488\uBA85", "\uC81C\uC870\uC0AC", "\u3141"
-			}
-		) {
-			Class[] columnTypes = new Class[] {
-				String.class, String.class, Object.class, Object.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-			boolean[] columnEditables = new boolean[] {
-				false, false, false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-//				return columnEditables[column];
-				return false;
+		
+		createTable();
+		scrollPane.setViewportView(table);		
+		
+		
+		
+		searchButton = new JButton("검색");
+		searchButton.setBounds(293, 99, 65, 30);
+		add(searchButton);
+		searchButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String str = searchTextField.getText();
+				
+				createTable();
+				
+				try {
+					pageNum = "1";
+					pageTextArea.setText(pageNum);
+					String apiUrl = ConnApi.ConnApi_func(str, pageNum);
+					papi = new ParsApi(apiUrl);
+					ArrayList<String> name = papi.ParsApi_Namelist();
+					ArrayList<String> manuf = papi.ParsApi_Manufacturelist();
+					if(name.size() == 0) {
+						JOptionPane.showMessageDialog(null, "검색결과가 없습니다.");
+					} else {
+						
+						for (int i = 0; i < name.size(); i++) {
+							if(Pan4.b[0]==true) {
+								if(Test.dao.searchFoodCheck(Pan4.getLoginId(), name.get(i))) {
+									table.setValueAt("★", i, 3);
+								}
+							}
+							table.setValueAt(name.get(i), i, 1);
+							table.setValueAt(manuf.get(i), i, 2);
+						}
+					}	
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
 			}
 		});
-		table.getColumnModel().getColumn(0).setResizable(false);
-		table.getColumnModel().getColumn(0).setPreferredWidth(15);
 		
-		table.getColumnModel().getColumn(0).setMinWidth(6);
-		table.getColumnModel().getColumn(1).setResizable(false);
-		table.getColumnModel().getColumn(1).setPreferredWidth(112);
-		table.getColumnModel().getColumn(1).setMinWidth(18);
-		table.getColumnModel().getColumn(2).setResizable(false);
-		table.getColumnModel().getColumn(3).setResizable(false);
-		table.getColumnModel().getColumn(3).setPreferredWidth(5);
-		table.setRowHeight(23);
-		DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
-		dtcr.setHorizontalAlignment(SwingConstants.CENTER);
-		TableColumnModel tcm = table.getColumnModel();
-		for (int i = 0; i < table.getColumnCount(); i++) {
-			tcm.getColumn(i).setCellRenderer(dtcr);
-		}
-		scrollPane.setViewportView(table);		
 		
 		
 		//내정보와 로그아웃 버튼
@@ -219,6 +203,8 @@ class Pan2 extends JPanel {
 				setLoginBtnTrue();
 				setLogoutBtnFalse();
 				setMyInfoBtnFalse();
+				createTable();
+				Pan4.b[0] = false;
 			}
 		});
 		logoutButton.setBounds(293, 34, 95, 30);
@@ -239,10 +225,6 @@ class Pan2 extends JPanel {
 							String apiUrl = ConnApi.ConnApi_func(str, pageNum);
 							papi = new ParsApi(apiUrl);
 							ArrayList<String> name = papi.ParsApi_Namelist();
-							if(name.size() != 10) {
-								pagebool = false;
-								break;
-							}
 							ArrayList<String> manuf = papi.ParsApi_Manufacturelist();
 							for (int i = 0; i < name.size(); i++) {
 								table.setValueAt(name.get(i), i, 1);
@@ -253,8 +235,6 @@ class Pan2 extends JPanel {
 							e1.printStackTrace();
 						}
 					}
-					
-					
 				} else {
 					JOptionPane.showMessageDialog(null, "전페이지가 없습니다", "경고", JOptionPane.WARNING_MESSAGE);
 				}
@@ -269,17 +249,31 @@ class Pan2 extends JPanel {
 		nextPageButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				pageNum = Integer.toString(Integer.parseInt(pageNum) + 1);
-				pageTextArea.setText(pageNum);
 				String str = searchTextField.getText();
 				try {
 					String apiUrl = ConnApi.ConnApi_func(str, pageNum);
 					papi = new ParsApi(apiUrl);
 					ArrayList<String> name = papi.ParsApi_Namelist();
 					ArrayList<String> manuf = papi.ParsApi_Manufacturelist();
-					for (int i = 0; i < name.size(); i++) {
-						table.setValueAt(name.get(i), i, 1);
-						table.setValueAt(manuf.get(i), i, 2);
+					if(name.size() < 10 && name.size() != 0) {
+						for (int i = 0; i < name.size(); i++) {
+							table.setValueAt(name.get(i), i, 1);
+							table.setValueAt(manuf.get(i), i, 2);
+						}
+						for (int i = name.size(); i < 10; i++) {
+							table.setValueAt(" ", i, 1);
+							table.setValueAt(" ", i, 2);
+						}
+					} else if(name.size() == 0) {
+						JOptionPane.showMessageDialog(null, "다음페이지가 없습니다", "경고", JOptionPane.WARNING_MESSAGE);
+						pageNum = Integer.toString(Integer.parseInt(pageNum) - 1);
+					} else {
+						for (int i = 0; i < name.size(); i++) {
+							table.setValueAt(name.get(i), i, 1);
+							table.setValueAt(manuf.get(i), i, 2);
+						}
 					}
+					pageTextArea.setText(pageNum);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -320,5 +314,56 @@ class Pan2 extends JPanel {
 	
 	public static void setLogoutBtnFalse() {
 		logoutButton.setVisible(false);
+	}
+	
+	public void createTable() {
+		table.setModel(new DefaultTableModel(
+				new Object[][] {
+					{"1", null, null, null},
+					{"2", null, null, null},
+					{"3", null, null, null},
+					{"4", null, null, null},
+					{"5", null, null, null},
+					{"6", null, null, null},
+					{"7", null, null, null},
+					{"8", null, null, null},
+					{"9", null, null, null},
+					{"10", null, null, null},
+				},
+				new String[] {
+					"No", "\uC81C\uD488\uBA85", "\uC81C\uC870\uC0AC", "체크"
+				}
+			) {
+				Class[] columnTypes = new Class[] {
+					String.class, String.class, Object.class, Object.class
+				};
+				public Class getColumnClass(int columnIndex) {
+					return columnTypes[columnIndex];
+				}
+				boolean[] columnEditables = new boolean[] {
+					false, false, false, false
+				};
+				public boolean isCellEditable(int row, int column) {
+//					return columnEditables[column];
+					return false;
+				}
+			});
+		DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
+		dtcr.setHorizontalAlignment(SwingConstants.CENTER);
+		TableColumnModel tcm = table.getColumnModel();
+		for (int i = 0; i < table.getColumnCount(); i++) {
+			tcm.getColumn(i).setCellRenderer(dtcr);
+		}
+		table.getColumnModel().getColumn(0).setResizable(false);
+		table.getColumnModel().getColumn(0).setPreferredWidth(15);
+		
+		table.getColumnModel().getColumn(0).setMinWidth(6);
+		table.getColumnModel().getColumn(1).setResizable(false);
+		table.getColumnModel().getColumn(1).setPreferredWidth(112);
+		table.getColumnModel().getColumn(1).setMinWidth(18);
+		table.getColumnModel().getColumn(2).setResizable(false);
+		table.getColumnModel().getColumn(3).setResizable(false);
+		table.getColumnModel().getColumn(3).setPreferredWidth(5);
+		table.setRowHeight(23);
 	}
 }

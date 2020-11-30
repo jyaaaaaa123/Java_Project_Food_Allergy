@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class MemberDAO {
 	private static final String DRIVER = "oracle.jdbc.driver.OracleDriver";
@@ -343,15 +344,35 @@ public class MemberDAO {
 		return str;
 	}
 	
+	//내정보 알레르기 리턴이 배열인 형태로
+	public ArrayList<String> callMyAllergy_arr(String id) {
+		ps = null;
+		rs = null;
+		ArrayList<String> list = new ArrayList<String>();
+		try {
+			String sql = "select allergy_name from memberallergy where member_id = ?";
+			ps = con.prepareStatement(sql);
+			ps.setString(1, id);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				list.add(rs.getString("allergy_name"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
 	//내정보 알레르기 삭제
-	public void deleteMyAllergy(String allergy_name) {
+	public void deleteMyAllergy(String allergy_name, String id) {
 		ps = null;
 		rs = null;
 		
 		try {
-			String sql = "delete from memberallergy where ALLERGY_NAME = ?";
+			String sql = "delete from memberallergy where ALLERGY_NAME = ? and member_id = ?";
 			ps = con.prepareStatement(sql);
 			ps.setString(1, allergy_name);
+			ps.setString(2, id);
 			ps.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -382,4 +403,114 @@ public class MemberDAO {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	//체크시 푸드 정보등록
+	public void addMemberFood(String id, String food_name, String food_factory) {
+		ps = null;
+		rs = null;
+		try {
+			
+			String sql = "insert into membercheck(member_id, food_name, food_factory)"
+						+ "values(?,?,?)";
+			
+			ps = con.prepareStatement(sql);
+			ps.setString(1, id);
+			ps.setString(2, food_name);
+			ps.setString(3, food_factory);
+			
+			int r = ps.executeUpdate(); //실행저장
+			if(r>0) {
+				System.out.println("체크완료");
+			} else {
+				System.out.println("체크실패");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	//체크한 푸드인지 확인
+	public boolean searchFoodCheck(String id, String food_name) {
+		boolean ok = false;
+
+		ps = null;
+		rs = null;
+		
+		try {
+			String sql = "select member_id from membercheck where member_id = ? and food_name = ?";
+			ps = con.prepareStatement(sql);
+			ps.setString(1, id);
+			ps.setString(2, food_name);
+			
+			rs = ps.executeQuery();
+			int cnt = 0;
+			while(rs.next()) {
+				cnt++;
+			}
+			if(cnt != 0) {
+				ok = true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return ok;
+	}
+	
+	//체크해제시 삭제
+	public void deleteMyfood(String id, String food_name) {
+		ps = null;
+		rs = null;
+		
+		try {
+			String sql = "delete from membercheck where member_id = ? and food_name = ?";
+			ps = con.prepareStatement(sql);
+			ps.setString(1, id);
+			ps.setString(2, food_name);
+			ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	//내정보 수정시 id변경
+	public void updateIdCheck(String id, String pre_id) {
+		ps = null;
+		rs = null;
+		
+		try {
+			String sql = "select member_id, food_name, food_factory from membercheck where member_id = ?";
+			ps = con.prepareStatement(sql);
+			ps.setString(1, pre_id);
+			rs = ps.executeQuery();
+			ArrayList<String> mid = new ArrayList<String>();
+			ArrayList<String> fn = new ArrayList<String>();
+			ArrayList<String> ff = new ArrayList<String>();
+			while(rs.next()) {
+				mid.add(rs.getString("member_id"));
+				fn.add(rs.getString("food_name"));
+				ff.add(rs.getString("food_factory"));
+			}
+			
+			
+			sql = "delete from membercheck where member_id = ?";
+			ps = con.prepareStatement(sql);
+			ps.setString(1, pre_id);
+			ps.executeUpdate();
+			
+			sql = "insert into membercheck(member_id,food_name,food_factory) values(?, ?, ?)";
+			ps = con.prepareStatement(sql);
+			for (int i = 0; i < mid.size(); i++) {
+				ps.setString(1, mid.get(i));
+				ps.setString(2, fn.get(i));
+				ps.setString(3, ff.get(i));
+				ps.executeUpdate();
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 }

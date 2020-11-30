@@ -1,5 +1,5 @@
 import javax.swing.JPanel;
-
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -13,8 +13,9 @@ import java.awt.event.ActionEvent;
 
 public class Pan4 extends JPanel {
 	private JTextField idTextField;
-	private JTextField pwTextField;
+	private JPasswordField pwTextField;
 	public static String loginid;
+	static boolean[] b = {false, false};
 	
 	public int tmp = 0;
 	/**
@@ -41,7 +42,7 @@ public class Pan4 extends JPanel {
 		add(idTextField);
 		idTextField.setColumns(10);
 		
-		pwTextField = new JTextField();
+		pwTextField = new JPasswordField();
 		pwTextField.setBounds(67, 228, 192, 32);
 		add(pwTextField);
 		pwTextField.setColumns(10);
@@ -49,7 +50,7 @@ public class Pan4 extends JPanel {
 		JButton loginButton = new JButton("\uB85C\uADF8\uC778");
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				boolean[] b = Test.dao.loginMember(idTextField.getText(), pwTextField.getText());
+				b = Test.dao.loginMember(idTextField.getText(), pwTextField.getText());
 				if(b[0]) {
 					JOptionPane.showMessageDialog(null, "로그인 성공");
 					setLoginId(idTextField.getText());
