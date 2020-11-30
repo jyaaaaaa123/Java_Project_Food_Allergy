@@ -26,9 +26,9 @@ public class Pan6 extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public Pan6(Test win, Pan4 pan4) {
+	public Pan6(Test win) {
 		
-		setBounds(0, 0, 400, 500);
+		setBounds(0, 0, 1000, 618);
 		setLayout(null);
 		
 		

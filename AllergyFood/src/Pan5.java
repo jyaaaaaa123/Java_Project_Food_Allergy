@@ -34,7 +34,7 @@ public class Pan5 extends JPanel {
 	 * Create the panel.
 	 */
 	public Pan5(Test win) {
-		setBounds(0, 0, 400, 500);
+		setBounds(0, 0, 1000, 618);
 		setLayout(null);
 		
 		

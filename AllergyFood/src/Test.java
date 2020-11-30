@@ -25,11 +25,11 @@ public class Test extends JFrame {
 					dao = new MemberDAO();
 					frame.setTitle("음식알레르기");
 					frame.pan1 = new Pan1(frame);
-					frame.pan2 = new Pan2(frame,  frame.pan6);
+					frame.pan2 = new Pan2(frame);
 					frame.pan3 = new Pan3(frame);
 					frame.pan4 = new Pan4(frame);
 					frame.pan5 = new Pan5(frame);
-					frame.pan6 = new Pan6(frame, frame.pan4);
+					frame.pan6 = new Pan6(frame);
 					frame.getContentPane().add(frame.pan1);
 					frame.setVisible(true);
 					
@@ -47,7 +47,7 @@ public class Test extends JFrame {
 	public Test() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(0, 0, 451, 537);	
+		setBounds(0, 0, 1000, 618);	
 	}
 	
 	public void change(String panelName) {

@@ -9,6 +9,7 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
 
 
 
@@ -23,10 +24,10 @@ public class Pan4 extends JPanel {
 	 * Create the panel.
 	 */
 	public Pan4(Test win) {
-		setBounds(0, 0, 400, 500);
+		setBounds(0, 0, 1000, 618);
 		setLayout(null);
 		
-		JLabel titleLabel = new JLabel("TEST");
+		JLabel titleLabel = new JLabel("\uC74C\uC2DD");
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titleLabel.setFont(new Font("±Ã¼­", Font.PLAIN, 28));
 		titleLabel.setBounds(12, 10, 78, 66);
@@ -39,12 +40,12 @@ public class Pan4 extends JPanel {
 		
 		
 		idTextField = new JTextField();
-		idTextField.setBounds(67, 186, 192, 32);
+		idTextField.setBounds(163, 371, 192, 32);
 		add(idTextField);
 		idTextField.setColumns(10);
 		
 		pwTextField = new JPasswordField();
-		pwTextField.setBounds(67, 228, 192, 32);
+		pwTextField.setBounds(163, 432, 192, 32);
 		add(pwTextField);
 		pwTextField.setColumns(10);
 		
@@ -70,17 +71,17 @@ public class Pan4 extends JPanel {
 				}
 			}
 		});
-		loginButton.setBounds(280, 186, 97, 74);
+		loginButton.setBounds(401, 371, 97, 93);
 		add(loginButton);
 		
 		JLabel idLabel = new JLabel("ID");
 		idLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		idLabel.setBounds(12, 194, 57, 15);
+		idLabel.setBounds(71, 379, 57, 15);
 		add(idLabel);
 		
 		JLabel pwLabel = new JLabel("PW");
 		pwLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		pwLabel.setBounds(12, 236, 57, 15);
+		pwLabel.setBounds(71, 440, 57, 15);
 		add(pwLabel);
 		
 		JButton joinButton = new JButton("\uAC00\uC785\uD558\uAE30");
@@ -89,7 +90,7 @@ public class Pan4 extends JPanel {
 				win.change("pan5");
 			}
 		});
-		joinButton.setBounds(236, 303, 97, 23);
+		joinButton.setBounds(310, 496, 97, 23);
 		add(joinButton);
 		
 		JButton searchIdButton = new JButton("\uC544\uC774\uB514 \uCC3E\uAE30");
@@ -99,8 +100,13 @@ public class Pan4 extends JPanel {
 				sc.run();
 			}
 		});
-		searchIdButton.setBounds(67, 303, 119, 23);
+		searchIdButton.setBounds(119, 496, 119, 23);
 		add(searchIdButton);
+		
+		JLabel picLabel = new JLabel("");
+		picLabel.setIcon(new ImageIcon(Pan4.class.getResource("/icon/pic1.png")));
+		picLabel.setBounds(590, 80, 290, 358);
+		add(picLabel);
 		
 	}
 	

@@ -17,7 +17,7 @@ public class Pan1 extends JPanel {
 	 */
 	public Pan1(Test win) {
 		this.win = win;
-		setBounds(0, 0, 400, 500);
+		setBounds(0, 0, 1000, 618);
 		setLayout(null);
 		
 		JButton start_btn = new JButton("");

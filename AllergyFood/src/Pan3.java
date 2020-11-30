@@ -16,6 +16,7 @@ import javax.swing.JCheckBox;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import java.awt.Checkbox;
+import java.awt.SystemColor;
 
 public class Pan3 extends JPanel{
 	public static String allery_list;
@@ -32,6 +33,7 @@ public class Pan3 extends JPanel{
 	 */
 	public Pan3(Test win) throws IOException {
 		this.win = win;
+		setBounds(0, 0, 1000, 618);
 		setLayout(null);
 		
 		JLabel titleLabel = new JLabel("\uC74C\uC2DD");
@@ -51,35 +53,39 @@ public class Pan3 extends JPanel{
 		//이미지 URL로 받아서 Label 생성
 		
 		foodImageLabel = new JLabel(new ImageIcon(new URL("http://fresh.haccp.or.kr/prdimg/2017/201704760012/201704760012-1.jpg")));
-		foodImageLabel.setBounds(54, 120, 306, 188);
+		foodImageLabel.setBounds(40, 174, 563, 349);
 		add(foodImageLabel);
 		
 		foodAllergyTextPane = new JTextPane();
 		foodAllergyTextPane.setEditable(false);
-		foodAllergyTextPane.setBounds(99, 336, 217, 23);
+		foodAllergyTextPane.setBounds(668, 228, 264, 23);
 		add(foodAllergyTextPane);
 		
 		foodIntextPane = new JTextPane();
 		foodIntextPane.setEditable(false);
-		foodIntextPane.setBounds(97, 387, 246, 66);
+		foodIntextPane.setBounds(668, 328, 264, 145);
 		add(foodIntextPane);
 		
 		
 		
 		JLabel foodAllergyLabel = new JLabel("\uC54C\uB808\uB974\uAE30 \uC131\uBD84");
-		foodAllergyLabel.setBounds(75, 312, 89, 15);
+		foodAllergyLabel.setBounds(668, 202, 89, 15);
 		add(foodAllergyLabel);
 		
 		JLabel foodInLabel = new JLabel("\uBCF4\uC720 \uC131\uBD84");
-		foodInLabel.setBounds(77, 369, 77, 15);
+		foodInLabel.setBounds(668, 293, 77, 15);
 		add(foodInLabel);
 		
 		foodNameTextArea = new JTextArea();
-		foodNameTextArea.setBounds(22, 86, 176, 24);
+		foodNameTextArea.setFont(new Font("Monospaced", Font.PLAIN, 20));
+		foodNameTextArea.setBackground(SystemColor.control);
+		foodNameTextArea.setBounds(68, 114, 238, 36);
 		add(foodNameTextArea);
 		
 		foodManufTextArea = new JTextArea();
-		foodManufTextArea.setBounds(210, 96, 150, 14);
+		foodManufTextArea.setFont(new Font("Monospaced", Font.PLAIN, 15));
+		foodManufTextArea.setBackground(SystemColor.control);
+		foodManufTextArea.setBounds(337, 141, 181, 23);
 		add(foodManufTextArea);
 		
 		checkbox = new Checkbox("\uCCB4\uD06C");
@@ -109,7 +115,7 @@ public class Pan3 extends JPanel{
 				}	
 			}
 		});
-		checkbox.setBounds(321, 53, 55, 23);
+		checkbox.setBounds(764, 30, 65, 46);
 		add(checkbox);
 		
 		JButton backButton = new JButton("뒤로가기");
@@ -120,7 +126,7 @@ public class Pan3 extends JPanel{
 				win.change("pan2");
 			}
 		});
-		backButton.setBounds(12, 437, 78, 36);
+		backButton.setBounds(848, 30, 116, 46);
 		add(backButton);
 	}
 }
