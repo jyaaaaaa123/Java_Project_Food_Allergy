@@ -22,6 +22,7 @@ public class Pan3 extends JPanel{
 	public static JTextPane foodAllergyTextPane;
 	public static JTextArea foodNameTextArea;
 	public static JTextArea foodManufTextArea;
+	public static JTextPane foodIntextPane;
 	public static JLabel foodImageLabel;
 	public static Checkbox checkbox;
 	private Test win;
@@ -54,12 +55,14 @@ public class Pan3 extends JPanel{
 		add(foodImageLabel);
 		
 		foodAllergyTextPane = new JTextPane();
+		foodAllergyTextPane.setEditable(false);
 		foodAllergyTextPane.setBounds(99, 336, 217, 23);
 		add(foodAllergyTextPane);
 		
-		JTextArea foodIntextArea = new JTextArea();
-		foodIntextArea.setBounds(97, 387, 219, 23);
-		add(foodIntextArea);
+		foodIntextPane = new JTextPane();
+		foodIntextPane.setEditable(false);
+		foodIntextPane.setBounds(97, 387, 246, 66);
+		add(foodIntextPane);
 		
 		
 		
@@ -117,7 +120,7 @@ public class Pan3 extends JPanel{
 				win.change("pan2");
 			}
 		});
-		backButton.setBounds(148, 420, 107, 36);
+		backButton.setBounds(12, 437, 78, 36);
 		add(backButton);
 	}
 }

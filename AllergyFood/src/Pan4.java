@@ -2,6 +2,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
@@ -91,6 +92,16 @@ public class Pan4 extends JPanel {
 		joinButton.setBounds(236, 303, 97, 23);
 		add(joinButton);
 		
+		JButton searchIdButton = new JButton("\uC544\uC774\uB514 \uCC3E\uAE30");
+		searchIdButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Search sc = new Search();
+				sc.run();
+			}
+		});
+		searchIdButton.setBounds(67, 303, 119, 23);
+		add(searchIdButton);
+		
 	}
 	
 	public static void setLoginId(String id) {
@@ -100,6 +111,4 @@ public class Pan4 extends JPanel {
 	public static String getLoginId() {
 		return loginid;
 	}
-	
-
 }

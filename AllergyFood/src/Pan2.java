@@ -103,6 +103,7 @@ class Pan2 extends JPanel {
 					Pan3.foodNameTextArea.setText(allery_list[0]);
 					Pan3.foodManufTextArea.setText(allery_list[1]);
 					Pan3.foodAllergyTextPane.setText(allery_list[2]);
+					Pan3.foodIntextPane.setText(allery_list[4]);
 					
 					
 					//알레르기 정보 확인
@@ -118,6 +119,13 @@ class Pan2 extends JPanel {
 								SimpleAttributeSet styleSet = new SimpleAttributeSet();
 								StyleConstants.setForeground(styleSet, Color.RED);
 								doc.setCharacterAttributes(allery_list[2].indexOf(str_al.get(i)), str_al.get(i).length(), styleSet, true);
+							} else {//기존 알레르기에 없는 알레르기일때
+								if(allery_list[4].contains(str_al.get(i))) {
+									StyledDocument doc = Pan3.foodIntextPane.getStyledDocument();
+									SimpleAttributeSet styleSet = new SimpleAttributeSet();
+									StyleConstants.setForeground(styleSet, Color.RED);
+									doc.setCharacterAttributes(allery_list[4].indexOf(str_al.get(i)), str_al.get(i).length(), styleSet, true);
+								}
 							}
 						}
 					} 

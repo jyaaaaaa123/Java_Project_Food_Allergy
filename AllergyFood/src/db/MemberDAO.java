@@ -66,13 +66,14 @@ public class MemberDAO {
 		rs = null;
 		try {
 			
-			String sql = "insert into member(member_id, member_name, member_password)"
-						+ "values(?,?,?)";
+			String sql = "insert into member(member_id, member_name, member_password, member_birth)"
+						+ "values(?,?,?,?)";
 			
 			ps = con.prepareStatement(sql);
 			ps.setString(1, mdto.getId());
 			ps.setString(2, mdto.getName());
 			ps.setString(3, mdto.getPw());
+			ps.setInt(4, mdto.getMember_birth());
 			
 			int r = ps.executeUpdate(); //실행저장
 			
@@ -310,6 +311,12 @@ public class MemberDAO {
 		ps = null;
 		
 		try {
+			String sql0 = "alter table membercheck disable constraint fk_MEMBERCHECK1";
+			ps = con.prepareStatement(sql0);
+			rs = ps.executeQuery();
+			
+			updateIdCheck(id, pre_id);
+			
 			String sql = "update member set member_id = ?, member_name = ? where member_id = ?";
 			ps = con.prepareStatement(sql);
 			ps.setString(1, id); //수정할 아이디
@@ -317,6 +324,10 @@ public class MemberDAO {
 			ps.setString(3, pre_id); //현재 id 이걸로 검색
 			rs = ps.executeQuery();
 			
+			
+			String sql1 = "alter table membercheck enable constraint fk_MEMBERCHECK1";
+			ps = con.prepareStatement(sql1);
+			rs = ps.executeQuery();
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -480,37 +491,39 @@ public class MemberDAO {
 		rs = null;
 		
 		try {
-			String sql = "select member_id, food_name, food_factory from membercheck where member_id = ?";
+			String sql = "update membercheck set member_id = ? where member_id = ?";
 			ps = con.prepareStatement(sql);
-			ps.setString(1, pre_id);
-			rs = ps.executeQuery();
-			ArrayList<String> mid = new ArrayList<String>();
-			ArrayList<String> fn = new ArrayList<String>();
-			ArrayList<String> ff = new ArrayList<String>();
-			while(rs.next()) {
-				mid.add(rs.getString("member_id"));
-				fn.add(rs.getString("food_name"));
-				ff.add(rs.getString("food_factory"));
-			}
-			
-			
-			sql = "delete from membercheck where member_id = ?";
-			ps = con.prepareStatement(sql);
-			ps.setString(1, pre_id);
+			ps.setString(1, id);
+			ps.setString(2, pre_id);
 			ps.executeUpdate();
-			
-			sql = "insert into membercheck(member_id,food_name,food_factory) values(?, ?, ?)";
-			ps = con.prepareStatement(sql);
-			for (int i = 0; i < mid.size(); i++) {
-				ps.setString(1, mid.get(i));
-				ps.setString(2, fn.get(i));
-				ps.setString(3, ff.get(i));
-				ps.executeUpdate();
-			}
+
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
+	
+	//내 id 찾기
+	public ArrayList<String> searchMyId(String member_name, int member_birth) {
+		ps = null;
+		rs = null;
+		
+		ArrayList<String> list = new ArrayList<String>();
+		try {
+			String sql = "select member_id from member where member_name = ? and member_birth = ?";
+			ps = con.prepareStatement(sql);
+			ps.setString(1, member_name);
+			ps.setInt(2, member_birth);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				list.add(rs.getString("member_id"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 }

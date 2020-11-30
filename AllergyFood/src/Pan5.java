@@ -6,7 +6,9 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import db.MemberDTO;
+import db.MemberException;
 import db.AllergyDTO;
+import db.AuthenException;
 
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
@@ -23,8 +25,10 @@ public class Pan5 extends JPanel {
 	private JTextField nameTextField;
 	private JPasswordField pwTextField;
 	private String my_al = "";
+	static String check_id;
 	
 	int check_check = 0;
+	private JTextField brithdayTextField;
 	
 	/**
 	 * Create the panel.
@@ -34,7 +38,7 @@ public class Pan5 extends JPanel {
 		setLayout(null);
 		
 		
-		JLabel titleLabel = new JLabel("TEST");
+		JLabel titleLabel = new JLabel("\uC74C\uC2DD");
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titleLabel.setFont(new Font("궁서", Font.PLAIN, 28));
 		titleLabel.setBounds(12, 10, 78, 66);
@@ -49,11 +53,11 @@ public class Pan5 extends JPanel {
 		//id
 		JLabel idLabel = new JLabel("ID");
 		idLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		idLabel.setBounds(48, 141, 57, 15);
+		idLabel.setBounds(48, 119, 57, 15);
 		add(idLabel);
 		
 		idTextField = new JTextField();
-		idTextField.setBounds(117, 138, 163, 21);
+		idTextField.setBounds(117, 116, 163, 21);
 		add(idTextField);
 		idTextField.setColumns(10);
 		
@@ -62,27 +66,34 @@ public class Pan5 extends JPanel {
 		checkIdButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				check_check++;
-				String check_id = idTextField.getText();
+				check_id = idTextField.getText();
 				if(Test.dao.searchMemberId(check_id)) {
 					JOptionPane.showMessageDialog(null, "이미 사용중인 아이디입니다", "경고", JOptionPane.WARNING_MESSAGE);
 					check_check = 0; //중복체크 다시 하도록
 				} else {
-					JOptionPane.showMessageDialog(null, "사용가능한 아이디입니다");
+					try {
+						MemberException.idFormat(check_id);
+						JOptionPane.showMessageDialog(null, "사용가능한 아이디입니다");
+					} catch(AuthenException e1) {
+						JOptionPane.showMessageDialog(null, "3~10자 이내의 특수문자를 제외한 아이디만 가능합니다", "경고", JOptionPane.WARNING_MESSAGE);
+						check_check = 0;
+					}
+					
 				}
 			}
 		});
-		checkIdButton.setBounds(301, 137, 87, 23);
+		checkIdButton.setBounds(301, 115, 87, 23);
 		add(checkIdButton);
 		
 		
 		//이름
 		JLabel nameLabel = new JLabel("\uC774\uB984");
 		nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		nameLabel.setBounds(48, 178, 57, 15);
+		nameLabel.setBounds(48, 181, 57, 15);
 		add(nameLabel);
 		
 		nameTextField = new JTextField();
-		nameTextField.setBounds(117, 175, 163, 21);
+		nameTextField.setBounds(117, 178, 163, 21);
 		add(nameTextField);
 		nameTextField.setColumns(10);
 
@@ -90,15 +101,24 @@ public class Pan5 extends JPanel {
 		//비밀번호
 		JLabel pwLabel = new JLabel("PW");
 		pwLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		pwLabel.setBounds(48, 219, 57, 15);
+		pwLabel.setBounds(48, 154, 57, 15);
 		add(pwLabel);
 		
 		pwTextField = new JPasswordField();
-		pwTextField.setBounds(117, 216, 163, 21);
+		pwTextField.setBounds(117, 151, 163, 21);
 		add(pwTextField);
 		pwTextField.setColumns(10);
 		
+		//생년월일
+		JLabel birthdayLabel = new JLabel("\uC0DD\uB144\uC6D4\uC77C");
+		birthdayLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		birthdayLabel.setBounds(48, 212, 57, 15);
+		add(birthdayLabel);
 		
+		brithdayTextField = new JTextField();
+		brithdayTextField.setColumns(10);
+		brithdayTextField.setBounds(117, 209, 163, 21);
+		add(brithdayTextField);
 		
 		
 		JLabel allergyListLabel = new JLabel("\uBCF4\uC720\uC911\uC778 \uC54C\uB808\uB974\uAE30");
@@ -206,6 +226,8 @@ public class Pan5 extends JPanel {
 		JButton memberAddButton = new JButton("\uD68C\uC6D0\uAC00\uC785");
 		memberAddButton.setBounds(117, 424, 97, 23);
 		add(memberAddButton);
+		
+		
 				
 		memberAddButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -214,25 +236,34 @@ public class Pan5 extends JPanel {
 					JOptionPane.showMessageDialog(null, "값을 입력해주세요", "경고", JOptionPane.WARNING_MESSAGE);
 				} else {
 					//중복검사
-					if(check_check == 0) {
+					if(check_check == 0 || !idTextField.getText().equals(check_id)) {
 						JOptionPane.showMessageDialog(null, "아이디 중복 검사를 해주세요", "경고", JOptionPane.WARNING_MESSAGE);
 					} else {
-						check_check = 0;
-						MemberDTO mdto = new MemberDTO(idTextField.getText(), nameTextField.getText(), pwTextField.getText());
-						System.out.println(allergyTextArea.getText());
-						String[] stmp = allergyTextArea.getText().split(", ");
-						Test.dao.insertMember(mdto);
-						for (int i = 0; i < stmp.length; i++) {
-							AllergyDTO adto = new AllergyDTO(stmp[i]);
-							Test.dao.insertMemberAllergy(adto, mdto);
-						}		
-						JOptionPane.showMessageDialog(null, "가입 성공");
-						win.change("pan4");
+						try {
+							MemberException.pwCheck(pwTextField.getText());
+							MemberException.birthCheck(brithdayTextField.getText());
+							MemberDTO mdto = new MemberDTO(idTextField.getText(), nameTextField.getText(), pwTextField.getText(), Integer.valueOf(brithdayTextField.getText()));
+							String[] stmp = allergyTextArea.getText().split(", ");
+							Test.dao.insertMember(mdto);
+							for (int i = 0; i < stmp.length; i++) {
+								AllergyDTO adto = new AllergyDTO(stmp[i]);
+								Test.dao.insertMemberAllergy(adto, mdto);
+							}		
+							JOptionPane.showMessageDialog(null, "가입 성공");
+							idTextField.setText("");
+							nameTextField.setText("");
+							pwTextField.setText("");
+							allergyTextArea.setText("");
+							my_al = "";
+							check_check = 0;
+							win.change("pan4");
+						} catch (AuthenException e2) {
+							JOptionPane.showMessageDialog(null, e2.toString(), "경고", JOptionPane.WARNING_MESSAGE);
+						}
 					}
 				}
 			}
 		});	
 		
 	}
-	
 }

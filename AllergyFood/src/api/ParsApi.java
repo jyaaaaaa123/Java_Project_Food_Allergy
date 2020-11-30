@@ -55,22 +55,24 @@ public class ParsApi {
 	
 	//알레르기 목록 파싱 - 수정 필요
 	public String[] ParsApi_allergyList(String foodname) {
-		String[] all = new String[4];
+		String[] all = new String[5];
 		for(int temp = 0; temp < nList.getLength(); temp++){
 			Node nNode = nList.item(temp);
 			if(nNode.getNodeType() == Node.ELEMENT_NODE){
 				Element eElement = (Element) nNode;
 				if(getTagValue("prdlstNm", eElement).equals(foodname)) {
-					all[0] = getTagValue("prdlstNm", eElement);
-					all[1] = getTagValue("manufacture", eElement);
-					all[2] = getTagValue("allergy", eElement);
-					all[3] = getTagValue("imgurl1", eElement);
+					all[0] = getTagValue("prdlstNm", eElement); //푸드네임
+					all[1] = getTagValue("manufacture", eElement); //제조사
+					all[2] = getTagValue("allergy", eElement); //알레르기
+					all[3] = getTagValue("imgurl1", eElement); //이미지
+					all[4] = getTagValue("rawmtrl", eElement); //원재료
 				}
 				
 			}
 		 }
 		return all;
 	}
+	
 	
 	private static String getTagValue(String tag, Element eElement) {
 	    NodeList nlList = eElement.getElementsByTagName(tag).item(0).getChildNodes();
