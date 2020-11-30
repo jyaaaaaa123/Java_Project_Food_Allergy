@@ -188,7 +188,6 @@ public class Pan6 extends JPanel {
 						if(Test.dao.searchMemberId(idTextArea.getText())) {
 							JOptionPane.showMessageDialog(null, "중복되는 아이디가 이미 존재합니다", "경고", JOptionPane.WARNING_MESSAGE);
 						} else {
-							Test.dao.updateIdCheck(idTextArea.getText(), Pan4.getLoginId());
 							Test.dao.updateMember(idTextArea.getText(), nameTextArea.getText(), Pan4.getLoginId());
 							String[] stmp = myAllergyTextArea.getText().split(", ");
 							for (int i = 0; i < stmp.length; i++) {
