@@ -4,6 +4,7 @@ public class MemberCheckDTO {
 	private String member_id;
 	private String food_name;
 	private String food_factory;
+	private String food_image;
 	
 	public MemberCheckDTO() {
 		
@@ -34,9 +35,19 @@ public class MemberCheckDTO {
 		this.food_factory = food_factory;
 	}
 
+	public String getFood_image() {
+		return food_image;
+	}
+
+	public void setFood_image(String food_image) {
+		this.food_image = food_image;
+	}
+
 	@Override
 	public String toString() {
-		return "MemberFoodDTO [member_id=" + member_id + ", food_name=" + food_name + ", food_factory=" + food_factory
-				+ "]";
+		return "MemberCheckDTO [member_id=" + member_id + ", food_name=" + food_name + ", food_factory=" + food_factory
+				+ ", food_image=" + food_image + "]";
 	}
+
+	
 }

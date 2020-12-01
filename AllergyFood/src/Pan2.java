@@ -48,6 +48,8 @@ class Pan2 extends JPanel {
 	public ParsApi papi;
 	private JTextArea pageTextArea;
 	public DefaultTableModel model;
+	public static String image_ad;
+	public static String[][] food_name_image_arr;
 
 	public Pan2(Test win) {
 		this.win = win;
@@ -138,7 +140,8 @@ class Pan2 extends JPanel {
 					} 
 					
 					try {
-						icon = new ImageIcon(new URL(allery_list[3]));
+						image_ad = allery_list[3];
+						icon = new ImageIcon(new URL(image_ad));
 						Pan3.foodImageLabel.setIcon(icon);
 					} catch (MalformedURLException e1) {
 						// TODO Auto-generated catch block
@@ -161,9 +164,7 @@ class Pan2 extends JPanel {
 		searchButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String str = searchTextField.getText();
-				
 				createTable();
-				
 				try {
 					pageNum = "1";
 					pageTextArea.setText("-" + pageNum + "-");
@@ -203,6 +204,8 @@ class Pan2 extends JPanel {
 				Pan6.idTextArea.setText(Pan4.getLoginId());
 				Pan6.nameTextArea.setText(Test.dao.MemberName(Pan4.getLoginId()));
 				Pan6.myAllergyTextArea.setText(Test.dao.callMyAllergy(Pan4.getLoginId()));
+				food_name_image_arr = Test.dao.searchFoodCheck(Pan4.getLoginId());
+				Pan6.foodlist.setListData(food_name_image_arr[0]);
 				win.change("pan6");
 			}
 		});

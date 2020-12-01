@@ -40,12 +40,12 @@ public class Pan4 extends JPanel {
 		
 		
 		idTextField = new JTextField();
-		idTextField.setBounds(163, 371, 192, 32);
+		idTextField.setBounds(620, 257, 192, 32);
 		add(idTextField);
 		idTextField.setColumns(10);
 		
 		pwTextField = new JPasswordField();
-		pwTextField.setBounds(163, 432, 192, 32);
+		pwTextField.setBounds(620, 299, 192, 32);
 		add(pwTextField);
 		pwTextField.setColumns(10);
 		
@@ -71,17 +71,17 @@ public class Pan4 extends JPanel {
 				}
 			}
 		});
-		loginButton.setBounds(401, 371, 97, 93);
+		loginButton.setBounds(852, 237, 97, 111);
 		add(loginButton);
 		
 		JLabel idLabel = new JLabel("ID");
 		idLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		idLabel.setBounds(71, 379, 57, 15);
+		idLabel.setBounds(551, 265, 57, 15);
 		add(idLabel);
 		
 		JLabel pwLabel = new JLabel("PW");
 		pwLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		pwLabel.setBounds(71, 440, 57, 15);
+		pwLabel.setBounds(551, 307, 57, 15);
 		add(pwLabel);
 		
 		JButton joinButton = new JButton("\uAC00\uC785\uD558\uAE30");
@@ -90,7 +90,7 @@ public class Pan4 extends JPanel {
 				win.change("pan5");
 			}
 		});
-		joinButton.setBounds(310, 496, 97, 23);
+		joinButton.setBounds(786, 386, 124, 32);
 		add(joinButton);
 		
 		JButton searchIdButton = new JButton("\uC544\uC774\uB514 \uCC3E\uAE30");
@@ -100,13 +100,24 @@ public class Pan4 extends JPanel {
 				sc.run();
 			}
 		});
-		searchIdButton.setBounds(119, 496, 119, 23);
+		searchIdButton.setBounds(620, 386, 130, 32);
 		add(searchIdButton);
 		
 		JLabel picLabel = new JLabel("");
-		picLabel.setIcon(new ImageIcon(Pan4.class.getResource("/icon/pic1.png")));
-		picLabel.setBounds(590, 80, 290, 358);
+		picLabel.setIcon(new ImageIcon(Pan4.class.getResource("/icon/aa.png")));
+		picLabel.setBounds(158, 133, 290, 358);
 		add(picLabel);
+		
+		JButton backButton = new JButton("\uB4A4\uB85C\uAC00\uAE30");
+		backButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				idTextField.setText("");
+				pwTextField.setText("");
+				win.change("pan2");
+			}
+		});
+		backButton.setBounds(852, 21, 115, 32);
+		add(backButton);
 		
 	}
 	

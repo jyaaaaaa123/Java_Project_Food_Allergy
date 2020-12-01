@@ -11,8 +11,6 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
-import javax.swing.JRadioButton;
-import javax.swing.JCheckBox;
 import java.awt.event.ItemListener;
 import java.awt.event.ItemEvent;
 import java.awt.Checkbox;
@@ -57,13 +55,15 @@ public class Pan3 extends JPanel{
 		add(foodImageLabel);
 		
 		foodAllergyTextPane = new JTextPane();
+		foodAllergyTextPane.setBackground(SystemColor.control);
 		foodAllergyTextPane.setEditable(false);
 		foodAllergyTextPane.setBounds(668, 228, 264, 23);
 		add(foodAllergyTextPane);
 		
 		foodIntextPane = new JTextPane();
+		foodIntextPane.setBackground(SystemColor.control);
 		foodIntextPane.setEditable(false);
-		foodIntextPane.setBounds(668, 328, 264, 145);
+		foodIntextPane.setBounds(668, 328, 264, 230);
 		add(foodIntextPane);
 		
 		
@@ -95,7 +95,7 @@ public class Pan3 extends JPanel{
 					if(e.getStateChange() == 1) {
 						int result = JOptionPane.showConfirmDialog(null, "체크하시겠습니까?", "알림", JOptionPane.YES_NO_CANCEL_OPTION);
 						if(result == JOptionPane.YES_OPTION) {
-							Test.dao.addMemberFood(Pan4.getLoginId(), foodNameTextArea.getText(), foodManufTextArea.getText());
+							Test.dao.addMemberFood(Pan4.getLoginId(), foodNameTextArea.getText(), foodManufTextArea.getText(), Pan2.image_ad);
 							JOptionPane.showMessageDialog(null, "체크 완료");
 						} else {
 							checkbox.setState(false);

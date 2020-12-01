@@ -53,11 +53,11 @@ public class Pan5 extends JPanel {
 		//id
 		JLabel idLabel = new JLabel("ID");
 		idLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		idLabel.setBounds(48, 119, 57, 15);
+		idLabel.setBounds(48, 175, 57, 15);
 		add(idLabel);
 		
 		idTextField = new JTextField();
-		idTextField.setBounds(117, 116, 163, 21);
+		idTextField.setBounds(117, 175, 163, 33);
 		add(idTextField);
 		idTextField.setColumns(10);
 		
@@ -82,18 +82,18 @@ public class Pan5 extends JPanel {
 				}
 			}
 		});
-		checkIdButton.setBounds(301, 115, 87, 23);
+		checkIdButton.setBounds(303, 174, 87, 34);
 		add(checkIdButton);
 		
 		
 		//이름
 		JLabel nameLabel = new JLabel("\uC774\uB984");
 		nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		nameLabel.setBounds(48, 181, 57, 15);
+		nameLabel.setBounds(48, 297, 57, 15);
 		add(nameLabel);
 		
 		nameTextField = new JTextField();
-		nameTextField.setBounds(117, 178, 163, 21);
+		nameTextField.setBounds(117, 288, 163, 33);
 		add(nameTextField);
 		nameTextField.setColumns(10);
 
@@ -101,29 +101,29 @@ public class Pan5 extends JPanel {
 		//비밀번호
 		JLabel pwLabel = new JLabel("PW");
 		pwLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		pwLabel.setBounds(48, 154, 57, 15);
+		pwLabel.setBounds(48, 244, 57, 15);
 		add(pwLabel);
 		
 		pwTextField = new JPasswordField();
-		pwTextField.setBounds(117, 151, 163, 21);
+		pwTextField.setBounds(117, 235, 163, 33);
 		add(pwTextField);
 		pwTextField.setColumns(10);
 		
 		//생년월일
 		JLabel birthdayLabel = new JLabel("\uC0DD\uB144\uC6D4\uC77C");
 		birthdayLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		birthdayLabel.setBounds(48, 212, 57, 15);
+		birthdayLabel.setBounds(48, 355, 57, 15);
 		add(birthdayLabel);
 		
 		brithdayTextField = new JTextField();
 		brithdayTextField.setColumns(10);
-		brithdayTextField.setBounds(117, 209, 163, 21);
+		brithdayTextField.setBounds(117, 346, 163, 33);
 		add(brithdayTextField);
 		
 		
 		JLabel allergyListLabel = new JLabel("\uBCF4\uC720\uC911\uC778 \uC54C\uB808\uB974\uAE30");
 		allergyListLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		allergyListLabel.setBounds(48, 258, 129, 15);
+		allergyListLabel.setBounds(478, 207, 129, 15);
 		add(allergyListLabel);
 		
 		
@@ -139,7 +139,7 @@ public class Pan5 extends JPanel {
 			}
 		});
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"[\uC9C1\uC811 \uC785\uB825]", "\uC0C8\uC6B0", "\uAD74", "\uAC8C", "\uD64D\uD569", "\uC624\uC9D5\uC5B4", "\uC804\uBCF5", "\uACE0\uB4F1\uC5B4", "\uC870\uAC1C\uB958", "\uBA54\uBC00", "\uBC00", "\uB300\uB450", "\uD638\uB450", "\uB545\uCF69", "\uC7A3", "\uC54C\uB958(\uAC00\uAE08\uB958)", "\uC6B0\uC720", "\uC1E0\uACE0\uAE30", "\uB3FC\uC9C0\uACE0\uAE30", "\uB2ED\uACE0\uAE30", "\uBCF5\uC22D\uC544", "\uD1A0\uB9C8\uD1A0", "\uC544\uD669\uC0B0\uB958(\uC640\uC778 \uB4F1)"}));
-		comboBox.setBounds(68, 345, 169, 26);
+		comboBox.setBounds(491, 327, 169, 26);
 		add(comboBox);
 		
 		//보유 알레르기 표시
@@ -149,7 +149,7 @@ public class Pan5 extends JPanel {
 		allergyTextArea.setBackground(SystemColor.control);
 		
 		JScrollPane scrollPane = new JScrollPane(allergyTextArea);
-		scrollPane.setBounds(68, 283, 277, 42);
+		scrollPane.setBounds(489, 251, 277, 42);
 		scrollPane.setBackground(SystemColor.control);
 		add(scrollPane);
 		
@@ -174,7 +174,7 @@ public class Pan5 extends JPanel {
 				
 			}
 		});
-		allergyAddButton.setBounds(249, 345, 57, 26);
+		allergyAddButton.setBounds(667, 327, 57, 26);
 		add(allergyAddButton);
 		
 		JButton allergydelButton = new JButton("\uC0AD\uC81C");
@@ -198,7 +198,7 @@ public class Pan5 extends JPanel {
 				}
 			}
 		});
-		allergydelButton.setBounds(318, 345, 57, 25);
+		allergydelButton.setBounds(729, 328, 57, 25);
 		add(allergydelButton);
 		
 		
@@ -218,13 +218,13 @@ public class Pan5 extends JPanel {
 				allergyTextArea.setText("");
 			}
 		});
-		backButton.setBounds(226, 424, 97, 23);
+		backButton.setBounds(865, 38, 97, 49);
 		add(backButton);
 		
 		
 		//회원가입 버튼
 		JButton memberAddButton = new JButton("\uD68C\uC6D0\uAC00\uC785");
-		memberAddButton.setBounds(117, 424, 97, 23);
+		memberAddButton.setBounds(831, 459, 119, 66);
 		add(memberAddButton);
 		
 		

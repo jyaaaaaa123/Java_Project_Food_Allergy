@@ -417,18 +417,19 @@ public class MemberDAO {
 	
 	
 	//체크시 푸드 정보등록
-	public void addMemberFood(String id, String food_name, String food_factory) {
+	public void addMemberFood(String id, String food_name, String food_factory, String food_image) {
 		ps = null;
 		rs = null;
 		try {
 			
-			String sql = "insert into membercheck(member_id, food_name, food_factory)"
-						+ "values(?,?,?)";
+			String sql = "insert into membercheck(member_id, food_name, food_factory, food_image)"
+						+ "values(?,?,?,?)";
 			
 			ps = con.prepareStatement(sql);
 			ps.setString(1, id);
 			ps.setString(2, food_name);
 			ps.setString(3, food_factory);
+			ps.setString(4, food_image);
 			
 			int r = ps.executeUpdate(); //실행저장
 			if(r>0) {
@@ -469,6 +470,41 @@ public class MemberDAO {
 		return ok;
 	}
 	
+	//아이디 내에서 체크한 푸드 이름과 이미지 정보 리턴
+	public String[][] searchFoodCheck(String id) {
+			ArrayList<String> foodNameList = new ArrayList<String>();
+			ArrayList<String> foodImageList = new ArrayList<String>();
+			ps = null;
+			rs = null;
+			
+			try {
+				String sql = "select food_name, food_image from membercheck where member_id = ?";
+				ps = con.prepareStatement(sql);
+				ps.setString(1, id);
+				
+				
+				rs = ps.executeQuery();
+				while(rs.next()) {
+					foodNameList.add(rs.getString("food_name"));
+					foodImageList.add(rs.getString("food_image"));
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			String[][] array = new String[2][foodNameList.size()];
+			int size = 0;
+			for(String temp : foodNameList) {
+				array[0][size++] = temp;
+			}
+			size = 0;
+			for(String temp : foodImageList) {
+				array[1][size++] = temp;
+			}
+			
+			return array;
+	}
+	
+		
 	//체크해제시 삭제
 	public void deleteMyfood(String id, String food_name) {
 		ps = null;

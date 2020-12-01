@@ -65,6 +65,7 @@ public class Search extends JFrame {
 		btTextField.setColumns(10);
 		
 		JTextPane textArea = new JTextPane();
+		textArea.setEditable(false);
 		textArea.setBounds(24, 88, 275, 42);
 		panel.add(textArea);
 		
@@ -95,11 +96,12 @@ public class Search extends JFrame {
 					String String_list = "";
 					if(idList.size() == 0) {
 						textArea.setText("아이디가 없습니다");
+					} else {
+						for (int i = 0; i < idList.size(); i++) {
+							String_list += idList.get(i)+"\n";
+						}
+						textArea.setText(String_list);
 					}
-					for (int i = 0; i < idList.size(); i++) {
-						String_list += idList.get(i)+"\n";
-					}
-					textArea.setText(String_list);
 				} else {
 					textArea.setText("생년월일은 6자리 숫자를 입력해주세요");
 				}

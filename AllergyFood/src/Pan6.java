@@ -1,5 +1,6 @@
 import javax.swing.JPanel;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -16,12 +17,22 @@ import db.MemberDTO;
 import javax.swing.JTextPane;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
+import javax.swing.JList;
+import javax.swing.ListSelectionModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
 
 public class Pan6 extends JPanel {
 	
 	public static JTextArea idTextArea;
 	public static JTextArea nameTextArea;
 	public static JTextArea myAllergyTextArea;
+	public static JList<String> foodlist;
 	private String my_new_allergy = "";
 	/**
 	 * Create the panel.
@@ -153,7 +164,7 @@ public class Pan6 extends JPanel {
 				win.change("pan2");
 			}
 		});
-		backButton.setBounds(41, 406, 97, 36);
+		backButton.setBounds(864, 31, 97, 36);
 		add(backButton);
 		
 		
@@ -172,8 +183,15 @@ public class Pan6 extends JPanel {
 				}
 			}
 		});
-		delMemberButton.setBounds(260, 406, 97, 36);
+		delMemberButton.setBounds(222, 406, 97, 36);
 		add(delMemberButton);
+		
+		//이미지 라벨
+		JLabel imageLabel = new JLabel("");
+		imageLabel.setBounds(486, 261, 391, 260);
+		add(imageLabel);
+		
+		
 		
 		//정보수정
 		JButton updateButton = new JButton("\uC815\uBCF4\uC218\uC815");
@@ -217,11 +235,40 @@ public class Pan6 extends JPanel {
 				}
 			}
 		});
-		updateButton.setBounds(151, 406, 97, 36);
+		updateButton.setBounds(89, 406, 97, 36);
 		add(updateButton);
+	
+		foodlist = new JList<String>();
+		foodlist.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(e.getClickCount() == 2) {
+					try {
+						ImageIcon icon = new ImageIcon(new URL(Pan2.food_name_image_arr[1][foodlist.getSelectedIndex()]));
+						imageLabel.setIcon(icon);
+					} catch (MalformedURLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					System.out.println();
+				}
+			}
+		});
 		
 		
+		foodlist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		foodlist.setBounds(488, 106, 389, 116);
+		add(foodlist);
 		
+		JLabel foodNameLabel = new JLabel("\uCCB4\uD06C\uD55C \uC2DD\uD488");
+		foodNameLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
+		foodNameLabel.setVerticalAlignment(SwingConstants.TOP);
+		foodNameLabel.setBounds(486, 73, 112, 23);
+		add(foodNameLabel);
+		
+		JLabel imageLabel_0 = new JLabel("\uC2DD\uD488 \uC774\uBBF8\uC9C0");
+		imageLabel_0.setBounds(486, 242, 114, 15);
+		add(imageLabel_0);
 		
 		
 	}
