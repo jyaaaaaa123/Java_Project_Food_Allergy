@@ -1,7 +1,5 @@
 package db;
 
-import java.util.regex.Pattern;
-
 public class MemberException {
 	
 	//아이디 확인

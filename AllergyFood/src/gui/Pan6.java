@@ -6,6 +6,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.SwingConstants;
@@ -17,6 +18,15 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.MalformedURLException;
 import java.net.URL;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JScrollPane;
+import javax.swing.JEditorPane;
+import javax.swing.JSplitPane;
+import javax.swing.JToolBar;
+import javax.swing.JInternalFrame;
+import java.awt.BorderLayout;
+import javax.swing.JTextPane;
 
 
 public class Pan6 extends JPanel {
@@ -103,17 +113,25 @@ public class Pan6 extends JPanel {
 				if(Main.dao.callMyAllergy(idTextArea.getText()).contains((String) comboBox.getSelectedItem())) {
 					JOptionPane.showMessageDialog(null, "이미 등록된 알레르기입니다", "경고", JOptionPane.WARNING_MESSAGE);
 				} else {
-					//알레르기 존재 여부
-					if(!Main.dao.searchAllergy((String) comboBox.getSelectedItem())) {
-						Main.dao.insertAllergy((String) comboBox.getSelectedItem());
-					}
-					JOptionPane.showMessageDialog(null, "등록되었습니다");
-					if(myAllergyTextArea.getText().equals("")) {
-						my_new_allergy += (String) comboBox.getSelectedItem();
-						myAllergyTextArea.setText(my_new_allergy);
+					if(((String) comboBox.getSelectedItem()).equals("[직접 입력]")) {
+						JOptionPane.showMessageDialog(null, "알레르기 이름을 입력해주세요", "경고", JOptionPane.WARNING_MESSAGE);
 					} else {
-						my_new_allergy = myAllergyTextArea.getText() + ", " + (String) comboBox.getSelectedItem();
-						myAllergyTextArea.setText(my_new_allergy);
+						//알레르기 존재 여부
+						try {
+							if(!Main.dao.searchAllergy((String) comboBox.getSelectedItem())) {
+								Main.dao.insertAllergy((String) comboBox.getSelectedItem());
+							}
+							if(myAllergyTextArea.getText().equals("")) {
+								my_new_allergy += (String) comboBox.getSelectedItem();
+								myAllergyTextArea.setText(my_new_allergy);
+							} else {
+								my_new_allergy = myAllergyTextArea.getText() + ", " + (String) comboBox.getSelectedItem();
+								myAllergyTextArea.setText(my_new_allergy);
+							}
+							JOptionPane.showMessageDialog(null, "등록되었습니다");
+						} catch (Exception e3) {
+							e3.printStackTrace();
+						}
 					}
 				}
 			}
@@ -153,6 +171,7 @@ public class Pan6 extends JPanel {
 		JButton backButton = new JButton("\uB4A4\uB85C\uAC00\uAE30");
 		backButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				my_new_allergy = "";
 				win.change("pan2");
 			}
 		});
@@ -177,11 +196,6 @@ public class Pan6 extends JPanel {
 		});
 		delMemberButton.setBounds(224, 485, 97, 36);
 		add(delMemberButton);
-		
-		//이미지 라벨
-		JLabel imageLabel = new JLabel("");
-		imageLabel.setBounds(411, 261, 391, 260);
-		add(imageLabel);
 		
 		
 		
@@ -229,7 +243,15 @@ public class Pan6 extends JPanel {
 		});
 		updateButton.setBounds(89, 485, 97, 36);
 		add(updateButton);
-	
+		
+		//이미지 라벨
+		JLabel imageLabel = new JLabel("");
+		imageLabel.setHorizontalAlignment(SwingConstants.LEFT);
+		imageLabel.setVerticalAlignment(SwingConstants.TOP);
+		imageLabel.setBounds(413, 257, 427, 264);
+		add(imageLabel);
+		
+		//내 음식 리스트
 		foodlist = new JList<String>();
 		foodlist.addMouseListener(new MouseAdapter() {
 			@Override
@@ -237,7 +259,10 @@ public class Pan6 extends JPanel {
 				if(e.getClickCount() == 2) {
 					try {
 						ImageIcon icon = new ImageIcon(new URL(Pan2.food_name_image_arr[1][foodlist.getSelectedIndex()]));
-						imageLabel.setIcon(icon);
+						Image img = icon.getImage();
+						Image changeImg = img.getScaledInstance(400, 200, Image.SCALE_SMOOTH);
+						ImageIcon changeIcon = new ImageIcon(changeImg);
+						imageLabel.setIcon(changeIcon);
 					} catch (MalformedURLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -261,6 +286,10 @@ public class Pan6 extends JPanel {
 		JLabel imageLabel_0 = new JLabel("\uC2DD\uD488 \uC774\uBBF8\uC9C0");
 		imageLabel_0.setBounds(413, 232, 114, 15);
 		add(imageLabel_0);
+		
+		
+		
+		
 		
 		
 	}

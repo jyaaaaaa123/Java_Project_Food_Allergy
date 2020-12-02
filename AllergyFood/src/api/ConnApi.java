@@ -13,8 +13,8 @@ public class ConnApi {
 	
 	
 	public ConnApi(String name, String page) {
-		this.name = name;
-		this.page = page;
+		this.setName(name);
+		this.setPage(page);
 	}
 	
 	
@@ -28,6 +28,26 @@ public class ConnApi {
 		HttpURLConnection urlconnection = (HttpURLConnection) url.openConnection();
 		urlconnection.setRequestMethod("GET");
 		return apiUrl;
+	}
+
+
+	public String getName() {
+		return name;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+	public String getPage() {
+		return page;
+	}
+
+
+	public void setPage(String page) {
+		this.page = page;
 	}
 	
 	
