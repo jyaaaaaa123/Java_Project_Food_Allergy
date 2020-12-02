@@ -1,3 +1,4 @@
+package gui;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
@@ -40,8 +41,9 @@ public class Search extends JFrame {
 	 * Create the frame.
 	 */
 	public Search() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 343, 268);
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 341, 259);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -92,7 +94,7 @@ public class Search extends JFrame {
 					boolnum = false;
 				}
 				if(boolnum) {
-					idList = Test.dao.searchMyId(nmTextField.getText(), Integer.valueOf(btTextField.getText()));
+					idList = Main.dao.searchMyId(nmTextField.getText(), Integer.valueOf(btTextField.getText()));
 					String String_list = "";
 					if(idList.size() == 0) {
 						textArea.setText("아이디가 없습니다");

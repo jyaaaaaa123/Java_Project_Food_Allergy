@@ -1,6 +1,8 @@
+package gui;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.JTable;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -11,7 +13,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-
 import java.awt.Font;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -20,22 +21,18 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
-
 import api.ConnApi;
 import api.ParsApi;
-
 import javax.swing.ListSelectionModel;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
-
 import java.awt.Color;
-import javax.swing.JTextArea;
 import java.awt.SystemColor;
 
 class Pan2 extends JPanel {
 	private JTextField searchTextField;
-	private Test win;
+	private Main win;
 	private JButton searchButton;
 	private JTable table;
 	private JLabel titleLabel;
@@ -43,17 +40,19 @@ class Pan2 extends JPanel {
 	private static JButton myInfoButton;
 	private static JButton logoutButton;
 	private static JButton loginButton;
+	private static JButton newButton;
 	public String pageNum = "1";
 	private ImageIcon icon;
 	public ParsApi papi;
-	private JTextArea pageTextArea;
+	private JTextPane pageTextPane;
+	private boolean searchBool = false;
 	public DefaultTableModel model;
 	public static String image_ad;
 	public static String[][] food_name_image_arr;
 
-	public Pan2(Test win) {
+	public Pan2(Main win) {
 		this.win = win;
-		setBounds(0, 0, 1000, 618);
+		setBounds(0, 0, 890, 600);
 		setLayout(null);
 		
 		
@@ -72,25 +71,25 @@ class Pan2 extends JPanel {
 		loginButton = new JButton("로그인");
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				win.change("pan4");
+				win.change("pan1");
 			}
 		});
-		loginButton.setBounds(870, 20, 87, 30);
+		loginButton.setBounds(763, 20, 87, 30);
 		add(loginButton);
 		
 		
 		//검색
 		searchTextField = new JTextField();
-		searchTextField.setBounds(34, 99, 746, 38);
+		searchTextField.setBounds(59, 99, 589, 38);
 		add(searchTextField);
 		searchTextField.setColumns(10);
 		
 		
 		
 		
-//		검색결과 테이블
+		//검색결과 테이블
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 166, 962, 365);
+		scrollPane.setBounds(23, 147, 840, 365);
 		add(scrollPane);
 		
 		table = new JTable();
@@ -109,12 +108,13 @@ class Pan2 extends JPanel {
 					
 					
 					//알레르기 정보 확인
-					if(Pan4.b[0]) {
+					if(Pan1.b[0]) {
 						//체크 박스에 체크
-						if(Test.dao.searchFoodCheck(Pan4.getLoginId(), foodname)) {
+						if(Main.dao.searchFoodCheck(Pan1.getLoginId(), foodname)) {
 							Pan3.checkbox.setState(true);
 						}
-						ArrayList<String> str_al = Test.dao.callMyAllergy_arr(Pan4.getLoginId());
+						ArrayList<String> str_al = Main.dao.callMyAllergy_arr(Pan1.getLoginId());
+						String tmp = "";
 						for (int i = 0; i < str_al.size(); i++) {
 							if(allery_list[2].contains(str_al.get(i))) {
 								StyledDocument doc = Pan3.foodAllergyTextPane.getStyledDocument();
@@ -122,20 +122,22 @@ class Pan2 extends JPanel {
 								StyleConstants.setForeground(styleSet, Color.RED);
 								doc.setCharacterAttributes(allery_list[2].indexOf(str_al.get(i)), str_al.get(i).length(), styleSet, true);
 							} else {//기존 알레르기에 없는 알레르기일때 또는 알수없음일때
-								if(allery_list[2].equals("알수없음")) {
-									StyledDocument doc = Pan3.foodIntextPane.getStyledDocument();
-									SimpleAttributeSet styleSet = new SimpleAttributeSet();
-									StyleConstants.setForeground(styleSet, Color.RED);
-									doc.setCharacterAttributes(allery_list[2].indexOf(str_al.get(i)), str_al.get(i).length(), styleSet, true);
-									
-								}
 								if(allery_list[4].contains(str_al.get(i))) {
+									tmp += str_al.get(i) + " ";
+									Pan3.foodAllergyTextPane.setText(tmp);
+									StyledDocument doc0 = Pan3.foodAllergyTextPane.getStyledDocument();
+									SimpleAttributeSet styleSet0 = new SimpleAttributeSet();
+									StyleConstants.setForeground(styleSet0, Color.RED);
+									doc0.setCharacterAttributes(allery_list[4].indexOf(str_al.get(i)), str_al.get(i).length(), styleSet0, true);
+									
 									StyledDocument doc = Pan3.foodIntextPane.getStyledDocument();
 									SimpleAttributeSet styleSet = new SimpleAttributeSet();
 									StyleConstants.setForeground(styleSet, Color.RED);
 									doc.setCharacterAttributes(allery_list[4].indexOf(str_al.get(i)), str_al.get(i).length(), styleSet, true);
+									doc.getDefaultRootElement();
 								}
 							} 
+							
 						}
 					} 
 					
@@ -159,15 +161,16 @@ class Pan2 extends JPanel {
 		
 		
 		searchButton = new JButton("검색");
-		searchButton.setBounds(832, 76, 125, 74);
+		searchButton.setBounds(697, 94, 122, 47);
 		add(searchButton);
 		searchButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				searchBool = true;
 				String str = searchTextField.getText();
 				createTable();
 				try {
 					pageNum = "1";
-					pageTextArea.setText("-" + pageNum + "-");
+					pageTextPane.setText("-" + pageNum + "-");
 					String apiUrl = ConnApi.ConnApi_func(str, pageNum);
 					papi = new ParsApi(apiUrl);
 					ArrayList<String> name = papi.ParsApi_Namelist();
@@ -177,8 +180,8 @@ class Pan2 extends JPanel {
 					} else {
 						
 						for (int i = 0; i < name.size(); i++) {
-							if(Pan4.b[0]==true) {
-								if(Test.dao.searchFoodCheck(Pan4.getLoginId(), name.get(i))) {
+							if(Pan1.b[0]==true) {
+								if(Main.dao.searchFoodCheck(Pan1.getLoginId(), name.get(i))) {
 									table.setValueAt("★", i, 3);
 								}
 							}
@@ -201,15 +204,15 @@ class Pan2 extends JPanel {
 		myInfoButton = new JButton("\uB0B4\uC815\uBCF4");
 		myInfoButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Pan6.idTextArea.setText(Pan4.getLoginId());
-				Pan6.nameTextArea.setText(Test.dao.MemberName(Pan4.getLoginId()));
-				Pan6.myAllergyTextArea.setText(Test.dao.callMyAllergy(Pan4.getLoginId()));
-				food_name_image_arr = Test.dao.searchFoodCheck(Pan4.getLoginId());
+				Pan6.idTextArea.setText(Pan1.getLoginId());
+				Pan6.nameTextArea.setText(Main.dao.MemberName(Pan1.getLoginId()));
+				Pan6.myAllergyTextArea.setText(Main.dao.callMyAllergy(Pan1.getLoginId()));
+				food_name_image_arr = Main.dao.searchFoodCheck(Pan1.getLoginId());
 				Pan6.foodlist.setListData(food_name_image_arr[0]);
 				win.change("pan6");
 			}
 		});
-		myInfoButton.setBounds(759, 19, 78, 32);
+		myInfoButton.setBounds(637, 19, 87, 32);
 		add(myInfoButton);
 		myInfoButton.setVisible(false);
 		
@@ -220,13 +223,14 @@ class Pan2 extends JPanel {
 				//로그아웃 이벤트
 				JOptionPane.showMessageDialog(null, "로그아웃");
 				setLoginBtnTrue();
+				setNewBtnTrue();
 				setLogoutBtnFalse();
 				setMyInfoBtnFalse();
 				createTable();
-				Pan4.b[0] = false;
+				Pan1.b[0] = false;
 			}
 		});
-		logoutButton.setBounds(862, 20, 95, 30);
+		logoutButton.setBounds(763, 20, 95, 30);
 		add(logoutButton);
 		logoutButton.setVisible(false);
 		
@@ -235,32 +239,35 @@ class Pan2 extends JPanel {
 		JButton prePageButton = new JButton("<");
 		prePageButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(Integer.parseInt(pageNum) != 1) {
-					if(pagebool == true) {
-						pageNum = Integer.toString(Integer.parseInt(pageNum) - 1);
-						pageTextArea.setText("-" + pageNum + "-");
-						String str = searchTextField.getText();
-						try {
-							String apiUrl = ConnApi.ConnApi_func(str, pageNum);
-							papi = new ParsApi(apiUrl);
-							ArrayList<String> name = papi.ParsApi_Namelist();
-							ArrayList<String> manuf = papi.ParsApi_Manufacturelist();
-							for (int i = 0; i < name.size(); i++) {
-								table.setValueAt(name.get(i), i, 1);
-								table.setValueAt(manuf.get(i), i, 2);
-							}
-						} catch (IOException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-					}
+				if(searchBool == false) {
+					JOptionPane.showMessageDialog(null, "먼저 검색을 해주세요", "경고", JOptionPane.WARNING_MESSAGE);
 				} else {
-					JOptionPane.showMessageDialog(null, "전페이지가 없습니다", "경고", JOptionPane.WARNING_MESSAGE);
+					if(Integer.parseInt(pageNum) != 1) {
+						if(pagebool == true) {
+							pageNum = Integer.toString(Integer.parseInt(pageNum) - 1);
+							pageTextPane.setText("-" + pageNum + "-");
+							String str = searchTextField.getText();
+							try {
+								String apiUrl = ConnApi.ConnApi_func(str, pageNum);
+								papi = new ParsApi(apiUrl);
+								ArrayList<String> name = papi.ParsApi_Namelist();
+								ArrayList<String> manuf = papi.ParsApi_Manufacturelist();
+								for (int i = 0; i < name.size(); i++) {
+									table.setValueAt(name.get(i), i, 1);
+									table.setValueAt(manuf.get(i), i, 2);
+								}
+							} catch (IOException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						}
+					} else {
+						JOptionPane.showMessageDialog(null, "전페이지가 없습니다", "경고", JOptionPane.WARNING_MESSAGE);
+					}
 				}
-				
 			}
 		});
-		prePageButton.setBounds(339, 553, 87, 23);
+		prePageButton.setBounds(340, 518, 72, 23);
 		add(prePageButton);
 		
 		//페이지 넘기기
@@ -269,46 +276,65 @@ class Pan2 extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				pageNum = Integer.toString(Integer.parseInt(pageNum) + 1);
 				String str = searchTextField.getText();
-				try {
-					String apiUrl = ConnApi.ConnApi_func(str, pageNum);
-					papi = new ParsApi(apiUrl);
-					ArrayList<String> name = papi.ParsApi_Namelist();
-					ArrayList<String> manuf = papi.ParsApi_Manufacturelist();
-					if(name.size() < 10 && name.size() != 0) {
-						for (int i = 0; i < name.size(); i++) {
-							table.setValueAt(name.get(i), i, 1);
-							table.setValueAt(manuf.get(i), i, 2);
+				//검색을 했는지 안했는지 확인하는 부분
+				if(searchBool == false) {
+					JOptionPane.showMessageDialog(null, "먼저 검색을 해주세요", "경고", JOptionPane.WARNING_MESSAGE);
+				} else {
+					try {
+						String apiUrl = ConnApi.ConnApi_func(str, pageNum);
+						papi = new ParsApi(apiUrl);
+						ArrayList<String> name = papi.ParsApi_Namelist();
+						ArrayList<String> manuf = papi.ParsApi_Manufacturelist();
+						if(name.size() < 10 && name.size() != 0) {
+							for (int i = 0; i < name.size(); i++) {
+								table.setValueAt(name.get(i), i, 1);
+								table.setValueAt(manuf.get(i), i, 2);
+							}
+							for (int i = name.size(); i < 10; i++) {
+								table.setValueAt(" ", i, 1);
+								table.setValueAt(" ", i, 2);
+							}
+						} else if(name.size() == 0) {
+							JOptionPane.showMessageDialog(null, "다음페이지가 없습니다", "경고", JOptionPane.WARNING_MESSAGE);
+							pageNum = Integer.toString(Integer.parseInt(pageNum) - 1);
+						} else {
+							for (int i = 0; i < name.size(); i++) {
+								table.setValueAt(name.get(i), i, 1);
+								table.setValueAt(manuf.get(i), i, 2);
+							}
 						}
-						for (int i = name.size(); i < 10; i++) {
-							table.setValueAt(" ", i, 1);
-							table.setValueAt(" ", i, 2);
-						}
-					} else if(name.size() == 0) {
-						JOptionPane.showMessageDialog(null, "다음페이지가 없습니다", "경고", JOptionPane.WARNING_MESSAGE);
-						pageNum = Integer.toString(Integer.parseInt(pageNum) - 1);
-					} else {
-						for (int i = 0; i < name.size(); i++) {
-							table.setValueAt(name.get(i), i, 1);
-							table.setValueAt(manuf.get(i), i, 2);
-						}
+						pageTextPane.setText("-" + pageNum + "-");
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
-					pageTextArea.setText("-" + pageNum + "-");
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
 				}
 			}
 		});
-		nextPageButton.setBounds(484, 553, 87, 23);
+		nextPageButton.setBounds(464, 518, 72, 23);
 		add(nextPageButton);
 		
-		pageTextArea = new JTextArea();
-		pageTextArea.setBackground(SystemColor.control);
-		pageTextArea.setEditable(false);
-		pageTextArea.setBounds(445, 553, 27, 30);
-		pageTextArea.setText("-1-");
-		add(pageTextArea);
-	
+		pageTextPane = new JTextPane();
+		pageTextPane.setBackground(SystemColor.control);
+		StyledDocument doc = pageTextPane.getStyledDocument();
+		SimpleAttributeSet center = new SimpleAttributeSet();
+		StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+		doc.setParagraphAttributes(0, doc.getLength(), center, false);
+		pageTextPane.setEditable(false);
+		pageTextPane.setBounds(410, 518, 55, 27);
+		pageTextPane.setText("1");
+		add(pageTextPane);
+		
+		//가입하기 버튼
+		newButton = new JButton("\uAC00\uC785\uD558\uAE30");
+		newButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Pan1.whichPanelClickBackBtn[1] = true;
+				win.change("pan5");
+			}
+		});
+		newButton.setBounds(637, 20, 87, 30);
+		add(newButton);
 	}
 	
 	
@@ -335,6 +361,14 @@ class Pan2 extends JPanel {
 	
 	public static void setLogoutBtnFalse() {
 		logoutButton.setVisible(false);
+	}
+
+	public static void setNewBtnTrue() {
+		newButton.setVisible(true);
+	}
+	
+	public static void setNewBtnFalse() {
+		newButton.setVisible(false);
 	}
 	
 	public void createTable() {
@@ -372,8 +406,8 @@ class Pan2 extends JPanel {
 		table.getColumnModel().getColumn(0).setPreferredWidth(3);
 		table.getColumnModel().getColumn(0).setMinWidth(6);
 		table.getColumnModel().getColumn(1).setResizable(false);
-		table.getColumnModel().getColumn(1).setPreferredWidth(500);
-		table.getColumnModel().getColumn(1).setMinWidth(18);
+		table.getColumnModel().getColumn(1).setPreferredWidth(400);
+		table.getColumnModel().getColumn(1).setMinWidth(15);
 		table.getColumnModel().getColumn(2).setResizable(false);
 		table.getColumnModel().getColumn(2).setPreferredWidth(300);
 		table.getColumnModel().getColumn(3).setResizable(false);

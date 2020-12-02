@@ -1,64 +1,85 @@
+package gui;
+import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
-import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.ImageIcon;
 
-
-
-public class Pan4 extends JPanel {
+public class Pan1 extends JPanel {
+	private Main win;
 	private JTextField idTextField;
 	private JPasswordField pwTextField;
 	public static String loginid;
 	static boolean[] b = {false, false};
-	
+	static boolean[] whichPanelClickBackBtn = {false, false};
 	public int tmp = 0;
 	/**
 	 * Create the panel.
 	 */
-	public Pan4(Test win) {
-		setBounds(0, 0, 1000, 618);
+	public Pan1(Main win) {
+		this.win = win;
+		setBounds(0, 0, 890, 600);
 		setLayout(null);
 		
-		JLabel titleLabel = new JLabel("\uC74C\uC2DD");
+		JButton start_btn = new JButton("\uB85C\uADF8\uC778 \uC5C6\uC774 \uC2DC\uC791\uD558\uAE30");
+		start_btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		start_btn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				win.change("pan2");
+			}
+		});
+		start_btn.setIcon(null);
+		start_btn.setBounds(566, 433, 245, 34);
+		add(start_btn);
+		
+		JLabel titleLabel = new JLabel("\uC74C\uC2DD\uD504\uB85C\uC81D\uD2B8");
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		titleLabel.setFont(new Font("궁서", Font.PLAIN, 28));
-		titleLabel.setBounds(12, 10, 78, 66);
+		titleLabel.setFont(new Font("궁서", Font.PLAIN, 50));
+		titleLabel.setBounds(269, 21, 300, 124);
 		add(titleLabel);
 		
-		JLabel subTitleLabel = new JLabel("\uB85C\uADF8\uC778");
-		subTitleLabel.setHorizontalAlignment(SwingConstants.LEFT);
-		subTitleLabel.setBounds(89, 53, 65, 23);
+		JLabel subTitleLabel = new JLabel("\uD14C\uC2A4\uD2B8");
+		subTitleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		subTitleLabel.setFont(new Font("HY견명조", Font.PLAIN, 20));
+		subTitleLabel.setBounds(332, 155, 166, 34);
 		add(subTitleLabel);
 		
 		
 		idTextField = new JTextField();
-		idTextField.setBounds(620, 257, 192, 32);
+		idTextField.setBounds(487, 267, 192, 32);
 		add(idTextField);
 		idTextField.setColumns(10);
 		
 		pwTextField = new JPasswordField();
-		pwTextField.setBounds(620, 299, 192, 32);
+		pwTextField.setBounds(487, 322, 192, 32);
 		add(pwTextField);
 		pwTextField.setColumns(10);
 		
+		//로그인버튼
 		JButton loginButton = new JButton("\uB85C\uADF8\uC778");
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				b = Test.dao.loginMember(idTextField.getText(), pwTextField.getText());
+				b = Main.dao.loginMember(idTextField.getText(), pwTextField.getText());
 				if(b[0]) {
 					JOptionPane.showMessageDialog(null, "로그인 성공");
 					setLoginId(idTextField.getText());
 					Pan2.setLoginBtnFalse();
 					Pan2.setMyInfoBtnTrue();
 					Pan2.setLogoutBtnTrue();
+					Pan2.setNewBtnFalse();
 					win.change("pan2");
 					idTextField.setText("");
 					pwTextField.setText("");
@@ -71,28 +92,31 @@ public class Pan4 extends JPanel {
 				}
 			}
 		});
-		loginButton.setBounds(852, 237, 97, 111);
+		loginButton.setBounds(714, 267, 97, 84);
 		add(loginButton);
 		
 		JLabel idLabel = new JLabel("ID");
 		idLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		idLabel.setBounds(551, 265, 57, 15);
+		idLabel.setBounds(414, 275, 57, 15);
 		add(idLabel);
 		
 		JLabel pwLabel = new JLabel("PW");
 		pwLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		pwLabel.setBounds(551, 307, 57, 15);
+		pwLabel.setBounds(414, 322, 57, 15);
 		add(pwLabel);
 		
+		//회원가입
 		JButton joinButton = new JButton("\uAC00\uC785\uD558\uAE30");
 		joinButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				whichPanelClickBackBtn[0] = true;
 				win.change("pan5");
 			}
 		});
-		joinButton.setBounds(786, 386, 124, 32);
+		joinButton.setBounds(698, 381, 113, 32);
 		add(joinButton);
 		
+		//아이디찾기
 		JButton searchIdButton = new JButton("\uC544\uC774\uB514 \uCC3E\uAE30");
 		searchIdButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -100,24 +124,13 @@ public class Pan4 extends JPanel {
 				sc.run();
 			}
 		});
-		searchIdButton.setBounds(620, 386, 130, 32);
+		searchIdButton.setBounds(566, 381, 113, 32);
 		add(searchIdButton);
 		
 		JLabel picLabel = new JLabel("");
-		picLabel.setIcon(new ImageIcon(Pan4.class.getResource("/icon/aa.png")));
-		picLabel.setBounds(158, 133, 290, 358);
+		picLabel.setIcon(new ImageIcon(Pan1.class.getResource("/icon/pic1.png")));
+		picLabel.setBounds(42, 205, 290, 330);
 		add(picLabel);
-		
-		JButton backButton = new JButton("\uB4A4\uB85C\uAC00\uAE30");
-		backButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				idTextField.setText("");
-				pwTextField.setText("");
-				win.change("pan2");
-			}
-		});
-		backButton.setBounds(852, 21, 115, 32);
-		add(backButton);
 		
 	}
 	
@@ -128,4 +141,6 @@ public class Pan4 extends JPanel {
 	public static String getLoginId() {
 		return loginid;
 	}
+	
 }
+

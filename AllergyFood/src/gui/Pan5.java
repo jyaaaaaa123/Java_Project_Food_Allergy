@@ -1,3 +1,4 @@
+package gui;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JLabel;
@@ -33,8 +34,8 @@ public class Pan5 extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public Pan5(Test win) {
-		setBounds(0, 0, 1000, 618);
+	public Pan5(Main win) {
+		setBounds(0, 0, 890, 600);
 		setLayout(null);
 		
 		
@@ -67,7 +68,7 @@ public class Pan5 extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				check_check++;
 				check_id = idTextField.getText();
-				if(Test.dao.searchMemberId(check_id)) {
+				if(Main.dao.searchMemberId(check_id)) {
 					JOptionPane.showMessageDialog(null, "이미 사용중인 아이디입니다", "경고", JOptionPane.WARNING_MESSAGE);
 					check_check = 0; //중복체크 다시 하도록
 				} else {
@@ -160,8 +161,8 @@ public class Pan5 extends JPanel {
 			
 			public void actionPerformed(ActionEvent e) {
 				//알레르기 존재 여부
-				if(!Test.dao.searchAllergy((String) comboBox.getSelectedItem())) {
-					Test.dao.insertAllergy((String) comboBox.getSelectedItem());
+				if(!Main.dao.searchAllergy((String) comboBox.getSelectedItem())) {
+					Main.dao.insertAllergy((String) comboBox.getSelectedItem());
 				} 
 				JOptionPane.showMessageDialog(null, "등록되었습니다");
 				if(my_al.equals("")) {
@@ -180,7 +181,7 @@ public class Pan5 extends JPanel {
 		JButton allergydelButton = new JButton("\uC0AD\uC81C");
 		allergydelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(!Test.dao.searchAllergy((String) comboBox.getSelectedItem())) {
+				if(!Main.dao.searchAllergy((String) comboBox.getSelectedItem())) {
 					JOptionPane.showMessageDialog(null, "등록되지 않은 알레르기입니다", "경고", JOptionPane.WARNING_MESSAGE);
 				} else {
 					JOptionPane.showMessageDialog(null, "삭제되었습니다");
@@ -192,8 +193,8 @@ public class Pan5 extends JPanel {
 						my_al = allergyTextArea.getText().replaceAll(((String) comboBox.getSelectedItem()), "");
 					}
 					//기존에 있던게 아닌 경우
-					if(!Test.dao.checkAllergy((String) comboBox.getSelectedItem())) {
-						Test.dao.deleteAllergy((String) comboBox.getSelectedItem());
+					if(!Main.dao.checkAllergy((String) comboBox.getSelectedItem())) {
+						Main.dao.deleteAllergy((String) comboBox.getSelectedItem());
 					}
 				}
 			}
@@ -202,29 +203,32 @@ public class Pan5 extends JPanel {
 		add(allergydelButton);
 		
 		
-		
-		
-		
-		
 		//뒤로가기 버튼
 		JButton backButton = new JButton("\uB4A4\uB85C\uAC00\uAE30");
 		backButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				win.change("pan4");
 				idTextField.setText("");
 				nameTextField.setText("");
 				pwTextField.setText("");
 				my_al = "";
 				allergyTextArea.setText("");
+				if(Pan1.whichPanelClickBackBtn[0] == true) {
+					win.change("pan1");
+					Pan1.whichPanelClickBackBtn[0] = false;
+				} 
+				if(Pan1.whichPanelClickBackBtn[1] == true) {
+					win.change("pan2");
+					Pan1.whichPanelClickBackBtn[1] = false;
+				}
 			}
 		});
-		backButton.setBounds(865, 38, 97, 49);
+		backButton.setBounds(759, 25, 97, 49);
 		add(backButton);
 		
 		
 		//회원가입 버튼
 		JButton memberAddButton = new JButton("\uD68C\uC6D0\uAC00\uC785");
-		memberAddButton.setBounds(831, 459, 119, 66);
+		memberAddButton.setBounds(704, 447, 119, 66);
 		add(memberAddButton);
 		
 		
@@ -244,10 +248,10 @@ public class Pan5 extends JPanel {
 							MemberException.birthCheck(brithdayTextField.getText());
 							MemberDTO mdto = new MemberDTO(idTextField.getText(), nameTextField.getText(), pwTextField.getText(), Integer.valueOf(brithdayTextField.getText()));
 							String[] stmp = allergyTextArea.getText().split(", ");
-							Test.dao.insertMember(mdto);
+							Main.dao.insertMember(mdto);
 							for (int i = 0; i < stmp.length; i++) {
 								AllergyDTO adto = new AllergyDTO(stmp[i]);
-								Test.dao.insertMemberAllergy(adto, mdto);
+								Main.dao.insertMemberAllergy(adto, mdto);
 							}		
 							JOptionPane.showMessageDialog(null, "가입 성공");
 							idTextField.setText("");
@@ -256,7 +260,7 @@ public class Pan5 extends JPanel {
 							allergyTextArea.setText("");
 							my_al = "";
 							check_check = 0;
-							win.change("pan4");
+							win.change("pan1");
 						} catch (AuthenException e2) {
 							JOptionPane.showMessageDialog(null, e2.toString(), "경고", JOptionPane.WARNING_MESSAGE);
 						}

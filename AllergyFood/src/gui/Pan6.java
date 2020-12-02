@@ -1,20 +1,14 @@
+package gui;
 import javax.swing.JPanel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.SwingConstants;
-
-import db.AllergyDTO;
-import db.MemberDTO;
-
-import javax.swing.JTextPane;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 import javax.swing.JList;
@@ -24,8 +18,6 @@ import java.awt.event.MouseEvent;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.ListSelectionEvent;
 
 public class Pan6 extends JPanel {
 	
@@ -37,9 +29,9 @@ public class Pan6 extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public Pan6(Test win) {
+	public Pan6(Main win) {
 		
-		setBounds(0, 0, 1000, 618);
+		setBounds(0, 0, 890, 600);
 		setLayout(null);
 		
 		
@@ -108,12 +100,12 @@ public class Pan6 extends JPanel {
 		JButton addAllergyButton = new JButton("\uCD94\uAC00");
 		addAllergyButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(Test.dao.callMyAllergy(idTextArea.getText()).contains((String) comboBox.getSelectedItem())) {
+				if(Main.dao.callMyAllergy(idTextArea.getText()).contains((String) comboBox.getSelectedItem())) {
 					JOptionPane.showMessageDialog(null, "이미 등록된 알레르기입니다", "경고", JOptionPane.WARNING_MESSAGE);
 				} else {
 					//알레르기 존재 여부
-					if(!Test.dao.searchAllergy((String) comboBox.getSelectedItem())) {
-						Test.dao.insertAllergy((String) comboBox.getSelectedItem());
+					if(!Main.dao.searchAllergy((String) comboBox.getSelectedItem())) {
+						Main.dao.insertAllergy((String) comboBox.getSelectedItem());
 					}
 					JOptionPane.showMessageDialog(null, "등록되었습니다");
 					if(myAllergyTextArea.getText().equals("")) {
@@ -146,11 +138,11 @@ public class Pan6 extends JPanel {
 						
 					}
 					//기존에 있던게 아닌 경우
-					if(!Test.dao.checkAllergy((String) comboBox.getSelectedItem())) {
-						Test.dao.deleteAllergy((String) comboBox.getSelectedItem());
+					if(!Main.dao.checkAllergy((String) comboBox.getSelectedItem())) {
+						Main.dao.deleteAllergy((String) comboBox.getSelectedItem());
 					}
 					System.out.println(myAllergyTextArea.getText());
-					Test.dao.deleteMyAllergy((String) comboBox.getSelectedItem(), idTextArea.getText());
+					Main.dao.deleteMyAllergy((String) comboBox.getSelectedItem(), idTextArea.getText());
 				}
 			}
 		});
@@ -164,7 +156,7 @@ public class Pan6 extends JPanel {
 				win.change("pan2");
 			}
 		});
-		backButton.setBounds(864, 31, 97, 36);
+		backButton.setBounds(743, 31, 97, 36);
 		add(backButton);
 		
 		
@@ -174,7 +166,7 @@ public class Pan6 extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				int result = JOptionPane.showConfirmDialog(null, "정말 탈퇴하시겠습니까?", "알림", JOptionPane.YES_NO_CANCEL_OPTION);
 				if(result == JOptionPane.YES_OPTION) {
-					Test.dao.deleteMember(Pan4.getLoginId());
+					Main.dao.deleteMember(Pan1.getLoginId());
 					JOptionPane.showMessageDialog(null, "탈퇴 완료");
 					Pan2.setLoginBtnTrue();
 					Pan2.setLogoutBtnFalse();
@@ -183,12 +175,12 @@ public class Pan6 extends JPanel {
 				}
 			}
 		});
-		delMemberButton.setBounds(222, 406, 97, 36);
+		delMemberButton.setBounds(224, 485, 97, 36);
 		add(delMemberButton);
 		
 		//이미지 라벨
 		JLabel imageLabel = new JLabel("");
-		imageLabel.setBounds(486, 261, 391, 260);
+		imageLabel.setBounds(411, 261, 391, 260);
 		add(imageLabel);
 		
 		
@@ -202,40 +194,40 @@ public class Pan6 extends JPanel {
 					JOptionPane.showMessageDialog(null, "값을 입력해주세요", "경고", JOptionPane.WARNING_MESSAGE);
 				} else {
 					//아이디가 바뀌었을때
-					if(!idTextArea.getText().equals(Pan4.getLoginId())) {
-						if(Test.dao.searchMemberId(idTextArea.getText())) {
+					if(!idTextArea.getText().equals(Pan1.getLoginId())) {
+						if(Main.dao.searchMemberId(idTextArea.getText())) {
 							JOptionPane.showMessageDialog(null, "중복되는 아이디가 이미 존재합니다", "경고", JOptionPane.WARNING_MESSAGE);
 						} else {
-							Test.dao.updateMember(idTextArea.getText(), nameTextArea.getText(), Pan4.getLoginId());
+							Main.dao.updateMember(idTextArea.getText(), nameTextArea.getText(), Pan1.getLoginId());
 							String[] stmp = myAllergyTextArea.getText().split(", ");
 							for (int i = 0; i < stmp.length; i++) {
 								//내 정보에 등록되지 않은 알레르기만 등록된다
 								System.out.println(idTextArea.getText());
-								if(!Test.dao.callMyAllergy(idTextArea.getText()).contains(stmp[i])) {
-									Test.dao.insertMemberAllergy2(idTextArea.getText(), stmp[i]);
+								if(!Main.dao.callMyAllergy(idTextArea.getText()).contains(stmp[i])) {
+									Main.dao.insertMemberAllergy2(idTextArea.getText(), stmp[i]);
 								}
 							}
-							Pan4.setLoginId(idTextArea.getText());
+							Pan1.setLoginId(idTextArea.getText());
 							JOptionPane.showMessageDialog(null, "정보수정 완료");
 						}
 					} else {
-						Test.dao.updateMember(idTextArea.getText(), nameTextArea.getText(), Pan4.getLoginId());
-						Test.dao.updateIdCheck(idTextArea.getText(), Pan4.getLoginId());
+						Main.dao.updateMember(idTextArea.getText(), nameTextArea.getText(), Pan1.getLoginId());
+						Main.dao.updateIdCheck(idTextArea.getText(), Pan1.getLoginId());
 						String[] stmp = myAllergyTextArea.getText().split(", ");
 						for (int i = 0; i < stmp.length; i++) {
 							//내 정보에 등록되지 않은 알레르기만 등록된다
-							if(!Test.dao.callMyAllergy(idTextArea.getText()).contains(stmp[i])) {
-								Test.dao.insertMemberAllergy2(idTextArea.getText(), stmp[i]);
+							if(!Main.dao.callMyAllergy(idTextArea.getText()).contains(stmp[i])) {
+								Main.dao.insertMemberAllergy2(idTextArea.getText(), stmp[i]);
 							}
 						}
-						Pan4.setLoginId(idTextArea.getText());
+						Pan1.setLoginId(idTextArea.getText());
 						JOptionPane.showMessageDialog(null, "정보수정 완료");
 					}
 					
 				}
 			}
 		});
-		updateButton.setBounds(89, 406, 97, 36);
+		updateButton.setBounds(89, 485, 97, 36);
 		add(updateButton);
 	
 		foodlist = new JList<String>();
@@ -257,17 +249,17 @@ public class Pan6 extends JPanel {
 		
 		
 		foodlist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		foodlist.setBounds(488, 106, 389, 116);
+		foodlist.setBounds(413, 106, 389, 116);
 		add(foodlist);
 		
 		JLabel foodNameLabel = new JLabel("\uCCB4\uD06C\uD55C \uC2DD\uD488");
 		foodNameLabel.setFont(new Font("맑은 고딕", Font.PLAIN, 14));
 		foodNameLabel.setVerticalAlignment(SwingConstants.TOP);
-		foodNameLabel.setBounds(486, 73, 112, 23);
+		foodNameLabel.setBounds(413, 73, 112, 23);
 		add(foodNameLabel);
 		
 		JLabel imageLabel_0 = new JLabel("\uC2DD\uD488 \uC774\uBBF8\uC9C0");
-		imageLabel_0.setBounds(486, 242, 114, 15);
+		imageLabel_0.setBounds(413, 232, 114, 15);
 		add(imageLabel_0);
 		
 		

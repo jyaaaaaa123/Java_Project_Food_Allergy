@@ -1,16 +1,21 @@
+package gui;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import db.MemberDAO;
 
 
-public class Test extends JFrame {
+public class Main extends JFrame {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public static MemberDAO dao;
 	
 	public Pan1 pan1 = null;
 	public Pan2 pan2 = null;
 	public Pan3 pan3 = null;
-	public Pan4 pan4 = null;
 	public Pan5 pan5 = null;
 	public Pan6 pan6 = null;
 
@@ -21,13 +26,12 @@ public class Test extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Test frame = new Test();
+					Main frame = new Main();
 					dao = new MemberDAO();
 					frame.setTitle("음식알레르기");
 					frame.pan1 = new Pan1(frame);
 					frame.pan2 = new Pan2(frame);
 					frame.pan3 = new Pan3(frame);
-					frame.pan4 = new Pan4(frame);
 					frame.pan5 = new Pan5(frame);
 					frame.pan6 = new Pan6(frame);
 					frame.getContentPane().add(frame.pan1);
@@ -44,10 +48,10 @@ public class Test extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Test() {
+	public Main() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(0, 0, 1000, 618);	
+		setBounds(0, 0, 890, 600);	
 	}
 	
 	public void change(String panelName) {
@@ -66,12 +70,7 @@ public class Test extends JFrame {
 			getContentPane().add(pan3);
 			revalidate();
 			repaint();
-		} else if(panelName.equals("pan4")) {
-			getContentPane().removeAll();
-			getContentPane().add(pan4);
-			revalidate();
-			repaint();
-		} else if(panelName.equals("pan5")) {
+		}  else if(panelName.equals("pan5")) {
 			getContentPane().removeAll();
 			getContentPane().add(pan5);
 			revalidate();
