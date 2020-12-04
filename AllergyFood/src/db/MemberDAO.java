@@ -52,6 +52,7 @@ public class MemberDAO {
 //			dto.setId(rs.getString("member_id"));
 //			dto.setName(rs.getString("member_name"));
 //			dto.setPw(rs.getString("member_password"));
+//			dto.setMember_birth(Integer.valueOf(rs.getString("member_password")));
 //			}
 //		} catch (Exception e) {
 //			e.printStackTrace();

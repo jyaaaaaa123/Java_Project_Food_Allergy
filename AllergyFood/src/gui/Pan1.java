@@ -11,8 +11,12 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+
+import db.MemberDTO;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.SystemColor;
 
 public class Pan1 extends JPanel {
 	private Main win;
@@ -22,6 +26,9 @@ public class Pan1 extends JPanel {
 	static boolean[] b = {false, false};
 	static boolean[] whichPanelClickBackBtn = {false, false};
 	public int tmp = 0;
+	
+	
+	
 	/**
 	 * Create the panel.
 	 */
@@ -46,15 +53,16 @@ public class Pan1 extends JPanel {
 		add(start_btn);
 		
 		JLabel titleLabel = new JLabel("\uC74C\uC2DD\uD504\uB85C\uC81D\uD2B8");
+		titleLabel.setBackground(SystemColor.control);
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titleLabel.setFont(new Font("궁서", Font.PLAIN, 50));
-		titleLabel.setBounds(269, 21, 300, 124);
+		titleLabel.setBounds(272, 22, 300, 124);
 		add(titleLabel);
 		
 		JLabel subTitleLabel = new JLabel("\uD14C\uC2A4\uD2B8");
 		subTitleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		subTitleLabel.setFont(new Font("HY견명조", Font.PLAIN, 20));
-		subTitleLabel.setBounds(332, 155, 166, 34);
+		subTitleLabel.setBounds(331, 134, 166, 34);
 		add(subTitleLabel);
 		
 		
@@ -80,6 +88,7 @@ public class Pan1 extends JPanel {
 					Pan2.setMyInfoBtnTrue();
 					Pan2.setLogoutBtnTrue();
 					Pan2.setNewBtnFalse();
+					Pan2.whoLoginTextPane.setText(idTextField.getText() + "님이 접속중 입니다");
 					win.change("pan2");
 					idTextField.setText("");
 					pwTextField.setText("");
@@ -128,8 +137,9 @@ public class Pan1 extends JPanel {
 		add(searchIdButton);
 		
 		JLabel picLabel = new JLabel("");
+		picLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		picLabel.setIcon(new ImageIcon(Pan1.class.getResource("/icon/pic1.png")));
-		picLabel.setBounds(42, 205, 290, 330);
+		picLabel.setBounds(57, 197, 357, 337);
 		add(picLabel);
 		
 	}
@@ -141,6 +151,5 @@ public class Pan1 extends JPanel {
 	public static String getLoginId() {
 		return loginid;
 	}
-	
 }
 

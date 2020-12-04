@@ -1,7 +1,7 @@
 package gui;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
-import db.MemberDAO;
+import db.*;
 
 
 
@@ -12,6 +12,8 @@ public class Main extends JFrame {
 
 
 	public static MemberDAO dao;
+	
+	
 	
 	public Pan1 pan1 = null;
 	public Pan2 pan2 = null;

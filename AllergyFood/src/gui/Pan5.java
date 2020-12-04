@@ -25,11 +25,11 @@ public class Pan5 extends JPanel {
 	private JTextField idTextField;
 	private JTextField nameTextField;
 	private JPasswordField pwTextField;
+	private JTextField brithdayTextField;
 	private String my_al = "";
 	static String check_id;
 	
 	int check_check = 0;
-	private JTextField brithdayTextField;
 	
 	/**
 	 * Create the panel.

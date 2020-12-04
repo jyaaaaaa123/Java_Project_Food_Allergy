@@ -26,6 +26,8 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import api.ConnApi;
 import api.ParsApi;
+import db.MemberDTO;
+
 import javax.swing.ListSelectionModel;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -53,12 +55,13 @@ class Pan2 extends JPanel {
 	public DefaultTableModel model;
 	public static String image_ad;
 	public static String[][] food_name_image_arr;
+	public static JTextPane whoLoginTextPane;
+	public static String[] myInfo;
 
 	public Pan2(Main win) {
 		this.win = win;
 		setBounds(0, 0, 890, 600);
 		setLayout(null);
-		
 		
 		titleLabel = new JLabel("\uC74C\uC2DD");
 		titleLabel.setFont(new Font("궁서", Font.PLAIN, 28));
@@ -84,7 +87,7 @@ class Pan2 extends JPanel {
 		
 		//검색
 		searchTextField = new JTextField();
-		searchTextField.setBounds(59, 99, 589, 38);
+		searchTextField.setBounds(69, 99, 579, 38);
 		add(searchTextField);
 		searchTextField.setColumns(10);
 		
@@ -105,7 +108,7 @@ class Pan2 extends JPanel {
 				if(e.getClickCount() == 2) {
 					String foodname = (String) table.getValueAt(table.getSelectedRow(), 1);
 					if(foodname == null && searchBool == false) {
-						JOptionPane.showMessageDialog(null, "검색을 먼저 해주세요");
+						JOptionPane.showMessageDialog(null, "먼저 검색을 해주세요");
 					} else if (foodname == null && searchBool == true){
 						JOptionPane.showMessageDialog(null, "상품이 있는 칸을 선택해주세요");
 					} else {
@@ -193,7 +196,7 @@ class Pan2 extends JPanel {
 		
 		
 		searchButton = new JButton("검색");
-		searchButton.setBounds(697, 94, 122, 47);
+		searchButton.setBounds(697, 94, 123, 47);
 		add(searchButton);
 		searchButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -210,7 +213,6 @@ class Pan2 extends JPanel {
 					if(name.size() == 0) {
 						JOptionPane.showMessageDialog(null, "검색결과가 없습니다.");
 					} else {
-						
 						for (int i = 0; i < name.size(); i++) {
 							if(Pan1.b[0]==true) {
 								if(Main.dao.searchFoodCheck(Pan1.getLoginId(), name.get(i))) {
@@ -239,6 +241,7 @@ class Pan2 extends JPanel {
 				Pan6.idTextArea.setText(Pan1.getLoginId());
 				Pan6.nameTextArea.setText(Main.dao.MemberName(Pan1.getLoginId()));
 				Pan6.myAllergyTextArea.setText(Main.dao.callMyAllergy(Pan1.getLoginId()));
+				myInfo = getMyInfo(Pan6.idTextArea.getText(), Pan6.nameTextArea.getText(), Pan6.myAllergyTextArea.getText());
 				food_name_image_arr = Main.dao.searchFoodCheck(Pan1.getLoginId());
 				Pan6.foodlist.setListData(food_name_image_arr[0]);
 				win.change("pan6");
@@ -259,6 +262,7 @@ class Pan2 extends JPanel {
 				setLogoutBtnFalse();
 				setMyInfoBtnFalse();
 				createTable();
+				whoLoginTextPane.setText("guest 접속중 입니다");
 				Pan1.b[0] = false;
 			}
 		});
@@ -388,6 +392,16 @@ class Pan2 extends JPanel {
 		});
 		newButton.setBounds(637, 20, 87, 30);
 		add(newButton);
+		
+		whoLoginTextPane = new JTextPane();
+		whoLoginTextPane.setBackground(SystemColor.control);
+		whoLoginTextPane.setForeground(SystemColor.desktop);
+		whoLoginTextPane.setEditable(false);
+		whoLoginTextPane.setBounds(140, 20, 299, 23);
+		whoLoginTextPane.setText("guest 접속중 입니다");
+		add(whoLoginTextPane);
+		
+		
 	}
 	
 	
@@ -473,5 +487,13 @@ class Pan2 extends JPanel {
 			tcm.getColumn(i).setCellRenderer(dtcr);
 		}
 		table.setRowHeight(34);
+	}
+	
+	public static String[] getMyInfo(String id, String name, String all) {
+		String[] infolist = new String[3];
+		infolist[0] = id;
+		infolist[1] = name;
+		infolist[2] = all;
+		return infolist;
 	}
 }
