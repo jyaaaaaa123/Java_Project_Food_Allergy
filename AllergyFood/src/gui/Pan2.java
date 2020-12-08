@@ -1,6 +1,5 @@
 package gui;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
@@ -26,12 +25,12 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import api.ConnApi;
 import api.ParsApi;
-import db.MemberDTO;
 
 import javax.swing.ListSelectionModel;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import java.awt.Color;
 import java.awt.SystemColor;
@@ -39,8 +38,8 @@ import java.awt.SystemColor;
 class Pan2 extends JPanel {
 	private JTextField searchTextField;
 	private Main win;
-	private JButton searchButton;
-	private JTable table;
+	public static JButton searchButton;
+	public static JTable table;
 	private JLabel titleLabel;
 	private JLabel subTitleLabel;
 	private static JButton myInfoButton;
@@ -48,7 +47,7 @@ class Pan2 extends JPanel {
 	private static JButton loginButton;
 	private static JButton newButton;
 	public String pageNum = "1";
-	private ImageIcon icon;
+	public ImageIcon icon;
 	public ParsApi papi;
 	private JTextPane pageTextPane;
 	private boolean searchBool = false;
@@ -174,15 +173,17 @@ class Pan2 extends JPanel {
 						} 
 						try {
 							image_ad = allery_list[3];
+							image_ad = image_ad.replaceAll("http://", "https://");
 							icon = new ImageIcon(new URL(image_ad));
 							Image img = icon.getImage();
 							Image changeImg = img.getScaledInstance(500, 320, Image.SCALE_SMOOTH);
 							ImageIcon changeIcon = new ImageIcon(changeImg);
 							Pan3.foodImageLabel.setIcon(changeIcon);
-						} catch (MalformedURLException e1) {
-							// TODO Auto-generated catch block
+						} catch (Exception e1) {
 							e1.printStackTrace();
 						}
+						
+						
 						win.change("pan3");
 					} 
 				}
@@ -372,6 +373,7 @@ class Pan2 extends JPanel {
 		add(nextPageButton);
 		
 		pageTextPane = new JTextPane();
+		pageTextPane.setFont(new Font("±¼¸²", Font.PLAIN, 16));
 		pageTextPane.setBackground(SystemColor.control);
 		StyledDocument doc = pageTextPane.getStyledDocument();
 		SimpleAttributeSet center = new SimpleAttributeSet();

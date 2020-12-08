@@ -4,9 +4,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
@@ -17,10 +20,8 @@ import java.awt.event.ItemEvent;
 import java.awt.Checkbox;
 import java.awt.SystemColor;
 import java.awt.Color;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
-import javax.swing.border.BevelBorder;
-import javax.swing.DropMode;
+
 
 public class Pan3 extends JPanel{
 	public static String allery_list;
@@ -34,10 +35,11 @@ public class Pan3 extends JPanel{
 	public static Checkbox checkbox;
 	private Main win;
 	public boolean check = false;
+	
 	/**
 	 * Create the panel.
 	 */
-	public Pan3(Main win) throws IOException {
+	public Pan3(Main win) {
 		setBorder(null);
 		setForeground(SystemColor.control);
 		this.win = win;
@@ -60,7 +62,13 @@ public class Pan3 extends JPanel{
 		
 		//이미지 URL로 받아서 Label 생성
 		
-		foodImageLabel = new JLabel(new ImageIcon(new URL("http://fresh.haccp.or.kr/prdimg/2017/201704760012/201704760012-1.jpg")));
+		try {
+			foodImageLabel = new JLabel(new javax.swing.ImageIcon(new URL("https://fresh.haccp.or.kr/prdimg/2017/201704760012/201704760012-1.jpg")));
+		} catch (MalformedURLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		foodImageLabel.setBackground(SystemColor.control);
 		foodImageLabel.setBounds(42, 179, 507, 320);
 		add(foodImageLabel);
 		
@@ -109,6 +117,7 @@ public class Pan3 extends JPanel{
 							checkbox.setState(true);
 						}
 					}
+					Pan2.searchButton.doClick();
 				} else {
 					JOptionPane.showMessageDialog(null, "로그인을 해주세요", "경고", JOptionPane.WARNING_MESSAGE);
 					checkbox.setState(false);
@@ -132,6 +141,7 @@ public class Pan3 extends JPanel{
 		add(backButton);
 		
 		anoTextPane = new JTextPane();
+		anoTextPane.setEditable(false);
 		anoTextPane.setFont(new Font("맑은 고딕", Font.BOLD, 22));
 		anoTextPane.setBackground(SystemColor.control);
 		anoTextPane.setBounds(571, 513, 236, 46);
@@ -156,5 +166,6 @@ public class Pan3 extends JPanel{
 		scrollPane_1.setViewportView(foodAllergyTextPane);
 		foodAllergyTextPane.setBackground(SystemColor.control);
 		foodAllergyTextPane.setEditable(false);
+		
 	}
 }
