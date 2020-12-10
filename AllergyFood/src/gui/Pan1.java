@@ -24,11 +24,11 @@ public class Pan1 extends JPanel  implements Pan {
 	private JPasswordField pwTextField;
 //	public static String loginid;
 	private loginData user;
-	static boolean[] b = {false, false};
-	static boolean[] whichPanelClickBackBtn = {false, false};
+	
 	public int tmp = 0;
 	
-	
+	static boolean[] b = {false, false};
+	static boolean[] whichPanelClickBackBtn = {false, false};
 	
 	
 	/**
@@ -88,12 +88,6 @@ public class Pan1 extends JPanel  implements Pan {
 				if(b[0]) {
 					JOptionPane.showMessageDialog(null, "로그인 성공");
 					user.set(idTextField.getText(), pwTextField.getText());
-//					setLoginId(idTextField.getText());
-					Pan2.setLoginBtnFalse();
-					Pan2.setMyInfoBtnTrue();
-					Pan2.setLogoutBtnTrue();
-					Pan2.setNewBtnFalse();
-//					Pan2.whoLoginTextPane.setText(idTextField.getText() + "님이 접속중 입니다");
 					win.change("pan2");
 					idTextField.setText("");
 					pwTextField.setText("");
@@ -149,17 +143,10 @@ public class Pan1 extends JPanel  implements Pan {
 		
 	}
 	
-//	public static void setLoginId(String id) {
-//		loginid = id;
-//	}
-//	
-//	public static String getLoginId() {
-//		return loginid;
-//	}
 
 	@Override
 	public void update(String id, String pw) {
-
+		
 	}
 }
 

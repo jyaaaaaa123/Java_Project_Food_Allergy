@@ -203,9 +203,8 @@ public class Pan6 extends JPanel implements Pan {
 				if(result == JOptionPane.YES_OPTION) {
 					Main.dao.deleteMember(user.getid());
 					JOptionPane.showMessageDialog(null, "탈퇴 완료");
-					Pan2.setLoginBtnTrue();
-					Pan2.setLogoutBtnFalse();
-					Pan2.setMyInfoBtnFalse();
+					Pan1.b[0] = false;
+					user.set("", "");
 //					Pan2.whoLoginTextPane.setText("guest 접속중 입니다");
 					win.change("pan2");
 				}
@@ -292,7 +291,6 @@ public class Pan6 extends JPanel implements Pan {
 						}
 					}
 					user.setID(idTextArea.getText());
-//					Pan1.setLoginId(idTextArea.getText());
 					Pan2.myInfo = Pan2.getMyInfo(idTextArea.getText(), nameTextArea.getText(), myAllergyTextArea.getText());
 					JOptionPane.showMessageDialog(null, "정보수정 완료");
 				}
@@ -307,7 +305,6 @@ public class Pan6 extends JPanel implements Pan {
 					}
 				}
 				user.setID(idTextArea.getText());
-//				Pan1.setLoginId();
 				Pan2.myInfo = Pan2.getMyInfo(idTextArea.getText(), nameTextArea.getText(), myAllergyTextArea.getText());
 				JOptionPane.showMessageDialog(null, "정보수정 완료");
 			}
@@ -317,7 +314,7 @@ public class Pan6 extends JPanel implements Pan {
 
 	@Override
 	public void update(String id, String pw) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 }

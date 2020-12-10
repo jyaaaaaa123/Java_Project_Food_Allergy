@@ -38,26 +38,33 @@ import java.awt.SystemColor;
 class Pan2 extends JPanel implements Pan {
 	private JTextField searchTextField;
 	private Main win;
-	public static JButton searchButton;
-	public static JTable table;
+	
 	private JLabel titleLabel;
 	private JLabel subTitleLabel;
-	private static JButton myInfoButton;
-	private static JButton logoutButton;
-	private static JButton loginButton;
-	private static JButton newButton;
+
+
+	private JTextPane pageTextPane;
+	private boolean searchBool = false;
+	private JTextPane whoLoginTextPane;
+	private loginData user;
+	
+	public DefaultTableModel model;
 	public String pageNum = "1";
 	public ImageIcon icon;
 	public ParsApi papi;
-	private JTextPane pageTextPane;
-	private boolean searchBool = false;
-	public DefaultTableModel model;
+	
+	
+	private JButton myInfoButton;
+	private JButton logoutButton;
+	private JButton loginButton;
+	private JButton newButton;
+	
+	public static JButton searchButton;
+	public static JTable table;
 	public static String image_ad;
 	public static String[][] food_name_image_arr;
-	private JTextPane whoLoginTextPane;
 	public static String[] myInfo;
-	private loginData user;
-
+	
 	public Pan2(Main win, loginData user) {
 		this.win = win;
 		this.user = user;
@@ -268,14 +275,10 @@ class Pan2 extends JPanel implements Pan {
 			public void actionPerformed(ActionEvent e) {
 				//로그아웃 이벤트
 				JOptionPane.showMessageDialog(null, "로그아웃");
-				setLoginBtnTrue();
-				setNewBtnTrue();
-				setLogoutBtnFalse();
-				setMyInfoBtnFalse();
+				Pan1.b[0] = false;
 				createTable();
 				user.set("", "");
 				whoLoginTextPane.setText("guest 접속중 입니다");
-				Pan1.b[0] = false;
 			}
 		});
 		logoutButton.setBounds(763, 20, 95, 30);
@@ -413,36 +416,50 @@ class Pan2 extends JPanel implements Pan {
 	
 	
 	
-	public static void setLoginBtnTrue() {
+	public void setLoginBtnTrue() {
 		loginButton.setVisible(true);
 	}
 	
-	public static void setLoginBtnFalse() {
+	public void setLoginBtnFalse() {
 		loginButton.setVisible(false);
 	}
 	
-	public static void setMyInfoBtnTrue() {
+	public void setMyInfoBtnTrue() {
 		myInfoButton.setVisible(true);
 	}
 	
-	public static void setMyInfoBtnFalse() {
+	public void setMyInfoBtnFalse() {
 		myInfoButton.setVisible(false);
 	}
 	
-	public static void setLogoutBtnTrue() {
+	public void setLogoutBtnTrue() {
 		logoutButton.setVisible(true);
 	}
 	
-	public static void setLogoutBtnFalse() {
+	public void setLogoutBtnFalse() {
 		logoutButton.setVisible(false);
 	}
 
-	public static void setNewBtnTrue() {
+	public void setNewBtnTrue() {
 		newButton.setVisible(true);
 	}
 	
-	public static void setNewBtnFalse() {
+	public void setNewBtnFalse() {
 		newButton.setVisible(false);
+	}
+	
+	public void loginBtn() {
+		setLoginBtnFalse();
+		setMyInfoBtnTrue();
+		setLogoutBtnTrue();
+		setNewBtnFalse();
+	}
+	
+	public void logoutBtn() {
+		setLoginBtnTrue();
+		setNewBtnTrue();
+		setLogoutBtnFalse();
+		setMyInfoBtnFalse();
 	}
 	
 	public void createTable() {
@@ -508,7 +525,16 @@ class Pan2 extends JPanel implements Pan {
 
 	@Override
 	public void update(String id, String pw) {
-		whoLoginTextPane.setText(id + "님이 접속중입니다");
+		if(id == "") {
+			whoLoginTextPane.setText("guest 접속중입니다");
+		} else {
+			whoLoginTextPane.setText(id + "님이 접속중입니다");
+		}
 		
+		if(Pan1.b[0] == true) {
+			loginBtn();
+		} else {
+			logoutBtn();
+		}
 	}
 }
