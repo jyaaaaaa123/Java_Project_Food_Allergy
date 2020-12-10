@@ -21,20 +21,22 @@ import java.awt.SystemColor;
 import java.awt.Font;
 import javax.swing.JScrollPane;
 
-public class Pan5 extends JPanel {
+public class Pan5 extends JPanel implements Pan {
 	private JTextField idTextField;
 	private JTextField nameTextField;
 	private JPasswordField pwTextField;
 	private JTextField brithdayTextField;
 	private String my_al = "";
-	static String check_id;
-	
-	int check_check = 0;
+	private String check_id;
+	private loginData user;
+	private int check_check = 0;
 	
 	/**
 	 * Create the panel.
 	 */
-	public Pan5(Main win) {
+	public Pan5(Main win, loginData user) {
+		this.user = user;
+		user.registerObject(this);
 		setBounds(0, 0, 890, 600);
 		setLayout(null);
 		
@@ -268,6 +270,12 @@ public class Pan5 extends JPanel {
 				}
 			}
 		});	
+		
+	}
+
+	@Override
+	public void update(String id, String pw) {
+		// TODO Auto-generated method stub
 		
 	}
 }

@@ -29,17 +29,20 @@ import java.awt.BorderLayout;
 import javax.swing.JTextPane;
 
 
-public class Pan6 extends JPanel {
+public class Pan6 extends JPanel implements Pan {
 	
 	public static JTextArea idTextArea;
 	public static JTextArea nameTextArea;
 	public static JTextArea myAllergyTextArea;
 	public static JList<String> foodlist;
 	private String my_new_allergy = "";
+	private loginData user;
 	/**
 	 * Create the panel.
 	 */
-	public Pan6(Main win) {
+	public Pan6(Main win, loginData user) {
+		this.user = user;
+		user.registerObject(this);
 		
 		setBounds(0, 0, 890, 600);
 		setLayout(null);
@@ -198,12 +201,12 @@ public class Pan6 extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				int result = JOptionPane.showConfirmDialog(null, "정말 탈퇴하시겠습니까?", "알림", JOptionPane.YES_NO_CANCEL_OPTION);
 				if(result == JOptionPane.YES_OPTION) {
-					Main.dao.deleteMember(Pan1.getLoginId());
+					Main.dao.deleteMember(user.getid());
 					JOptionPane.showMessageDialog(null, "탈퇴 완료");
 					Pan2.setLoginBtnTrue();
 					Pan2.setLogoutBtnFalse();
 					Pan2.setMyInfoBtnFalse();
-					Pan2.whoLoginTextPane.setText("guest 접속중 입니다");
+//					Pan2.whoLoginTextPane.setText("guest 접속중 입니다");
 					win.change("pan2");
 				}
 			}
@@ -275,11 +278,11 @@ public class Pan6 extends JPanel {
 			JOptionPane.showMessageDialog(null, "값을 입력해주세요", "경고", JOptionPane.WARNING_MESSAGE);
 		} else {
 			//아이디가 바뀌었을때
-			if(!idTextArea.getText().equals(Pan1.getLoginId())) {
+			if(!idTextArea.getText().equals(user.getid())) {
 				if(Main.dao.searchMemberId(idTextArea.getText())) {
 					JOptionPane.showMessageDialog(null, "중복되는 아이디가 이미 존재합니다", "경고", JOptionPane.WARNING_MESSAGE);
 				} else {
-					Main.dao.updateMember(idTextArea.getText(), nameTextArea.getText(), Pan1.getLoginId());
+					Main.dao.updateMember(idTextArea.getText(), nameTextArea.getText(), user.getid());
 					String[] stmp = myAllergyTextArea.getText().split(", ");
 					for (int i = 0; i < stmp.length; i++) {
 						//내 정보에 등록되지 않은 알레르기만 등록된다
@@ -288,13 +291,14 @@ public class Pan6 extends JPanel {
 							Main.dao.insertMemberAllergy2(idTextArea.getText(), stmp[i]);
 						}
 					}
-					Pan1.setLoginId(idTextArea.getText());
+					user.setID(idTextArea.getText());
+//					Pan1.setLoginId(idTextArea.getText());
 					Pan2.myInfo = Pan2.getMyInfo(idTextArea.getText(), nameTextArea.getText(), myAllergyTextArea.getText());
 					JOptionPane.showMessageDialog(null, "정보수정 완료");
 				}
 			} else {
-				Main.dao.updateMember(idTextArea.getText(), nameTextArea.getText(), Pan1.getLoginId());
-				Main.dao.updateIdCheck(idTextArea.getText(), Pan1.getLoginId());
+				Main.dao.updateMember(idTextArea.getText(), nameTextArea.getText(), user.getid());
+				Main.dao.updateIdCheck(idTextArea.getText(), user.getid());
 				String[] stmp = myAllergyTextArea.getText().split(", ");
 				for (int i = 0; i < stmp.length; i++) {
 					//내 정보에 등록되지 않은 알레르기만 등록된다
@@ -302,11 +306,18 @@ public class Pan6 extends JPanel {
 						Main.dao.insertMemberAllergy2(idTextArea.getText(), stmp[i]);
 					}
 				}
-				Pan1.setLoginId(idTextArea.getText());
+				user.setID(idTextArea.getText());
+//				Pan1.setLoginId();
 				Pan2.myInfo = Pan2.getMyInfo(idTextArea.getText(), nameTextArea.getText(), myAllergyTextArea.getText());
 				JOptionPane.showMessageDialog(null, "정보수정 완료");
 			}
 			
 		}
+	}
+
+	@Override
+	public void update(String id, String pw) {
+		// TODO Auto-generated method stub
+		
 	}
 }

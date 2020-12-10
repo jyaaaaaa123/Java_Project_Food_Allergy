@@ -30,12 +30,14 @@ public class Main extends JFrame {
 				try {
 					Main frame = new Main();
 					dao = new MemberDAO();
+					loginData user = new loginData();
+					
 					frame.setTitle("음식알레르기");
-					frame.pan1 = new Pan1(frame);
-					frame.pan2 = new Pan2(frame);
-					frame.pan3 = new Pan3(frame);
-					frame.pan5 = new Pan5(frame);
-					frame.pan6 = new Pan6(frame);
+					frame.pan1 = new Pan1(frame, user);
+					frame.pan2 = new Pan2(frame, user);
+					frame.pan3 = new Pan3(frame, user);
+					frame.pan5 = new Pan5(frame, user);
+					frame.pan6 = new Pan6(frame, user);
 					frame.getContentPane().add(frame.pan1);
 					frame.setVisible(true);
 					

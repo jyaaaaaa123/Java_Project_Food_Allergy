@@ -35,7 +35,7 @@ import javax.swing.ImageIcon;
 import java.awt.Color;
 import java.awt.SystemColor;
 
-class Pan2 extends JPanel {
+class Pan2 extends JPanel implements Pan {
 	private JTextField searchTextField;
 	private Main win;
 	public static JButton searchButton;
@@ -54,11 +54,14 @@ class Pan2 extends JPanel {
 	public DefaultTableModel model;
 	public static String image_ad;
 	public static String[][] food_name_image_arr;
-	public static JTextPane whoLoginTextPane;
+	private JTextPane whoLoginTextPane;
 	public static String[] myInfo;
+	private loginData user;
 
-	public Pan2(Main win) {
+	public Pan2(Main win, loginData user) {
 		this.win = win;
+		this.user = user;
+		user.registerObject(this);
 		setBounds(0, 0, 890, 600);
 		setLayout(null);
 		
@@ -90,7 +93,14 @@ class Pan2 extends JPanel {
 		add(searchTextField);
 		searchTextField.setColumns(10);
 		
-		
+		//누가 로그인 했는지 알려주는 텍스트
+		whoLoginTextPane = new JTextPane();
+		whoLoginTextPane.setBackground(SystemColor.control);
+		whoLoginTextPane.setForeground(SystemColor.desktop);
+		whoLoginTextPane.setEditable(false);
+		whoLoginTextPane.setBounds(140, 20, 299, 23);
+		whoLoginTextPane.setText("guest 접속중 입니다");
+		add(whoLoginTextPane);
 		
 		
 		//검색결과 테이블
@@ -128,10 +138,10 @@ class Pan2 extends JPanel {
 						//알레르기 정보 확인
 						if(Pan1.b[0]) {
 							//체크 박스에 체크
-							if(Main.dao.searchFoodCheck(Pan1.getLoginId(), foodname)) {
+							if(Main.dao.searchFoodCheck(user.getid(), foodname)) {
 								Pan3.checkbox.setState(true);
 							}
-							ArrayList<String> str_al = Main.dao.callMyAllergy_arr(Pan1.getLoginId());
+							ArrayList<String> str_al = Main.dao.callMyAllergy_arr(user.getid());
 							boolean[][] judge = new boolean[str_al.size()][2];
 							String real_judge = "";
 							for (int i = 0; i < str_al.size(); i++) {
@@ -195,7 +205,7 @@ class Pan2 extends JPanel {
 		scrollPane.setViewportView(table);		
 		
 		
-		
+		//검색버튼
 		searchButton = new JButton("검색");
 		searchButton.setBounds(697, 94, 123, 47);
 		add(searchButton);
@@ -216,7 +226,7 @@ class Pan2 extends JPanel {
 					} else {
 						for (int i = 0; i < name.size(); i++) {
 							if(Pan1.b[0]==true) {
-								if(Main.dao.searchFoodCheck(Pan1.getLoginId(), name.get(i))) {
+								if(Main.dao.searchFoodCheck(user.getid(), name.get(i))) {
 									table.setValueAt("★", i, 3);
 								}
 							}
@@ -239,11 +249,11 @@ class Pan2 extends JPanel {
 		myInfoButton = new JButton("\uB0B4\uC815\uBCF4");
 		myInfoButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Pan6.idTextArea.setText(Pan1.getLoginId());
-				Pan6.nameTextArea.setText(Main.dao.MemberName(Pan1.getLoginId()));
-				Pan6.myAllergyTextArea.setText(Main.dao.callMyAllergy(Pan1.getLoginId()));
+				Pan6.idTextArea.setText(user.getid());
+				Pan6.nameTextArea.setText(Main.dao.MemberName(user.getid()));
+				Pan6.myAllergyTextArea.setText(Main.dao.callMyAllergy(user.getid()));
 				myInfo = getMyInfo(Pan6.idTextArea.getText(), Pan6.nameTextArea.getText(), Pan6.myAllergyTextArea.getText());
-				food_name_image_arr = Main.dao.searchFoodCheck(Pan1.getLoginId());
+				food_name_image_arr = Main.dao.searchFoodCheck(user.getid());
 				Pan6.foodlist.setListData(food_name_image_arr[0]);
 				win.change("pan6");
 			}
@@ -263,6 +273,7 @@ class Pan2 extends JPanel {
 				setLogoutBtnFalse();
 				setMyInfoBtnFalse();
 				createTable();
+				user.set("", "");
 				whoLoginTextPane.setText("guest 접속중 입니다");
 				Pan1.b[0] = false;
 			}
@@ -292,7 +303,7 @@ class Pan2 extends JPanel {
 								for (int i = 0; i < name.size(); i++) {
 									table.setValueAt(name.get(i), i, 1);
 									table.setValueAt(manuf.get(i), i, 2);
-									if(Main.dao.searchFoodCheck(Pan1.getLoginId(), name.get(i))) {
+									if(Main.dao.searchFoodCheck(user.getid(), name.get(i))) {
 										table.setValueAt("★", i, 3);
 									} else {
 										table.setValueAt("", i, 3);
@@ -332,7 +343,7 @@ class Pan2 extends JPanel {
 							for (int i = 0; i < name.size(); i++) {
 								table.setValueAt(name.get(i), i, 1);
 								table.setValueAt(manuf.get(i), i, 2);
-								if(Main.dao.searchFoodCheck(Pan1.getLoginId(), name.get(i))) {
+								if(Main.dao.searchFoodCheck(user.getid(), name.get(i))) {
 									table.setValueAt("★", i, 3);
 								} else {
 									table.setValueAt("", i, 3);
@@ -341,7 +352,7 @@ class Pan2 extends JPanel {
 							for (int i = name.size(); i < 10; i++) {
 								table.setValueAt(" ", i, 1);
 								table.setValueAt(" ", i, 2);
-								if(Main.dao.searchFoodCheck(Pan1.getLoginId(), name.get(i))) {
+								if(Main.dao.searchFoodCheck(user.getid(), name.get(i))) {
 									table.setValueAt("★", i, 3);
 								} else {
 									table.setValueAt("", i, 3);
@@ -354,7 +365,7 @@ class Pan2 extends JPanel {
 							for (int i = 0; i < name.size(); i++) {
 								table.setValueAt(name.get(i), i, 1);
 								table.setValueAt(manuf.get(i), i, 2);
-								if(Main.dao.searchFoodCheck(Pan1.getLoginId(), name.get(i))) {
+								if(Main.dao.searchFoodCheck(user.getid(), name.get(i))) {
 									table.setValueAt("★", i, 3);
 								} else {
 									table.setValueAt("", i, 3);
@@ -395,13 +406,7 @@ class Pan2 extends JPanel {
 		newButton.setBounds(637, 20, 87, 30);
 		add(newButton);
 		
-		whoLoginTextPane = new JTextPane();
-		whoLoginTextPane.setBackground(SystemColor.control);
-		whoLoginTextPane.setForeground(SystemColor.desktop);
-		whoLoginTextPane.setEditable(false);
-		whoLoginTextPane.setBounds(140, 20, 299, 23);
-		whoLoginTextPane.setText("guest 접속중 입니다");
-		add(whoLoginTextPane);
+		
 		
 		
 	}
@@ -497,5 +502,13 @@ class Pan2 extends JPanel {
 		infolist[1] = name;
 		infolist[2] = all;
 		return infolist;
+	}
+
+
+
+	@Override
+	public void update(String id, String pw) {
+		whoLoginTextPane.setText(id + "님이 접속중입니다");
+		
 	}
 }

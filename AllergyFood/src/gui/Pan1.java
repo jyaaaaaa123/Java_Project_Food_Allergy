@@ -18,22 +18,26 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.SystemColor;
 
-public class Pan1 extends JPanel {
+public class Pan1 extends JPanel  implements Pan {
 	private Main win;
 	private JTextField idTextField;
 	private JPasswordField pwTextField;
-	public static String loginid;
+//	public static String loginid;
+	private loginData user;
 	static boolean[] b = {false, false};
 	static boolean[] whichPanelClickBackBtn = {false, false};
 	public int tmp = 0;
 	
 	
 	
+	
 	/**
 	 * Create the panel.
 	 */
-	public Pan1(Main win) {
+	public Pan1(Main win, loginData user) {
 		this.win = win;
+		this.user = user;
+		user.registerObject(this);
 		setBounds(0, 0, 890, 600);
 		setLayout(null);
 		
@@ -83,12 +87,13 @@ public class Pan1 extends JPanel {
 				b = Main.dao.loginMember(idTextField.getText(), pwTextField.getText());
 				if(b[0]) {
 					JOptionPane.showMessageDialog(null, "로그인 성공");
-					setLoginId(idTextField.getText());
+					user.set(idTextField.getText(), pwTextField.getText());
+//					setLoginId(idTextField.getText());
 					Pan2.setLoginBtnFalse();
 					Pan2.setMyInfoBtnTrue();
 					Pan2.setLogoutBtnTrue();
 					Pan2.setNewBtnFalse();
-					Pan2.whoLoginTextPane.setText(idTextField.getText() + "님이 접속중 입니다");
+//					Pan2.whoLoginTextPane.setText(idTextField.getText() + "님이 접속중 입니다");
 					win.change("pan2");
 					idTextField.setText("");
 					pwTextField.setText("");
@@ -144,12 +149,17 @@ public class Pan1 extends JPanel {
 		
 	}
 	
-	public static void setLoginId(String id) {
-		loginid = id;
-	}
-	
-	public static String getLoginId() {
-		return loginid;
+//	public static void setLoginId(String id) {
+//		loginid = id;
+//	}
+//	
+//	public static String getLoginId() {
+//		return loginid;
+//	}
+
+	@Override
+	public void update(String id, String pw) {
+
 	}
 }
 

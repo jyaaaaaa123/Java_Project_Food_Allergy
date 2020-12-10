@@ -23,7 +23,7 @@ import java.awt.Color;
 import javax.swing.JScrollPane;
 
 
-public class Pan3 extends JPanel{
+public class Pan3 extends JPanel implements Pan {
 	public static String allery_list;
 	public static JTextPane foodAllergyTextPane;
 	public static JTextArea foodNameTextArea;
@@ -35,13 +35,12 @@ public class Pan3 extends JPanel{
 	public static Checkbox checkbox;
 	private Main win;
 	public boolean check = false;
-	
+	private loginData user;
 	/**
 	 * Create the panel.
 	 */
-	public Pan3(Main win) {
-		setBorder(null);
-		setForeground(SystemColor.control);
+	public Pan3(Main win, loginData user) {
+		
 		this.win = win;
 		setBounds(0, 0, 890, 600);
 		setLayout(null);
@@ -103,7 +102,7 @@ public class Pan3 extends JPanel{
 					if(e.getStateChange() == 1) {
 						int result = JOptionPane.showConfirmDialog(null, "체크하시겠습니까?", "알림", JOptionPane.YES_NO_CANCEL_OPTION);
 						if(result == JOptionPane.YES_OPTION) {
-							Main.dao.addMemberFood(Pan1.getLoginId(), foodNameTextArea.getText(), foodManufTextArea.getText(), Pan2.image_ad);
+							Main.dao.addMemberFood(user.getid(), foodNameTextArea.getText(), foodManufTextArea.getText(), Pan2.image_ad);
 							JOptionPane.showMessageDialog(null, "체크 완료");
 						} else {
 							checkbox.setState(false);
@@ -111,7 +110,7 @@ public class Pan3 extends JPanel{
 					} else {//체크 해제
 						int result = JOptionPane.showConfirmDialog(null, "해제하시겠습니까?", "알림", JOptionPane.YES_NO_CANCEL_OPTION);
 						if(result == JOptionPane.YES_OPTION) {
-							Main.dao.deleteMyfood(Pan1.getLoginId(), foodNameTextArea.getText());
+							Main.dao.deleteMyfood(user.getid(), foodNameTextArea.getText());
 							JOptionPane.showMessageDialog(null, "해제 완료");
 						} else {
 							checkbox.setState(true);
@@ -166,6 +165,12 @@ public class Pan3 extends JPanel{
 		scrollPane_1.setViewportView(foodAllergyTextPane);
 		foodAllergyTextPane.setBackground(SystemColor.control);
 		foodAllergyTextPane.setEditable(false);
+		
+	}
+
+	@Override
+	public void update(String id, String pw) {
+		// TODO Auto-generated method stub
 		
 	}
 }
