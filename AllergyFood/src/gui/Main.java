@@ -31,11 +31,12 @@ public class Main extends JFrame {
 					Main frame = new Main();
 					dao = new MemberDAO();
 					loginData user = new loginData();
+					foodData food = new foodData();
 					
 					frame.setTitle("음식알레르기");
 					frame.pan1 = new Pan1(frame, user);
-					frame.pan2 = new Pan2(frame, user);
-					frame.pan3 = new Pan3(frame, user);
+					frame.pan2 = new Pan2(frame, user, food);
+					frame.pan3 = new Pan3(frame, user, food);
 					frame.pan5 = new Pan5(frame, user);
 					frame.pan6 = new Pan6(frame, user);
 					frame.getContentPane().add(frame.pan1);

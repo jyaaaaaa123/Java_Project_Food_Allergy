@@ -278,4 +278,10 @@ public class Pan5 extends JPanel implements Pan {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void updateA() {
+		// TODO Auto-generated method stub
+		
+	}
 }

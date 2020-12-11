@@ -38,37 +38,40 @@ import java.awt.SystemColor;
 class Pan2 extends JPanel implements Pan {
 	private JTextField searchTextField;
 	private Main win;
-	
 	private JLabel titleLabel;
 	private JLabel subTitleLabel;
-
-
 	private JTextPane pageTextPane;
 	private boolean searchBool = false;
 	private JTextPane whoLoginTextPane;
 	private loginData user;
+	private foodData food;
 	
-	public DefaultTableModel model;
-	public String pageNum = "1";
-	public ImageIcon icon;
-	public ParsApi papi;
+	private DefaultTableModel model;
+	private String pageNum = "1";
+	private ImageIcon icon;
+	private ParsApi papi;
 	
 	
 	private JButton myInfoButton;
 	private JButton logoutButton;
 	private JButton loginButton;
 	private JButton newButton;
+	private JTable table;
+	private String[][] food_name_image_arr;
+	
+	
+	private String image_ad;
 	
 	public static JButton searchButton;
-	public static JTable table;
-	public static String image_ad;
-	public static String[][] food_name_image_arr;
-	public static String[] myInfo;
 	
-	public Pan2(Main win, loginData user) {
+	
+	public Pan2(Main win, loginData user, foodData food) {
 		this.win = win;
 		this.user = user;
+		this.food = food;
+		
 		user.registerObject(this);
+		food.registerObject(this);
 		setBounds(0, 0, 890, 600);
 		setLayout(null);
 		
@@ -129,10 +132,10 @@ class Pan2 extends JPanel implements Pan {
 						JOptionPane.showMessageDialog(null, "상품이 있는 칸을 선택해주세요");
 					} else {
 						String[] allery_list = papi.ParsApi_allergyList(foodname);
-						Pan3.foodNameTextArea.setText(allery_list[0]);
-						Pan3.foodManufTextArea.setText(allery_list[1]);
-						Pan3.foodAllergyTextPane.setText(allery_list[2]);
-						Pan3.foodIntextPane.setText(allery_list[4]);
+						Pan3.foodNameTextArea.setText(allery_list[0]); //음식이름
+						Pan3.foodManufTextArea.setText(allery_list[1]); //제조사이름
+						Pan3.foodAllergyTextPane.setText(allery_list[2]); //음식 알레르기 목록
+						Pan3.foodIntextPane.setText(allery_list[4]); //음식 성분 목록
 						
 						Runnable doScroll = new Runnable() {
 							public void run() {
@@ -143,7 +146,7 @@ class Pan2 extends JPanel implements Pan {
 
 						
 						//알레르기 정보 확인
-						if(Pan1.b[0]) {
+						if(user.getcheck()) {
 							//체크 박스에 체크
 							if(Main.dao.searchFoodCheck(user.getid(), foodname)) {
 								Pan3.checkbox.setState(true);
@@ -189,8 +192,9 @@ class Pan2 extends JPanel implements Pan {
 							}
 						} 
 						try {
-							image_ad = allery_list[3];
+							image_ad = allery_list[3]; //음식 이미지
 							image_ad = image_ad.replaceAll("http://", "https://");
+							food.set(image_ad);
 							icon = new ImageIcon(new URL(image_ad));
 							Image img = icon.getImage();
 							Image changeImg = img.getScaledInstance(500, 320, Image.SCALE_SMOOTH);
@@ -232,7 +236,7 @@ class Pan2 extends JPanel implements Pan {
 						JOptionPane.showMessageDialog(null, "검색결과가 없습니다.");
 					} else {
 						for (int i = 0; i < name.size(); i++) {
-							if(Pan1.b[0]==true) {
+							if(user.getcheck() == true) {
 								if(Main.dao.searchFoodCheck(user.getid(), name.get(i))) {
 									table.setValueAt("★", i, 3);
 								}
@@ -256,12 +260,7 @@ class Pan2 extends JPanel implements Pan {
 		myInfoButton = new JButton("\uB0B4\uC815\uBCF4");
 		myInfoButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Pan6.idTextArea.setText(user.getid());
-				Pan6.nameTextArea.setText(Main.dao.MemberName(user.getid()));
-				Pan6.myAllergyTextArea.setText(Main.dao.callMyAllergy(user.getid()));
-				myInfo = getMyInfo(Pan6.idTextArea.getText(), Pan6.nameTextArea.getText(), Pan6.myAllergyTextArea.getText());
-				food_name_image_arr = Main.dao.searchFoodCheck(user.getid());
-				Pan6.foodlist.setListData(food_name_image_arr[0]);
+				food_name_image_arr = user.getMyCheckFood();
 				win.change("pan6");
 			}
 		});
@@ -274,10 +273,15 @@ class Pan2 extends JPanel implements Pan {
 		logoutButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//로그아웃 이벤트
-				JOptionPane.showMessageDialog(null, "로그아웃");
-				Pan1.b[0] = false;
 				createTable();
-				user.set("", "");
+				String[][] tmp = user.getMyCheckFood();
+				for (int i = 0; i < tmp.length; i++) {
+					for (int j = 0; j < tmp[i].length; j++) {
+						tmp[i][j] = "";
+					}
+				}
+				user.set("", "", "", "", tmp, false);
+				JOptionPane.showMessageDialog(null, "로그아웃");
 				whoLoginTextPane.setText("guest 접속중 입니다");
 			}
 		});
@@ -342,6 +346,7 @@ class Pan2 extends JPanel implements Pan {
 						ArrayList<String> name = papi.ParsApi_Namelist();
 						ArrayList<String> manuf = papi.ParsApi_Manufacturelist();
 						
+						//마지막 페이지 판단
 						if(name.size() < 10 && name.size() != 0) {
 							for (int i = 0; i < name.size(); i++) {
 								table.setValueAt(name.get(i), i, 1);
@@ -355,11 +360,7 @@ class Pan2 extends JPanel implements Pan {
 							for (int i = name.size(); i < 10; i++) {
 								table.setValueAt(" ", i, 1);
 								table.setValueAt(" ", i, 2);
-								if(Main.dao.searchFoodCheck(user.getid(), name.get(i))) {
-									table.setValueAt("★", i, 3);
-								} else {
-									table.setValueAt("", i, 3);
-								}
+								table.setValueAt(" ", i, 3);
 							}
 						} else if(name.size() == 0) {
 							JOptionPane.showMessageDialog(null, "다음페이지가 없습니다", "경고", JOptionPane.WARNING_MESSAGE);
@@ -409,57 +410,23 @@ class Pan2 extends JPanel implements Pan {
 		newButton.setBounds(637, 20, 87, 30);
 		add(newButton);
 		
-		
-		
-		
 	}
 	
 	
 	
-	public void setLoginBtnTrue() {
-		loginButton.setVisible(true);
-	}
 	
-	public void setLoginBtnFalse() {
+	public void loginBtn() {
 		loginButton.setVisible(false);
-	}
-	
-	public void setMyInfoBtnTrue() {
-		myInfoButton.setVisible(true);
-	}
-	
-	public void setMyInfoBtnFalse() {
-		myInfoButton.setVisible(false);
-	}
-	
-	public void setLogoutBtnTrue() {
 		logoutButton.setVisible(true);
-	}
-	
-	public void setLogoutBtnFalse() {
-		logoutButton.setVisible(false);
-	}
-
-	public void setNewBtnTrue() {
+		myInfoButton.setVisible(true);
 		newButton.setVisible(true);
 	}
 	
-	public void setNewBtnFalse() {
-		newButton.setVisible(false);
-	}
-	
-	public void loginBtn() {
-		setLoginBtnFalse();
-		setMyInfoBtnTrue();
-		setLogoutBtnTrue();
-		setNewBtnFalse();
-	}
-	
 	public void logoutBtn() {
-		setLoginBtnTrue();
-		setNewBtnTrue();
-		setLogoutBtnFalse();
-		setMyInfoBtnFalse();
+		loginButton.setVisible(true);
+		logoutButton.setVisible(false);
+		myInfoButton.setVisible(false);
+		newButton.setVisible(false);
 	}
 	
 	public void createTable() {
@@ -512,14 +479,6 @@ class Pan2 extends JPanel implements Pan {
 		}
 		table.setRowHeight(34);
 	}
-	
-	public static String[] getMyInfo(String id, String name, String all) {
-		String[] infolist = new String[3];
-		infolist[0] = id;
-		infolist[1] = name;
-		infolist[2] = all;
-		return infolist;
-	}
 
 
 
@@ -531,10 +490,19 @@ class Pan2 extends JPanel implements Pan {
 			whoLoginTextPane.setText(id + "님이 접속중입니다");
 		}
 		
-		if(Pan1.b[0] == true) {
+		if(user.getcheck() == true) {
 			loginBtn();
 		} else {
 			logoutBtn();
 		}
+		
+		createTable();
+	}
+
+
+
+	@Override
+	public void updateA() {
+		
 	}
 }

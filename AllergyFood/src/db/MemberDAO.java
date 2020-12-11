@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 public class MemberDAO {
 	private static final String DRIVER = "oracle.jdbc.driver.OracleDriver";
 	private static final String URL = "jdbc:oracle:thin:@localhost:1521:xe";
@@ -202,10 +204,8 @@ public class MemberDAO {
 			
 			int r = ps.executeUpdate(); //실행저장
 			
-			if(r>0) {
-				System.out.println("등록완료");
+			if(r>0) {		
 			} else {
-				System.out.println("등록실패");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -405,11 +405,7 @@ public class MemberDAO {
 			
 			int r = ps.executeUpdate(); //실행저장
 			
-			if(r>0) {
-				System.out.println("등록완료");
-			} else {
-				System.out.println("등록실패");
-			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -433,9 +429,9 @@ public class MemberDAO {
 			
 			int r = ps.executeUpdate(); //실행저장
 			if(r>0) {
-				System.out.println("체크완료");
+				JOptionPane.showMessageDialog(null, "체크 완료");
 			} else {
-				System.out.println("체크실패");
+				JOptionPane.showMessageDialog(null, "체크 실패");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -31,10 +31,10 @@ import javax.swing.JTextPane;
 
 public class Pan6 extends JPanel implements Pan {
 	
-	public static JTextArea idTextArea;
-	public static JTextArea nameTextArea;
-	public static JTextArea myAllergyTextArea;
-	public static JList<String> foodlist;
+	private JTextArea idTextArea;
+	private JTextArea nameTextArea;
+	private JTextArea myAllergyTextArea;
+	private JList<String> foodlist;
 	private String my_new_allergy = "";
 	private loginData user;
 	/**
@@ -131,7 +131,8 @@ public class Pan6 extends JPanel implements Pan {
 								my_new_allergy = myAllergyTextArea.getText() + ", " + (String) comboBox.getSelectedItem();
 								myAllergyTextArea.setText(my_new_allergy);
 							}
-							JOptionPane.showMessageDialog(null, "등록되었습니다");
+							user.setAlist(my_new_allergy);
+//							JOptionPane.showMessageDialog(null, "등록되었습니다");
 						} catch (Exception e3) {
 							e3.printStackTrace();
 						}
@@ -145,25 +146,25 @@ public class Pan6 extends JPanel implements Pan {
 		JButton delAllergyButton = new JButton("\uC0AD\uC81C");
 		delAllergyButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(idTextArea.getText());
 				if(!myAllergyTextArea.getText().contains((String) comboBox.getSelectedItem())) {
 					JOptionPane.showMessageDialog(null, "등록되지 않은 알레르기입니다", "경고", JOptionPane.WARNING_MESSAGE);
 				} else {
-					JOptionPane.showMessageDialog(null, "삭제되었습니다");
 					if(myAllergyTextArea.getText().contains(", " + (String) comboBox.getSelectedItem())) {
 						myAllergyTextArea.setText(myAllergyTextArea.getText().replaceAll((", " + (String) comboBox.getSelectedItem()), ""));
 						my_new_allergy = myAllergyTextArea.getText().replaceAll((", " + (String) comboBox.getSelectedItem()), "");
-					} else if(myAllergyTextArea.getText().contains((String) comboBox.getSelectedItem())) {
-						myAllergyTextArea.setText(myAllergyTextArea.getText().replaceAll(((String) comboBox.getSelectedItem()), ""));
+					} else if(myAllergyTextArea.getText().contains((String) comboBox.getSelectedItem() + ", ")) {
+						myAllergyTextArea.setText(myAllergyTextArea.getText().replaceAll(((String) comboBox.getSelectedItem()+ ", "), ""));
 						my_new_allergy = myAllergyTextArea.getText().replaceAll(((String) comboBox.getSelectedItem()), "");
-						
+					} else {
+						my_new_allergy = myAllergyTextArea.getText().replaceAll(((String) comboBox.getSelectedItem()), "");
 					}
+					JOptionPane.showMessageDialog(null, "삭제되었습니다");
 					//기존에 있던게 아닌 경우
 					if(!Main.dao.checkAllergy((String) comboBox.getSelectedItem())) {
 						Main.dao.deleteAllergy((String) comboBox.getSelectedItem());
 					}
-					System.out.println(myAllergyTextArea.getText());
 					Main.dao.deleteMyAllergy((String) comboBox.getSelectedItem(), idTextArea.getText());
+					user.setAlist(my_new_allergy);
 				}
 			}
 		});
@@ -176,7 +177,7 @@ public class Pan6 extends JPanel implements Pan {
 		backButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				my_new_allergy = "";
-				if(!Pan2.myInfo[0].equals(Pan6.idTextArea.getText()) || !Pan2.myInfo[1].equals(Pan6.nameTextArea.getText()) || !Pan2.myInfo[2].equals(Pan6.myAllergyTextArea.getText())) {
+				if(!user.getid().equals(idTextArea.getText()) || !user.getname().equals(nameTextArea.getText()) || !user.getMyAllergy().equals(myAllergyTextArea.getText())) {
 					int result = JOptionPane.showConfirmDialog(null, "정보 수정을 하시겠습니까?", "알림", JOptionPane.YES_NO_CANCEL_OPTION);
 					if(result == JOptionPane.YES_OPTION) {
 						changeMyInfo();
@@ -203,9 +204,13 @@ public class Pan6 extends JPanel implements Pan {
 				if(result == JOptionPane.YES_OPTION) {
 					Main.dao.deleteMember(user.getid());
 					JOptionPane.showMessageDialog(null, "탈퇴 완료");
-					Pan1.b[0] = false;
-					user.set("", "");
-//					Pan2.whoLoginTextPane.setText("guest 접속중 입니다");
+					String[][] tmp = user.getMyCheckFood();
+					for (int i = 0; i < tmp.length; i++) {
+						for (int j = 0; j < tmp[i].length; j++) {
+							tmp[i][j] = "";
+						}
+					}
+					user.set("", "", "", "", tmp, false);
 					win.change("pan2");
 				}
 			}
@@ -240,7 +245,8 @@ public class Pan6 extends JPanel implements Pan {
 			public void mouseClicked(MouseEvent e) {
 				if(e.getClickCount() == 2) {
 					try {
-						ImageIcon icon = new ImageIcon(new URL(Pan2.food_name_image_arr[1][foodlist.getSelectedIndex()]));
+						String[][] check = user.getMyCheckFood();
+						ImageIcon icon = new ImageIcon(new URL(check[1][foodlist.getSelectedIndex()]));
 						Image img = icon.getImage();
 						Image changeImg = img.getScaledInstance(400, 200, Image.SCALE_SMOOTH);
 						ImageIcon changeIcon = new ImageIcon(changeImg);
@@ -249,7 +255,6 @@ public class Pan6 extends JPanel implements Pan {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					System.out.println();
 				}
 			}
 		});
@@ -285,13 +290,11 @@ public class Pan6 extends JPanel implements Pan {
 					String[] stmp = myAllergyTextArea.getText().split(", ");
 					for (int i = 0; i < stmp.length; i++) {
 						//내 정보에 등록되지 않은 알레르기만 등록된다
-						System.out.println(idTextArea.getText());
 						if(!Main.dao.callMyAllergy(idTextArea.getText()).contains(stmp[i])) {
 							Main.dao.insertMemberAllergy2(idTextArea.getText(), stmp[i]);
 						}
 					}
-					user.setID(idTextArea.getText());
-					Pan2.myInfo = Pan2.getMyInfo(idTextArea.getText(), nameTextArea.getText(), myAllergyTextArea.getText());
+					user.setIdName(idTextArea.getText(), nameTextArea.getText());
 					JOptionPane.showMessageDialog(null, "정보수정 완료");
 				}
 			} else {
@@ -304,8 +307,7 @@ public class Pan6 extends JPanel implements Pan {
 						Main.dao.insertMemberAllergy2(idTextArea.getText(), stmp[i]);
 					}
 				}
-				user.setID(idTextArea.getText());
-				Pan2.myInfo = Pan2.getMyInfo(idTextArea.getText(), nameTextArea.getText(), myAllergyTextArea.getText());
+				user.setIdName(idTextArea.getText(), nameTextArea.getText());
 				JOptionPane.showMessageDialog(null, "정보수정 완료");
 			}
 			
@@ -314,7 +316,15 @@ public class Pan6 extends JPanel implements Pan {
 
 	@Override
 	public void update(String id, String pw) {
-		
+		idTextArea.setText(user.getid());
+		nameTextArea.setText(user.getname());
+		myAllergyTextArea.setText(user.getMyAllergy());
+		foodlist.setListData(user.getMyCheckFood()[0]);
+	}
+
+	@Override
+	public void updateA() {
+		// TODO Auto-generated method stub
 		
 	}
 }

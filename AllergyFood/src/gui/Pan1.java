@@ -22,12 +22,11 @@ public class Pan1 extends JPanel  implements Pan {
 	private Main win;
 	private JTextField idTextField;
 	private JPasswordField pwTextField;
-//	public static String loginid;
+
 	private loginData user;
 	
-	public int tmp = 0;
+	private boolean[] b = {false, false};
 	
-	static boolean[] b = {false, false};
 	static boolean[] whichPanelClickBackBtn = {false, false};
 	
 	
@@ -87,7 +86,7 @@ public class Pan1 extends JPanel  implements Pan {
 				b = Main.dao.loginMember(idTextField.getText(), pwTextField.getText());
 				if(b[0]) {
 					JOptionPane.showMessageDialog(null, "로그인 성공");
-					user.set(idTextField.getText(), pwTextField.getText());
+					user.set(idTextField.getText(), pwTextField.getText(), Main.dao.MemberName(idTextField.getText()), Main.dao.callMyAllergy(idTextField.getText()), Main.dao.searchFoodCheck(idTextField.getText()), b[0]);
 					win.change("pan2");
 					idTextField.setText("");
 					pwTextField.setText("");
@@ -148,5 +147,14 @@ public class Pan1 extends JPanel  implements Pan {
 	public void update(String id, String pw) {
 		
 	}
+
+
+	@Override
+	public void updateA() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 }
 

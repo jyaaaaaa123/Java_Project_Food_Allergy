@@ -1,10 +1,14 @@
 package gui;
 import java.util.ArrayList;
 
-public class loginData implements PanelSubject {
+public class loginData implements Subject {
 	private ArrayList<Pan> observers;
 	private String id;
 	private String pw;
+	private String name;
+	private String myAllergy;
+	private String[][] myCheckFood;
+	private boolean loginCheck;
 	
 	public loginData() {
 		observers = new ArrayList<Pan>();
@@ -36,17 +40,31 @@ public class loginData implements PanelSubject {
 		notifyObject();
 	}
 	
-	public void set(String id, String pw) {
+	public void set(String id, String pw, String name, String myAllergy, String[][] myCheckFood, boolean loginCheck) {
 		this.id = id;
 		this.pw = pw;
+		this.name = name;
+		this.myAllergy = myAllergy;
+		this.myCheckFood = myCheckFood;
+		this.loginCheck = loginCheck;
 		userChanged();
 	}
 	
-	public void setID(String id) {
+	public void setIdName(String id, String name) {
 		this.id = id;
+		this.name = name;
 		userChanged();
 	}
 	
+	public void setAlist(String myAllergy) {
+		this.myAllergy = myAllergy;
+		userChanged();
+	}
+	
+	public void setMyfood(String[][] myCheckFood) {
+		this.myCheckFood = myCheckFood;
+		userChanged();
+	}
 	
 	public String getid() {
 		return id;
@@ -54,5 +72,18 @@ public class loginData implements PanelSubject {
 	public String getpw() {
 		return pw;
 	}
-
+	
+	public boolean getcheck() {
+		return loginCheck;
+	}
+	
+	public String getname() {
+		return name;
+	}
+	public String getMyAllergy() {
+		return myAllergy;
+	}
+	public String[][] getMyCheckFood() {
+		return myCheckFood;
+	}
 }

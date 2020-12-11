@@ -24,24 +24,30 @@ import javax.swing.JScrollPane;
 
 
 public class Pan3 extends JPanel implements Pan {
-	public static String allery_list;
+	
 	public static JTextPane foodAllergyTextPane;
 	public static JTextArea foodNameTextArea;
 	public static JTextArea foodManufTextArea;
 	public static JTextPane foodIntextPane;
 	public static JTextPane anoTextPane;
-	public static JScrollPane scrollPane;
 	public static JLabel foodImageLabel;
+	public static JScrollPane scrollPane;
 	public static Checkbox checkbox;
+	
+	
+	private boolean check = false;
+	
 	private Main win;
-	public boolean check = false;
 	private loginData user;
+	private foodData food;
 	/**
 	 * Create the panel.
 	 */
-	public Pan3(Main win, loginData user) {
+	public Pan3(Main win, loginData user, foodData food) {
 		
 		this.win = win;
+		this.food = food;
+		food.registerObject(this);
 		setBounds(0, 0, 890, 600);
 		setLayout(null);
 		
@@ -98,12 +104,13 @@ public class Pan3 extends JPanel implements Pan {
 		checkbox.setFont(new Font("Arial Black", Font.PLAIN, 12));
 		checkbox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
-				if(Pan1.b[0]) {
+				if(user.getcheck()) {
 					if(e.getStateChange() == 1) {
 						int result = JOptionPane.showConfirmDialog(null, "체크하시겠습니까?", "알림", JOptionPane.YES_NO_CANCEL_OPTION);
 						if(result == JOptionPane.YES_OPTION) {
-							Main.dao.addMemberFood(user.getid(), foodNameTextArea.getText(), foodManufTextArea.getText(), Pan2.image_ad);
-							JOptionPane.showMessageDialog(null, "체크 완료");
+							Main.dao.addMemberFood(user.getid(), foodNameTextArea.getText(), foodManufTextArea.getText(), food.getimage());
+							user.setMyfood(Main.dao.searchFoodCheck(user.getid()));
+//							JOptionPane.showMessageDialog(null, "체크 완료");
 						} else {
 							checkbox.setState(false);
 						}
@@ -111,6 +118,7 @@ public class Pan3 extends JPanel implements Pan {
 						int result = JOptionPane.showConfirmDialog(null, "해제하시겠습니까?", "알림", JOptionPane.YES_NO_CANCEL_OPTION);
 						if(result == JOptionPane.YES_OPTION) {
 							Main.dao.deleteMyfood(user.getid(), foodNameTextArea.getText());
+							user.setMyfood(Main.dao.searchFoodCheck(user.getid()));
 							JOptionPane.showMessageDialog(null, "해제 완료");
 						} else {
 							checkbox.setState(true);
@@ -170,6 +178,12 @@ public class Pan3 extends JPanel implements Pan {
 
 	@Override
 	public void update(String id, String pw) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateA() {
 		// TODO Auto-generated method stub
 		
 	}
