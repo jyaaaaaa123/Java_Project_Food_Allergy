@@ -41,7 +41,7 @@ public class Pan5 extends JPanel implements Pan {
 		setLayout(null);
 		
 		
-		JLabel titleLabel = new JLabel("\uC74C\uC2DD");
+		JLabel titleLabel = new JLabel("\u98DF\u898B");
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titleLabel.setFont(new Font("±Ã¼­", Font.PLAIN, 28));
 		titleLabel.setBounds(12, 10, 78, 66);
@@ -55,8 +55,9 @@ public class Pan5 extends JPanel implements Pan {
 		
 		//id
 		JLabel idLabel = new JLabel("ID");
+		idLabel.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 14));
 		idLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		idLabel.setBounds(48, 175, 57, 15);
+		idLabel.setBounds(48, 184, 57, 15);
 		add(idLabel);
 		
 		idTextField = new JTextField();
@@ -66,6 +67,7 @@ public class Pan5 extends JPanel implements Pan {
 		
 		//¾ÆÀÌµð Áßº¹ Ã¼Å©
 		JButton checkIdButton = new JButton("\uC911\uBCF5\uAC80\uC0AC");
+		checkIdButton.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 14));
 		checkIdButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				check_check++;
@@ -85,12 +87,13 @@ public class Pan5 extends JPanel implements Pan {
 				}
 			}
 		});
-		checkIdButton.setBounds(303, 174, 87, 34);
+		checkIdButton.setBounds(303, 174, 97, 34);
 		add(checkIdButton);
 		
 		
 		//ÀÌ¸§
 		JLabel nameLabel = new JLabel("\uC774\uB984");
+		nameLabel.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 14));
 		nameLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		nameLabel.setBounds(48, 297, 57, 15);
 		add(nameLabel);
@@ -103,6 +106,7 @@ public class Pan5 extends JPanel implements Pan {
 		
 		//ºñ¹Ð¹øÈ£
 		JLabel pwLabel = new JLabel("PW");
+		pwLabel.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 14));
 		pwLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		pwLabel.setBounds(48, 244, 57, 15);
 		add(pwLabel);
@@ -114,6 +118,7 @@ public class Pan5 extends JPanel implements Pan {
 		
 		//»ý³â¿ùÀÏ
 		JLabel birthdayLabel = new JLabel("\uC0DD\uB144\uC6D4\uC77C");
+		birthdayLabel.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 14));
 		birthdayLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		birthdayLabel.setBounds(48, 355, 57, 15);
 		add(birthdayLabel);
@@ -125,13 +130,15 @@ public class Pan5 extends JPanel implements Pan {
 		
 		
 		JLabel allergyListLabel = new JLabel("\uBCF4\uC720\uC911\uC778 \uC54C\uB808\uB974\uAE30");
+		allergyListLabel.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 14));
 		allergyListLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		allergyListLabel.setBounds(478, 207, 129, 15);
+		allergyListLabel.setBounds(485, 209, 134, 23);
 		add(allergyListLabel);
 		
 		
 		//¾Ë·¹¸£±â ¼±ÅÃ¹Ú½º
 		JComboBox<String> comboBox = new JComboBox<String>();
+		comboBox.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 14));
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(comboBox.getSelectedIndex() == 0) {
@@ -152,13 +159,14 @@ public class Pan5 extends JPanel implements Pan {
 		allergyTextArea.setBackground(SystemColor.control);
 		
 		JScrollPane scrollPane = new JScrollPane(allergyTextArea);
-		scrollPane.setBounds(489, 251, 277, 42);
+		scrollPane.setBounds(489, 251, 326, 42);
 		scrollPane.setBackground(SystemColor.control);
 		add(scrollPane);
 		
 		
 		//Ãß°¡, »èÁ¦ ¹öÆ°
 		JButton allergyAddButton = new JButton("\uCD94\uAC00");
+		allergyAddButton.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 14));
 		allergyAddButton.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
@@ -177,10 +185,11 @@ public class Pan5 extends JPanel implements Pan {
 				
 			}
 		});
-		allergyAddButton.setBounds(667, 327, 57, 26);
+		allergyAddButton.setBounds(677, 327, 71, 26);
 		add(allergyAddButton);
 		
 		JButton allergydelButton = new JButton("\uC0AD\uC81C");
+		allergydelButton.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 14));
 		allergydelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(!Main.dao.searchAllergy((String) comboBox.getSelectedItem())) {
@@ -201,12 +210,13 @@ public class Pan5 extends JPanel implements Pan {
 				}
 			}
 		});
-		allergydelButton.setBounds(729, 328, 57, 25);
+		allergydelButton.setBounds(750, 327, 65, 26);
 		add(allergydelButton);
 		
 		
 		//µÚ·Î°¡±â ¹öÆ°
 		JButton backButton = new JButton("\uB4A4\uB85C\uAC00\uAE30");
+		backButton.setFont(new Font("HY°ß°íµñ", Font.PLAIN, 15));
 		backButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				idTextField.setText("");
@@ -224,12 +234,13 @@ public class Pan5 extends JPanel implements Pan {
 				}
 			}
 		});
-		backButton.setBounds(759, 25, 97, 49);
+		backButton.setBounds(729, 25, 116, 46);
 		add(backButton);
 		
 		
 		//È¸¿ø°¡ÀÔ ¹öÆ°
 		JButton memberAddButton = new JButton("\uD68C\uC6D0\uAC00\uC785");
+		memberAddButton.setFont(new Font("HY°ß°íµñ", Font.PLAIN, 15));
 		memberAddButton.setBounds(704, 447, 119, 66);
 		add(memberAddButton);
 		

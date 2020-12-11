@@ -51,7 +51,7 @@ public class Pan3 extends JPanel implements Pan {
 		setBounds(0, 0, 890, 600);
 		setLayout(null);
 		
-		JLabel titleLabel = new JLabel("\uC74C\uC2DD");
+		JLabel titleLabel = new JLabel("\u98DF\u898B");
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titleLabel.setFont(new Font("±Ã¼­", Font.PLAIN, 28));
 		titleLabel.setBounds(12, 10, 78, 66);
@@ -80,10 +80,12 @@ public class Pan3 extends JPanel implements Pan {
 		
 		
 		JLabel foodAllergyLabel = new JLabel("\uC54C\uB808\uB974\uAE30 \uC131\uBD84");
+		foodAllergyLabel.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 14));
 		foodAllergyLabel.setBounds(571, 179, 89, 15);
 		add(foodAllergyLabel);
 		
 		JLabel foodInLabel = new JLabel("\uC6D0\uC7AC\uB8CC");
+		foodInLabel.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 14));
 		foodInLabel.setBounds(571, 286, 77, 15);
 		add(foodInLabel);
 		
@@ -131,11 +133,11 @@ public class Pan3 extends JPanel implements Pan {
 				}	
 			}
 		});
-		checkbox.setBounds(606, 25, 51, 46);
+		checkbox.setBounds(649, 25, 51, 46);
 		add(checkbox);
 		
 		JButton backButton = new JButton("µÚ·Î°¡±â");
-		backButton.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 13));
+		backButton.setFont(new Font("HY°ß°íµñ", Font.PLAIN, 15));
 		backButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				checkbox.setState(false);
@@ -151,7 +153,7 @@ public class Pan3 extends JPanel implements Pan {
 		anoTextPane.setEditable(false);
 		anoTextPane.setFont(new Font("¸¼Àº °íµñ", Font.BOLD, 22));
 		anoTextPane.setBackground(SystemColor.control);
-		anoTextPane.setBounds(571, 513, 236, 46);
+		anoTextPane.setBounds(609, 514, 236, 46);
 		add(anoTextPane);
 		
 		scrollPane = new JScrollPane();

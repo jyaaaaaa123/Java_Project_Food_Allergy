@@ -41,6 +41,7 @@ public class Pan1 extends JPanel  implements Pan {
 		setLayout(null);
 		
 		JButton start_btn = new JButton("\uB85C\uADF8\uC778 \uC5C6\uC774 \uC2DC\uC791\uD558\uAE30");
+		start_btn.setFont(new Font("굴림", Font.PLAIN, 14));
 		start_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -55,17 +56,17 @@ public class Pan1 extends JPanel  implements Pan {
 		start_btn.setBounds(566, 433, 245, 34);
 		add(start_btn);
 		
-		JLabel titleLabel = new JLabel("\uC74C\uC2DD\uD504\uB85C\uC81D\uD2B8");
+		JLabel titleLabel = new JLabel("\uC2DD\uACAC(\u98DF\u898B)");
 		titleLabel.setBackground(SystemColor.control);
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titleLabel.setFont(new Font("궁서", Font.PLAIN, 50));
 		titleLabel.setBounds(272, 22, 300, 124);
 		add(titleLabel);
 		
-		JLabel subTitleLabel = new JLabel("\uD14C\uC2A4\uD2B8");
+		JLabel subTitleLabel = new JLabel("\uC2DD\uD488 \uC54C\uB808\uB974\uAE30 \uC608\uBC29 \uD504\uB85C\uADF8\uB7A8");
 		subTitleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		subTitleLabel.setFont(new Font("HY견명조", Font.PLAIN, 20));
-		subTitleLabel.setBounds(331, 134, 166, 34);
+		subTitleLabel.setBounds(282, 131, 281, 34);
 		add(subTitleLabel);
 		
 		
@@ -81,6 +82,7 @@ public class Pan1 extends JPanel  implements Pan {
 		
 		//로그인버튼
 		JButton loginButton = new JButton("\uB85C\uADF8\uC778");
+		loginButton.setFont(new Font("HY견고딕", Font.PLAIN, 15));
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				b = Main.dao.loginMember(idTextField.getText(), pwTextField.getText());
@@ -114,6 +116,7 @@ public class Pan1 extends JPanel  implements Pan {
 		
 		//회원가입
 		JButton joinButton = new JButton("\uAC00\uC785\uD558\uAE30");
+		joinButton.setFont(new Font("굴림", Font.PLAIN, 14));
 		joinButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				whichPanelClickBackBtn[0] = true;
@@ -125,6 +128,7 @@ public class Pan1 extends JPanel  implements Pan {
 		
 		//아이디찾기
 		JButton searchIdButton = new JButton("\uC544\uC774\uB514 \uCC3E\uAE30");
+		searchIdButton.setFont(new Font("굴림", Font.PLAIN, 14));
 		searchIdButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Search sc = new Search();
@@ -137,7 +141,7 @@ public class Pan1 extends JPanel  implements Pan {
 		JLabel picLabel = new JLabel("");
 		picLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		picLabel.setIcon(new ImageIcon(Pan1.class.getResource("/icon/pic1.png")));
-		picLabel.setBounds(57, 197, 357, 337);
+		picLabel.setBounds(57, 197, 358, 362);
 		add(picLabel);
 		
 	}

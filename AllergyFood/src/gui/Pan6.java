@@ -48,7 +48,7 @@ public class Pan6 extends JPanel implements Pan {
 		setLayout(null);
 		
 		
-		JLabel titleLabel = new JLabel("\uC74C\uC2DD");
+		JLabel titleLabel = new JLabel("\u98DF\u898B");
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titleLabel.setFont(new Font("±Ã¼­", Font.PLAIN, 28));
 		titleLabel.setBounds(12, 10, 78, 66);
@@ -60,37 +60,41 @@ public class Pan6 extends JPanel implements Pan {
 		add(subTitleLabel);
 		
 		JLabel idLabel = new JLabel("ID");
-		idLabel.setBounds(24, 107, 112, 15);
+		idLabel.setFont(new Font("ÇÑÄÄ °íµñ", Font.PLAIN, 14));
+		idLabel.setBounds(24, 105, 24, 15);
 		add(idLabel);
 		
 		
 		idTextArea = new JTextArea();
-		idTextArea.setBounds(41, 101, 95, 21);
+		idTextArea.setBounds(34, 130, 95, 21);
 		add(idTextArea);
 		
 		
 		JLabel nameLabel = new JLabel("\uC774\uB984");
-		nameLabel.setBounds(153, 107, 57, 15);
+		nameLabel.setFont(new Font("ÇÑÄÄ °íµñ", Font.PLAIN, 14));
+		nameLabel.setBounds(163, 105, 38, 15);
 		add(nameLabel);
 		
 		nameTextArea = new JTextArea();
-		nameTextArea.setBounds(190, 103, 107, 24);
+		nameTextArea.setBounds(191, 125, 107, 21);
 		add(nameTextArea);
 		
 		
 		
 		JLabel myAllergyLabel = new JLabel("\uBCF4\uC720\uC911\uC778 \uC54C\uB808\uB974\uAE30");
-		myAllergyLabel.setBounds(22, 177, 107, 15);
+		myAllergyLabel.setFont(new Font("ÇÑÄÄ °íµñ", Font.PLAIN, 14));
+		myAllergyLabel.setBounds(22, 177, 132, 15);
 		add(myAllergyLabel);
 		
 		
 		myAllergyTextArea = new JTextArea();
 		myAllergyTextArea.setEditable(false);
-		myAllergyTextArea.setBounds(32, 202, 325, 75);
+		myAllergyTextArea.setBounds(34, 202, 351, 75);
 		add(myAllergyTextArea);
 		
 		
 		JComboBox<String> comboBox = new JComboBox<String>();
+		comboBox.setFont(new Font("ÇÑÄÄ °íµñ", Font.PLAIN, 14));
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(comboBox.getSelectedIndex() == 0) {
@@ -101,16 +105,18 @@ public class Pan6 extends JPanel implements Pan {
 			}
 		});
 		comboBox.setModel(new DefaultComboBoxModel(new String[] {"[\uC9C1\uC811 \uC785\uB825]", "\uC0C8\uC6B0", "\uAD74", "\uAC8C", "\uD64D\uD569", "\uC624\uC9D5\uC5B4", "\uC804\uBCF5", "\uACE0\uB4F1\uC5B4", "\uC870\uAC1C\uB958", "\uBA54\uBC00", "\uBC00", "\uB300\uB450", "\uD638\uB450", "\uB545\uCF69", "\uC7A3", "\uC54C\uB958(\uAC00\uAE08\uB958)", "\uC6B0\uC720", "\uC1E0\uACE0\uAE30", "\uB3FC\uC9C0\uACE0\uAE30", "\uB2ED\uACE0\uAE30", "\uBCF5\uC22D\uC544", "\uD1A0\uB9C8\uD1A0", "\uC544\uD669\uC0B0\uB958(\uC640\uC778 \uB4F1)"}));
-		comboBox.setBounds(41, 316, 169, 26);
+		comboBox.setBounds(34, 316, 176, 26);
 		add(comboBox);
 		
 		
 		JLabel addAllergyLabel = new JLabel("\uC54C\uB808\uB974\uAE30 \uCD94\uAC00");
+		addAllergyLabel.setFont(new Font("ÇÑÄÄ °íµñ", Font.PLAIN, 14));
 		addAllergyLabel.setBounds(22, 291, 107, 15);
 		add(addAllergyLabel);
 		
 		//¾Ë·¹¸£±â Ãß°¡, »èÁ¦
 		JButton addAllergyButton = new JButton("\uCD94\uAC00");
+		addAllergyButton.setFont(new Font("ÇÑÄÄ °íµñ", Font.PLAIN, 14));
 		addAllergyButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(Main.dao.callMyAllergy(idTextArea.getText()).contains((String) comboBox.getSelectedItem())) {
@@ -144,6 +150,7 @@ public class Pan6 extends JPanel implements Pan {
 		add(addAllergyButton);
 		
 		JButton delAllergyButton = new JButton("\uC0AD\uC81C");
+		delAllergyButton.setFont(new Font("ÇÑÄÄ °íµñ", Font.PLAIN, 14));
 		delAllergyButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(!myAllergyTextArea.getText().contains((String) comboBox.getSelectedItem())) {
@@ -168,12 +175,13 @@ public class Pan6 extends JPanel implements Pan {
 				}
 			}
 		});
-		delAllergyButton.setBounds(310, 316, 65, 26);
+		delAllergyButton.setBounds(310, 316, 75, 26);
 		add(delAllergyButton);
 		
 		
 		//µÚ·Î°¡±â °Ë»öÃ¢À¸·Î °¨
 		JButton backButton = new JButton("\uB4A4\uB85C\uAC00\uAE30");
+		backButton.setFont(new Font("HY°ß°íµñ", Font.PLAIN, 14));
 		backButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				my_new_allergy = "";
@@ -192,12 +200,13 @@ public class Pan6 extends JPanel implements Pan {
 				}
 			}
 		});
-		backButton.setBounds(743, 31, 97, 36);
+		backButton.setBounds(729, 25, 116, 46);
 		add(backButton);
 		
 		
 		//È¸¿ø Å»Åð ºÎºÐ
 		JButton delMemberButton = new JButton("\uD68C\uC6D0\uD0C8\uD1F4");
+		delMemberButton.setFont(new Font("HY°ß°íµñ", Font.PLAIN, 14));
 		delMemberButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int result = JOptionPane.showConfirmDialog(null, "Á¤¸» Å»ÅðÇÏ½Ã°Ú½À´Ï±î?", "¾Ë¸²", JOptionPane.YES_NO_CANCEL_OPTION);
@@ -215,19 +224,20 @@ public class Pan6 extends JPanel implements Pan {
 				}
 			}
 		});
-		delMemberButton.setBounds(224, 485, 97, 36);
+		delMemberButton.setBounds(224, 485, 112, 48);
 		add(delMemberButton);
 		
 		
 		
 		//Á¤º¸¼öÁ¤
 		JButton updateButton = new JButton("\uC815\uBCF4\uC218\uC815");
+		updateButton.setFont(new Font("HY°ß°íµñ", Font.PLAIN, 14));
 		updateButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				changeMyInfo();
 			}
 		});
-		updateButton.setBounds(89, 485, 97, 36);
+		updateButton.setBounds(89, 485, 112, 48);
 		add(updateButton);
 		
 		
@@ -240,6 +250,7 @@ public class Pan6 extends JPanel implements Pan {
 		
 		//³» À½½Ä ¸®½ºÆ®
 		foodlist = new JList<String>();
+		foodlist.setFont(new Font("ÇÑÄÄ °íµñ", Font.PLAIN, 15));
 		foodlist.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -261,16 +272,17 @@ public class Pan6 extends JPanel implements Pan {
 		
 		
 		foodlist.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		foodlist.setBounds(413, 106, 389, 116);
+		foodlist.setBounds(413, 106, 427, 116);
 		add(foodlist);
 		
 		JLabel foodNameLabel = new JLabel("\uCCB4\uD06C\uD55C \uC2DD\uD488");
-		foodNameLabel.setFont(new Font("¸¼Àº °íµñ", Font.PLAIN, 14));
+		foodNameLabel.setFont(new Font("ÇÑÄÄ °íµñ", Font.PLAIN, 14));
 		foodNameLabel.setVerticalAlignment(SwingConstants.TOP);
-		foodNameLabel.setBounds(413, 73, 112, 23);
+		foodNameLabel.setBounds(413, 77, 112, 23);
 		add(foodNameLabel);
 		
 		JLabel imageLabel_0 = new JLabel("\uC2DD\uD488 \uC774\uBBF8\uC9C0");
+		imageLabel_0.setFont(new Font("ÇÑÄÄ °íµñ", Font.PLAIN, 14));
 		imageLabel_0.setBounds(413, 232, 114, 15);
 		add(imageLabel_0);
 

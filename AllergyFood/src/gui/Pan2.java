@@ -58,8 +58,6 @@ class Pan2 extends JPanel implements Pan {
 	private JButton newButton;
 	private JTable table;
 	private String[][] food_name_image_arr;
-	
-	
 	private String image_ad;
 	
 	public static JButton searchButton;
@@ -75,7 +73,7 @@ class Pan2 extends JPanel implements Pan {
 		setBounds(0, 0, 890, 600);
 		setLayout(null);
 		
-		titleLabel = new JLabel("\uC74C\uC2DD");
+		titleLabel = new JLabel("\u98DF\u898B");
 		titleLabel.setFont(new Font("궁서", Font.PLAIN, 28));
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titleLabel.setBounds(12, 10, 78, 66);
@@ -88,12 +86,13 @@ class Pan2 extends JPanel implements Pan {
 		
 		//로그인 버튼
 		loginButton = new JButton("로그인");
+		loginButton.setFont(new Font("한컴 고딕", Font.PLAIN, 14));
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				win.change("pan1");
 			}
 		});
-		loginButton.setBounds(763, 20, 87, 30);
+		loginButton.setBounds(763, 20, 87, 37);
 		add(loginButton);
 		
 		
@@ -108,7 +107,7 @@ class Pan2 extends JPanel implements Pan {
 		whoLoginTextPane.setBackground(SystemColor.control);
 		whoLoginTextPane.setForeground(SystemColor.desktop);
 		whoLoginTextPane.setEditable(false);
-		whoLoginTextPane.setBounds(140, 20, 299, 23);
+		whoLoginTextPane.setBounds(140, 20, 485, 23);
 		whoLoginTextPane.setText("guest 접속중 입니다");
 		add(whoLoginTextPane);
 		
@@ -218,7 +217,8 @@ class Pan2 extends JPanel implements Pan {
 		
 		//검색버튼
 		searchButton = new JButton("검색");
-		searchButton.setBounds(697, 94, 123, 47);
+		searchButton.setFont(new Font("HY견명조", Font.PLAIN, 15));
+		searchButton.setBounds(697, 94, 110, 47);
 		add(searchButton);
 		searchButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -258,18 +258,20 @@ class Pan2 extends JPanel implements Pan {
 		
 		//내정보와 로그아웃 버튼
 		myInfoButton = new JButton("\uB0B4\uC815\uBCF4");
+		myInfoButton.setFont(new Font("한컴 고딕", Font.PLAIN, 14));
 		myInfoButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				food_name_image_arr = user.getMyCheckFood();
 				win.change("pan6");
 			}
 		});
-		myInfoButton.setBounds(637, 19, 87, 32);
+		myInfoButton.setBounds(637, 19, 95, 38);
 		add(myInfoButton);
 		myInfoButton.setVisible(false);
 		
 		
 		logoutButton = new JButton("\uB85C\uADF8\uC544\uC6C3");
+		logoutButton.setFont(new Font("한컴 고딕", Font.PLAIN, 15));
 		logoutButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//로그아웃 이벤트
@@ -285,7 +287,7 @@ class Pan2 extends JPanel implements Pan {
 				whoLoginTextPane.setText("guest 접속중 입니다");
 			}
 		});
-		logoutButton.setBounds(763, 20, 95, 30);
+		logoutButton.setBounds(755, 20, 95, 37);
 		add(logoutButton);
 		logoutButton.setVisible(false);
 		
@@ -401,13 +403,14 @@ class Pan2 extends JPanel implements Pan {
 		
 		//가입하기 버튼
 		newButton = new JButton("\uAC00\uC785\uD558\uAE30");
+		newButton.setFont(new Font("한컴 고딕", Font.PLAIN, 15));
 		newButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Pan1.whichPanelClickBackBtn[1] = true;
 				win.change("pan5");
 			}
 		});
-		newButton.setBounds(637, 20, 87, 30);
+		newButton.setBounds(637, 20, 95, 37);
 		add(newButton);
 		
 	}
