@@ -425,14 +425,14 @@ class Pan2 extends JPanel implements Pan {
 		loginButton.setVisible(false);
 		logoutButton.setVisible(true);
 		myInfoButton.setVisible(true);
-		newButton.setVisible(true);
+		newButton.setVisible(false);
 	}
 	
 	public void logoutBtn() {
 		loginButton.setVisible(true);
 		logoutButton.setVisible(false);
 		myInfoButton.setVisible(false);
-		newButton.setVisible(false);
+		newButton.setVisible(true);
 	}
 	
 	public void createTable() {

@@ -149,6 +149,7 @@ public class Pan5 extends JPanel implements Pan {
 		addAllergyButton.setBounds(222, 316, 75, 26);
 		add(addAllergyButton);
 		
+		//알레르기 삭제
 		JButton delAllergyButton = new JButton("\uC0AD\uC81C");
 		delAllergyButton.setFont(new Font("한컴 고딕", Font.PLAIN, 14));
 		delAllergyButton.addActionListener(new ActionListener() {
@@ -165,13 +166,14 @@ public class Pan5 extends JPanel implements Pan {
 					} else {
 						my_new_allergy = myAllergyTextArea.getText().replaceAll(((String) comboBox.getSelectedItem()), "");
 					}
-					JOptionPane.showMessageDialog(null, "삭제되었습니다");
+					
 					//기존에 있던게 아닌 경우
 					if(!Main.dao.checkAllergy((String) comboBox.getSelectedItem())) {
 						Main.dao.deleteAllergy((String) comboBox.getSelectedItem());
 					}
 					Main.dao.deleteMyAllergy((String) comboBox.getSelectedItem(), idTextArea.getText());
 					user.setAlist(my_new_allergy);
+					JOptionPane.showMessageDialog(null, "삭제되었습니다");
 				}
 			}
 		});
@@ -191,8 +193,10 @@ public class Pan5 extends JPanel implements Pan {
 						changeMyInfo();
 						win.change("pan2");
 					} else if(result == JOptionPane.CANCEL_OPTION) {
-						
 					} else {
+						idTextArea.setText(user.getid());
+						nameTextArea.setText(user.getname());
+						myAllergyTextArea.setText(user.getMyAllergy());
 						win.change("pan2");
 					}
 				} else {

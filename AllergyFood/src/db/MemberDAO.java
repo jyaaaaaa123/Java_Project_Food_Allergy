@@ -37,31 +37,6 @@ public class MemberDAO {
 		return con;
 	}
 	
-//	//한사람의 회원정보를 얻는 메소드(내정보)
-//	public MemberDTO getMemberDTO(String member_id) {
-//		MemberDTO dto = new MemberDTO();
-//		
-//		ps = null; //명령
-//		rs = null; //결과
-//		
-//		try {
-//			String sql = "select * from member where member_id = ?";
-//			ps = con.prepareStatement(sql);
-//			ps.setString(1, member_id);
-//			rs = ps.executeQuery();
-//			
-//		if(rs.next()) {
-//			dto.setId(rs.getString("member_id"));
-//			dto.setName(rs.getString("member_name"));
-//			dto.setPw(rs.getString("member_password"));
-//			dto.setMember_birth(Integer.valueOf(rs.getString("member_password")));
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return dto;
-//	}
-	
 	//회원 등록(아이디 이름 비밀번호)
 	public void insertMember(MemberDTO mdto) {
 		ps = null;
@@ -385,6 +360,7 @@ public class MemberDAO {
 			ps.setString(1, allergy_name);
 			ps.setString(2, id);
 			ps.executeUpdate();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
