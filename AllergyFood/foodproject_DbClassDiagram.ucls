@@ -3,7 +3,7 @@
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
   <class id="1" language="java" name="db.MemberDTO" project="AllergyFood" file="/AllergyFood/src/db/MemberDTO.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1088" y="470"/>    
+    <position height="-1" width="-1" x="825" y="463"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -12,7 +12,7 @@
   </class>  
   <class id="2" language="java" name="db.MemberDAO" project="AllergyFood" file="/AllergyFood/src/db/MemberDAO.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="190" y="259"/>    
+    <position height="-1" width="-1" x="304" y="272"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -21,7 +21,7 @@
   </class>  
   <class id="3" language="java" name="db.MemberCheckDTO" project="AllergyFood" 
     file="/AllergyFood/src/db/MemberCheckDTO.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="333" width="213" x="734" y="-67"/>    
+    <position height="-1" width="-1" x="834" y="116"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -39,7 +39,7 @@
   </class>  
   <class id="5" language="java" name="db.MemberAllergyDTO" project="AllergyFood" 
     file="/AllergyFood/src/db/MemberAllergyDTO.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1090" y="179"/>    
+    <position height="-1" width="-1" x="1067" y="176"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -66,7 +66,7 @@
   </class>  
   <class id="8" language="java" name="gui.Main" project="AllergyFood" file="/AllergyFood/src/gui/Main.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="456" y="275"/>    
+    <position height="-1" width="-1" x="589" y="273"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -75,8 +75,12 @@
   </class>  
   <association id="9">    
     <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="10" name="dao"/>      
-      <multiplicity id="11" minimum="0" maximum="1"/>    
+      <attribute id="10" name="dao">        
+        <position height="0" width="0" x="114" y="13"/>      
+      </attribute>      
+      <multiplicity id="11" minimum="0" maximum="1">        
+        <position height="0" width="0" x="114" y="13"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  

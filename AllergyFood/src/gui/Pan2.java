@@ -30,7 +30,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import java.awt.Color;
 import java.awt.SystemColor;
@@ -228,7 +227,8 @@ class Pan2 extends JPanel implements Pan {
 				try {
 					pageNum = "1";
 					pageTextPane.setText(pageNum);
-					String apiUrl = ConnApi.ConnApi_func(str, pageNum);
+					ConnApi connapi = new ConnApi(str, pageNum);
+					String apiUrl = connapi.ConnApi_func(str, pageNum);
 					papi = new ParsApi(apiUrl);
 					ArrayList<String> name = papi.ParsApi_Namelist();
 					ArrayList<String> manuf = papi.ParsApi_Manufacturelist();
@@ -283,6 +283,7 @@ class Pan2 extends JPanel implements Pan {
 					}
 				}
 				user.set("", "", "", "", tmp, false);
+				Pan3.anoTextPane.setText("");
 				JOptionPane.showMessageDialog(null, "로그아웃");
 				whoLoginTextPane.setText("guest 접속중 입니다");
 			}
@@ -305,7 +306,8 @@ class Pan2 extends JPanel implements Pan {
 							pageTextPane.setText(pageNum);
 							String str = searchTextField.getText();
 							try {
-								String apiUrl = ConnApi.ConnApi_func(str, pageNum);
+								ConnApi connapi = new ConnApi(str, pageNum);
+								String apiUrl = connapi.ConnApi_func(str, pageNum);
 								papi = new ParsApi(apiUrl);
 								ArrayList<String> name = papi.ParsApi_Namelist();
 								ArrayList<String> manuf = papi.ParsApi_Manufacturelist();
@@ -343,7 +345,8 @@ class Pan2 extends JPanel implements Pan {
 					JOptionPane.showMessageDialog(null, "먼저 검색을 해주세요", "경고", JOptionPane.WARNING_MESSAGE);
 				} else {
 					try {
-						String apiUrl = ConnApi.ConnApi_func(str, pageNum);
+						ConnApi connapi = new ConnApi(str, pageNum);
+						String apiUrl = connapi.ConnApi_func(str, pageNum);
 						papi = new ParsApi(apiUrl);
 						ArrayList<String> name = papi.ParsApi_Namelist();
 						ArrayList<String> manuf = papi.ParsApi_Manufacturelist();
@@ -407,7 +410,7 @@ class Pan2 extends JPanel implements Pan {
 		newButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Pan1.whichPanelClickBackBtn[1] = true;
-				win.change("pan5");
+				win.change("pan4");
 			}
 		});
 		newButton.setBounds(637, 20, 95, 37);

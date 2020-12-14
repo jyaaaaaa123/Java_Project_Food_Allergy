@@ -44,11 +44,6 @@ public class Pan1 extends JPanel  implements Pan {
 		start_btn.setFont(new Font("굴림", Font.PLAIN, 14));
 		start_btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		start_btn.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
 				win.change("pan2");
 			}
 		});
@@ -106,12 +101,12 @@ public class Pan1 extends JPanel  implements Pan {
 		
 		JLabel idLabel = new JLabel("ID");
 		idLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		idLabel.setBounds(414, 275, 57, 15);
+		idLabel.setBounds(418, 275, 57, 15);
 		add(idLabel);
 		
 		JLabel pwLabel = new JLabel("PW");
 		pwLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		pwLabel.setBounds(414, 322, 57, 15);
+		pwLabel.setBounds(418, 330, 57, 15);
 		add(pwLabel);
 		
 		//회원가입
@@ -120,7 +115,7 @@ public class Pan1 extends JPanel  implements Pan {
 		joinButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				whichPanelClickBackBtn[0] = true;
-				win.change("pan5");
+				win.change("pan4");
 			}
 		});
 		joinButton.setBounds(698, 381, 113, 32);

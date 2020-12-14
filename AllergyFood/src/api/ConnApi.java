@@ -18,10 +18,10 @@ public class ConnApi {
 	}
 	
 	
-	public static String ConnApi_func(String name, String page) throws IOException {
-		String apiUrl = "http://apis.data.go.kr/B553748/CertImgListService/getCertImgListService" + 
+	public String ConnApi_func(String name, String page) throws IOException {
+		String apiUrl = "http://apis.data.go.kr/B553748/CertImgListService/getCertImgListService" +
 				 	//¿Œ¡ı≈∞
-			 		"?serviceKey=xHbWN9H2JB4kcX2gFBD%2BeQb3gULH1fu5w2EOxawu21IQwAxEvB%2B6CF%2By938lJskZ7n%2FKOG473u%2BDkhvVsuNXqg%3D%3D&prdlstNm=" + URLEncoder.encode(name,"UTF-8") + "&pageNo=" + URLEncoder.encode(page,"UTF-8");
+				 	"?serviceKey=xHbWN9H2JB4kcX2gFBD%2BeQb3gULH1fu5w2EOxawu21IQwAxEvB%2B6CF%2By938lJskZ7n%2FKOG473u%2BDkhvVsuNXqg%3D%3D&prdlstNm=" + URLEncoder.encode(name,"UTF-8") + "&pageNo=" + URLEncoder.encode(page,"UTF-8");
 			 		
 		 
 		URL url = new URL(apiUrl);

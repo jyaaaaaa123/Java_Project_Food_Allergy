@@ -3,25 +3,25 @@
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
   <class id="1" language="java" name="api.ParsApi" project="AllergyFood" file="/AllergyFood/src/api/ParsApi.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="554" y="356"/>    
+    <position height="-1" width="-1" x="559" y="398"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="api.ConnApi" project="AllergyFood" file="/AllergyFood/src/api/ConnApi.java" 
+  <class id="2" language="java" name="gui.Pan2" project="AllergyFood" file="/AllergyFood/src/gui/Pan2.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="530" y="132"/>    
+    <position height="-1" width="-1" x="262" y="314"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="gui.Pan2" project="AllergyFood" file="/AllergyFood/src/gui/Pan2.java" 
+  <class id="3" language="java" name="api.ConnApi" project="AllergyFood" file="/AllergyFood/src/api/ConnApi.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="249" y="346"/>    
+    <position height="-1" width="-1" x="538" y="148"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -29,9 +29,13 @@
     </display>  
   </class>  
   <association id="4">    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="5" name="papi"/>      
-      <multiplicity id="6" minimum="0" maximum="1"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="5" name="papi">        
+        <position height="0" width="0" x="5" y="42"/>      
+      </attribute>      
+      <multiplicity id="6" minimum="0" maximum="1">        
+        <position height="0" width="0" x="5" y="42"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="1" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  

@@ -18,8 +18,8 @@ public class Main extends JFrame {
 	public Pan1 pan1 = null;
 	public Pan2 pan2 = null;
 	public Pan3 pan3 = null;
+	public Pan4 pan4 = null;
 	public Pan5 pan5 = null;
-	public Pan6 pan6 = null;
 
 	/**
 	 * Launch the application.
@@ -32,13 +32,12 @@ public class Main extends JFrame {
 					dao = new MemberDAO();
 					loginData user = new loginData();
 					foodData food = new foodData();
-					
-					frame.setTitle("음식알레르기");
+					frame.setTitle("식품 알레르기 프로그램");
 					frame.pan1 = new Pan1(frame, user);
 					frame.pan2 = new Pan2(frame, user, food);
 					frame.pan3 = new Pan3(frame, user, food);
+					frame.pan4 = new Pan4(frame, user);
 					frame.pan5 = new Pan5(frame, user);
-					frame.pan6 = new Pan6(frame, user);
 					frame.getContentPane().add(frame.pan1);
 					frame.setVisible(true);
 					
@@ -75,14 +74,14 @@ public class Main extends JFrame {
 			getContentPane().add(pan3);
 			revalidate();
 			repaint();
-		}  else if(panelName.equals("pan5")) {
+		}  else if(panelName.equals("pan4")) {
 			getContentPane().removeAll();
-			getContentPane().add(pan5);
+			getContentPane().add(pan4);
 			revalidate();
 			repaint();
 		} else {
 			getContentPane().removeAll();
-			getContentPane().add(pan6);
+			getContentPane().add(pan5);
 			revalidate();
 			repaint();
 		}
